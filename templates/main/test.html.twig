@@ -1,0 +1,35 @@
+{% extends "base.html.twig" %}
+{% block title %}{{ parent() }} Accueil{% endblock %}
+{% block body %}
+    <h1>Test</h1>
+    <div>
+        {# crée une variable ! #}
+        {% set name = "Philippe" %}
+        <h2>{{ name }}</h2>
+        {# crée un tableau #}
+        {% set colors =[ "orange", "brown", "turquoise", "blue"] %}
+        <p>nombre de couleurs : {{ colors|length }}</p>
+        <p>{{ colors|join('/') }}</p>
+        {% for color in colors %}
+            <div style="background-color: {{ color }}">{{ color }}</div>
+        {% endfor %}
+    </div>
+{# un objet #}
+{% set book = {
+    title: 'Symfony',
+    year: 2000,
+    author: "John Doe"
+} %}
+<h3>{{ book.author }}</h3>
+    <div>
+        {% for key, val in book %}
+        <div>{{ key }} : {{ val }}</div>
+        {% endfor %}
+    </div>
+    {# crée une variable ! #}
+    {% set name = "Philippe" %}
+    <h2>{{ name|upper }}</h2>
+    {# crée une variable ! #}
+    {% set name = "Philippe" %}
+    <h2>{{ name|length }}</h2>
+{% endblock %}
