@@ -17,9 +17,13 @@
 </head>
 <body>
     <header>{% include '_navbar.html.twig' %}</header>
+
+
     <main>
         {% block body %}{% endblock %}
     </main>
+
+
     <footer>
         <div>&copy; {{ "now" | date("Y") }} ENI Sortir.com</div>
     </footer>
