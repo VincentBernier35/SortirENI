@@ -2,7 +2,7 @@
 
 namespace App\Entity;
 
-use App\Repository\ParticipantRepository;
+use App\Repository\UserRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -10,9 +10,9 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 
-#[ORM\Entity(repositoryClass: ParticipantRepository::class)]
+#[ORM\Entity(repositoryClass: UserRepository::class)]
 #[UniqueEntity(fields: ['email'], message: 'There is already an account with this email')]
-class Participant implements UserInterface, PasswordAuthenticatedUserInterface
+class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -37,13 +37,13 @@ class Participant implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column]
     private ?bool $active = null;
 
-    #[ORM\ManyToOne(inversedBy: 'participants')]
+    #[ORM\ManyToOne(inversedBy: 'users')]
     private ?Site $site = null;
 
     #[ORM\OneToMany(mappedBy: 'promoter', targetEntity: Event::class)]
     private Collection $events;
 
-    #[ORM\ManyToMany(targetEntity: Event::class, mappedBy: 'participants_events')]
+    #[ORM\ManyToMany(targetEntity: Event::class, mappedBy: 'users_events')]
     private Collection $events_registered;
 
     public function __construct()
@@ -183,7 +183,7 @@ class Participant implements UserInterface, PasswordAuthenticatedUserInterface
     {
         if (!$this->events_registered->contains($eventsRegistered)) {
             $this->events_registered->add($eventsRegistered);
-            $eventsRegistered->addParticipantsEvent($this);
+            $eventsRegistered->addUsersEvent($this);
         }
 
         return $this;
@@ -192,7 +192,7 @@ class Participant implements UserInterface, PasswordAuthenticatedUserInterface
     public function removeEventsRegistered(Event $eventsRegistered): static
     {
         if ($this->events_registered->removeElement($eventsRegistered)) {
-            $eventsRegistered->removeParticipantsEvent($this);
+            $eventsRegistered->removeUsersEvent($this);
         }
 
         return $this;

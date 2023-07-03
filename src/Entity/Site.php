@@ -21,13 +21,13 @@ class Site
     #[ORM\OneToMany(mappedBy: 'site', targetEntity: Event::class)]
     private Collection $events;
 
-    #[ORM\OneToMany(mappedBy: 'site', targetEntity: Participant::class)]
-    private Collection $participants;
+    #[ORM\OneToMany(mappedBy: 'site', targetEntity: User::class)]
+    private Collection $users;
 
     public function __construct()
     {
         $this->events = new ArrayCollection();
-        $this->participants = new ArrayCollection();
+        $this->users = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -78,29 +78,29 @@ class Site
     }
 
     /**
-     * @return Collection<int, Participant>
+     * @return Collection<int, User>
      */
-    public function getParticipants(): Collection
+    public function getUsers(): Collection
     {
-        return $this->participants;
+        return $this->users;
     }
 
-    public function addParticipant(Participant $participant): static
+    public function addUser(User $user): static
     {
-        if (!$this->participants->contains($participant)) {
-            $this->participants->add($participant);
-            $participant->setSite($this);
+        if (!$this->users->contains($user)) {
+            $this->users->add($user);
+            $user->setSite($this);
         }
 
         return $this;
     }
 
-    public function removeParticipant(Participant $participant): static
+    public function removeUser(User $user): static
     {
-        if ($this->participants->removeElement($participant)) {
+        if ($this->users->removeElement($user)) {
             // set the owning side to null (unless already changed)
-            if ($participant->getSite() === $this) {
-                $participant->setSite(null);
+            if ($user->getSite() === $this) {
+                $user->setSite(null);
             }
         }
 

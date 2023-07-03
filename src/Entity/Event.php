@@ -46,14 +46,14 @@ class Event
 
     #[ORM\ManyToOne(inversedBy: 'events')]
     #[ORM\JoinColumn(nullable: false)]
-    private ?Participant $promoter = null;
+    private ?User $promoter = null;
 
-    #[ORM\ManyToMany(targetEntity: Participant::class, inversedBy: 'events_registered')]
-    private Collection $participants_events;
+    #[ORM\ManyToMany(targetEntity: User::class, inversedBy: 'events_registered')]
+    private Collection $users_events;
 
     public function __construct()
     {
-        $this->participants_events = new ArrayCollection();
+        $this->$users_events = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -169,12 +169,12 @@ class Event
         return $this;
     }
 
-    public function getPromoter(): ?Participant
+    public function getPromoter(): ?User
     {
         return $this->promoter;
     }
 
-    public function setPromoter(?Participant $promoter): static
+    public function setPromoter(?User $promoter): static
     {
         $this->promoter = $promoter;
 
@@ -182,25 +182,25 @@ class Event
     }
 
     /**
-     * @return Collection<int, Participant>
+     * @return Collection<int, User>
      */
-    public function getParticipantsEvents(): Collection
+    public function getUsersEvents(): Collection
     {
-        return $this->participants_events;
+        return $this->users_events;
     }
 
-    public function addParticipantsEvent(Participant $participantsEvent): static
+    public function addUsersEvent(User $usersEvent): static
     {
-        if (!$this->participants_events->contains($participantsEvent)) {
-            $this->participants_events->add($participantsEvent);
+        if (!$this->users_events->contains($usersEvent)) {
+            $this->users_events->add($usersEvent);
         }
 
         return $this;
     }
 
-    public function removeParticipantsEvent(Participant $participantsEvent): static
+    public function removeUsersEvent(User $usersEvent): static
     {
-        $this->participants_events->removeElement($participantsEvent);
+        $this->users_events->removeElement($usersEvent);
 
         return $this;
     }
