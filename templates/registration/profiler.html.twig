@@ -1,0 +1,23 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    {{ user.peusdo }}| {{ parent() }}
+{% endblock %}
+
+{% block body %}
+    <h1>{{ user.peusdo }}</h1>
+    <p>Prénom : {{ user.lastName }}</p>
+    <p>Nom : {{  user.firstName }}</p>
+    <p>Téléphone : {{ user.phoneNumber }}</p>
+    <p>Email : {{ user.email }}</p>
+    <p>Ville de rattachement : {{ user.site ? user.site.name : '?'}}</p>
+    <div class="card mt-2 mb-2 w-50 m-auto">
+        {% if course.filename %}
+            <img src="{{ asset('./'~app_images_user_directory ~ '/' ~ user.image) }}"
+                 class="card-img-top img-fluid" alt="image" />
+        {% endif %}
+    </div>
+
+        <button type="submit" class="btn btn-primary ">Retour</button>
+
+{% endblock %}
