@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Event;
 use App\Form\EventFormType;
 use App\Repository\EventRepository;
+use App\Repository\SiteRepository;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -33,8 +34,11 @@ class EventController extends AbstractController
     }
 
     #[Route('{id}', name: 'event', requirements:['id'=>'\d+'], methods:['GET'])]
-    public function show(int $id, EventRepository $eventRepository):Response{
+    public function show(int $id, EventRepository $eventRepository, SiteRepository $siteRepository):Response{
         $event = $eventRepository->find($id);
+//        $site = $siteRepository->findBy($id);
+
+
 
 //        dd($event);
         if(!$event){

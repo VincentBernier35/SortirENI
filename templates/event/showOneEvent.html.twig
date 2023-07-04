@@ -1,62 +1,50 @@
 {% extends 'base.html.twig' %}
 
-{#{% block title %}#}
-{#    {{ user.id }}| {{ parent() }}#}
-{#{% endblock %}#}
 
 {% block body %}
 
     <h1>Afficher une sortie</h1>
-<div>
-    <div>
-        <p>Nom de la sortie : {{ event.name }}</p>
-        <p>Date et heure de la sortie : {{  event.startTime | date('d/m/Y') }}</p>
-        <p>Nombre de places : {{ event.placeMax }}</p>
-        <p>Durée : {{ event.duration }}</p>
-        <p>Description et infos : {{ event.info }}</p>
+
+    <div class="container">
+        <div class="row">
+            <div class="col-sm">
+                <p>Nom de la sortie : {{ event.name }}</p>
+                <p>Date et heure de la sortie : {{  event.startTime | date('d/m/Y') }}</p>
+                <p>Nombre de places : {{ event.placeMax }}</p>
+                <p>Durée : {{ event.duration }}</p>
+                <p>Description et infos : {{ event.info }}</p>
+            </div>
+            <div class="col-sm">
+                <p>Ville organisatrice : {{ event.site.name }}</p>
+                <p>Lieu : {{  event.place.name }}</p>
+                <p>Rue : {{ event.place.street }}</p>
+                <p>Code postal : {{ event.place.city.zipcode }}</p>
+                <p>Latitude : {{ event.place.latitude}}</p>
+                <p>Longitude : {{ event.place.longitude }}</p>
+            </div>
+
+        </div>
     </div>
-    <div>
-{#        <p>Ville organisatrice : {{ event.site }}</p>#}
-{#        <p>Lieu : {{  place.name }}</p>#}
-{#        <p>Rue : {{ place.street }}</p>#}
-{#        <p>Code postal : {{ place.city.zipcode }}</p>#}
-{#        <p>Latitude : {{ place.latitude}}</p>#}
-{#        <p>Longitude : {{ place.longitude }}</p>#}
-    </div>
-</div>
+
 
     <h2>liste des participants inscrits:</h2>
 
-{#    <table class="table table-striped">#}
-{#    <thead>#}
-{#    <tr>#}
-{#        <th scope="col">Pseudo</th>#}
-{#        <th scope="col">Nom</th>#}
-{#    </tr>#}
-{#    </thead>#}
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th scope="col">Pseudo</th>
+            <th scope="col">Nom</th>
+        </tr>
+    </thead>
+    <tbody>
 
-{#    {% for us in user %}#}
+    {% for userRegistered in event.getUsersEvents %}
+        <tr>
+            <td>toto</td>
+            <td>{{ userRegistered.firstname }} {{ userRegistered.lastname }}</td>
+        </tr>
 
-{#        <tbody>#}
-{#        <tr>#}
-{#            <td>{{ user.pseudo }}</td>#}
-{#            <td>{{ user.pseudo }}</td>#}
-{#        </tr>#}
-{#        </tbody>#}
-{#    </table>#}
-
-{#    {% else %}#}
-{#        <tr>#}
-{#            <td colspan="7">Aucune donnée dans la base</td>#}
-{#        </tr>#}
-{#    {% endfor %}#}
+    {% endfor %}
 
 
-
-
-
-
-{#    <a href="{{ path('main_home') }}">#}
-{#        <button type="submit" class="btn btn-primary ">Retour</button>#}
-{#    </a>#}
 {% endblock %}
