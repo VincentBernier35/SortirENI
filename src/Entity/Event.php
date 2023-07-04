@@ -51,10 +51,14 @@ class Event
     #[ORM\ManyToMany(targetEntity: User::class, inversedBy: 'events_registered')]
     private Collection $users_events;
 
+    /**
+     * @param Collection $users_events
+     */
     public function __construct()
     {
         $this->users_events = new ArrayCollection();
     }
+
 
     public function getId(): ?int
     {
