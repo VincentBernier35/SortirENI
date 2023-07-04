@@ -58,6 +58,7 @@ class Event
     public function __construct()
     {
         $this->users_events = new ArrayCollection();
+
     }
 
 
