@@ -54,9 +54,9 @@ class Event
     /**
      * @param Collection $users_events
      */
-    public function __construct(Collection $users_events)
+    public function __construct()
     {
-        $this->users_events = $users_events;
+        $this->users_events = new ArrayCollection();
     }
 
 
@@ -169,6 +169,18 @@ class Event
     public function setSite(?Site $site): static
     {
         $this->site = $site;
+
+        return $this;
+    }
+
+    public function getPlace(): ?Place
+    {
+        return $this->place;
+    }
+
+    public function setPlace(?Place $place): static
+    {
+        $this->place = $place;
 
         return $this;
     }
