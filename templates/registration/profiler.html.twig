@@ -10,7 +10,7 @@
     <p>Nom : {{  user.firstName }}</p>
     <p>Téléphone : {{ user.phoneNumber }}</p>
     <p>Email : {{ user.email }}</p>
-    <p>Ville de rattachement : {{ user.site ? user.site.name : '?'}}</p>
+    <p>Ville de rattachement : {{ choices}}</p>
     <div class="card mt-2 mb-2 w-50 m-auto">
         {% if course.filename %}
             <img src="{{ asset('./'~app_images_user_directory ~ '/' ~ user.image) }}"

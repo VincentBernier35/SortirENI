@@ -55,9 +55,9 @@ class Event
      * @param Collection $users_events
      */
 
-    public function __construct(Collection $users_events)
+    public function __construct()
     {
-        $this->users_events = $users_events;
+        $this->users_events = new ArrayCollection();
 
     }
 

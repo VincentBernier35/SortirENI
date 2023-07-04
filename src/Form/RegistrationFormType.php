@@ -2,6 +2,7 @@
 
 namespace App\Form;
 
+use App\Entity\Site;
 use App\Entity\User;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
@@ -57,6 +58,8 @@ class RegistrationFormType extends AbstractType
             ])
             ->add('site', ChoiceType::class, [
                 'label' => 'Ville de rattachement : ',
+                'class' => Site::class,
+                'choice-lable'=>'name',
                 'choices' => [
                     'Rennes' => 'Rennes',
                     'Brest' => 'Brest',
