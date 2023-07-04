@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Event;
 use App\Form\EventFormType;
+use App\Repository\EventRepository;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -11,6 +12,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
+#[Route(path:'/event/', name: 'event_')]
 class EventController extends AbstractController
 {
     #[Route(path:'/createEvent', name: 'createEvent', methods: ['GET', 'POST'])]
@@ -31,12 +33,15 @@ class EventController extends AbstractController
     }
 
     #[Route('{id}', name: 'event', requirements:['id'=>'\d+'], methods:['GET'])]
-    public function show(int $id, UserRepository $userRepository):Response{
-        $event = $userRepository->find($id);
+    public function show(int $id, EventRepository $eventRepository):Response{
+        $event = $eventRepository->find($id);
+
+//        dd($event);
         if(!$event){
             throw $this->createNotFoundException('Event inconnu');
         }
-        $this->addFlash('notice', 'Votre sortie a bien créeé !');
+
+
         return $this->render('event/showOneEvent.html.twig', ['event' => $event]);
     }
 }
