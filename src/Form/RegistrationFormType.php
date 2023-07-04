@@ -2,7 +2,9 @@
 
 namespace App\Form;
 
+use App\Entity\Site;
 use App\Entity\User;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
@@ -49,26 +51,16 @@ class RegistrationFormType extends AbstractType
                 'constraints' => [
                     new Length([
                         'min' => 6,
-                        'minMessage' => 'Your password should be at least {{ limit }} characters',
+                        'minMessage' => 'Votre mot de passe doit comporter au moins {{ limit }} caractères.',
                         // max length allowed by Symfony for security reasons
-                        'max' => 4096,
+                        'max' => 20,
                     ]),
                 ],
             ])
-            ->add('site', ChoiceType::class, [
+            ->add('site', EntityType::class, [
                 'label' => 'Ville de rattachement : ',
-                'choices' => [
-                    'Rennes' => 'Rennes',
-                    'Brest' => 'Brest',
-                    'Quimper' => 'Quimper',
-                    'Lorient' => 'Lorient',
-                    'Vannes' => 'Vannes',
-                    'Chartes-de-Bretagne' => 'Chartes-de-Bretagne',
-                    'Saint-Grégoire' => 'Saint-Grégoire',
-                    'Vezin-le-Coquet' => 'Vezin-le-Coquet',
-                    'Cession-Sévigné' => 'Cession-Sévigné',
-                    'Bruz' => 'Bruz',
-                ],
+                'class' => Site::class,
+                'choice_label'=>'name',
                 'placeholder' => '--Choisir votre ville--'
             ])
             ->add('image', FileType::class,[
