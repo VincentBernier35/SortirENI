@@ -2,10 +2,10 @@
 
 namespace App\Form;
 
-use App\Entity\City;
+
 use App\Entity\Event;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
@@ -21,11 +21,13 @@ class EventFormType extends AbstractType
             ->add('name', TextType::class, [
                 'label'=>'Nom de la sortie : '
             ])
-            ->add('startTime', DateType::class,[
+            ->add('startTime', DateTimeType::class,[
+                'label'=>'Date et heure de la sortie :',
                 'widget'=>'single_text',
                 'input'=>'datetime_immutable'
             ])
             ->add('deadLine', DateType::class,[
+                'label'=>'Date limite d\'inscription :',
                 'widget'=>'single_text',
                 'input'=>'datetime'
             ])
@@ -37,9 +39,6 @@ class EventFormType extends AbstractType
             ])
             ->add('info', TextareaType::class,[
                 'label'=>'Description et infos : '
-            ])
-            ->add('place', TextType::class,[
-                'label'=>'Ville organisatrice : ',
             ])
         ;
     }

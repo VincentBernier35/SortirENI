@@ -6,17 +6,21 @@
 
 {% block body %}
     <h1>Créer une sortie</h1>
+    <div class="tableE">
+        {{ form_start(eventForm) }}
+        {{ form_row(eventForm.name) }}
+        {{ form_row(eventForm.startTime) }}
+        {{ form_row(eventForm.deadLine) }}
+        {{ form_row(eventForm.placeMax) }}
+        {{ form_row(eventForm.duration) }}<p>minutes</p>
+        {{ form_row(eventForm.info) }}
+        {{ form_end(eventForm) }}
+    </div>
+    <div class="tableV">
+        <p>Ville organisatrice : {{ user.site.name }}</p>
 
-    {{ form_errors(registrationForm) }}
-    {{ form_start(eventForm) }}
-    {{ form_widget(eventForm) }}
-    {{ form_end(eventForm) }}
 
-    {{ form_errors(placeForm) }}
-    {{ form_start(placeForm) }}
-    {{ form_widget(placeForm) }}
-    {{ form_end(placeForm) }}
-
+    </div>
 
     <div>
         <a href="{{ path('main_home') }}">

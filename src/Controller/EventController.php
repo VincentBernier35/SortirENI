@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Event;
+use App\Entity\User;
 use App\Form\EventFormType;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -13,21 +14,21 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class EventController extends AbstractController
 {
-    #[Route(path:'/createEvent', name: 'createEvent', methods: ['GET', 'POST'])]
-    public function createEvent(Request $request, EntityManagerInterface $em,)
+    #[Route(path:'/createEvent', name: 'createEvent',requirements:['id'=>'\d+'], methods: ['GET', 'POST'])]
+    public function createEvent(Request $request, EntityManagerInterface $em,):Response
     {
+        $user = $this->getUser();
+
         $event = new Event();
-        $eventform = $this->createForm(EventFormType::class, $event);
-        $eventform ->handleRequest($request);
-        if($eventform->isSubmitted() && $eventform->isValid()){
+        $eventForm = $this->createForm(EventFormType::class, $event);
+        $eventForm ->handleRequest($request);
+
+        if($eventForm->isSubmitted() && $eventForm->isValid()){
             $em->persist($event);
             $em->flush();
-
             return $this->redirectToRoute('{{id}}', ['id'=>$event->getId()]);
         }
-        return $this->render('event/event.html.twig', [
-            'registrationForm' => $eventform->createView(),
-        ]);
+        return $this->render('event/event.html.twig', ['eventForm' => $eventForm, 'event' => $event, 'user'=>$user]);
     }
 
     #[Route('{id}', name: 'event', requirements:['id'=>'\d+'], methods:['GET'])]
