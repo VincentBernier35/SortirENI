@@ -2,8 +2,10 @@
 
 namespace App\Form;
 
+use App\Entity\City;
 use App\Entity\Event;
 use Doctrine\DBAL\Types\TextType;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
@@ -30,15 +32,21 @@ class EventType extends AbstractType
             ->add('placeMax', IntegerType::class,[
                 'label'=>'Nombre de place : '
             ])
-            ->add('duration', )
+            ->add('duration', IntegerType::class,[
+                'label'=>'Durée : '
+            ])
             ->add('info', TextareaType::class,[
                 'label'=>'Description et infos : '
             ])
             ->add('place', TextType::class,[
-                'label'=>'Ville organisatrice',
-                'value'=>''
+                'label'=>'Ville organisatrice : ',
             ])
-            ->add('site')
+            ->add('city', EntityType::class, [
+                'label' => 'Ville : ',
+                'class' => City::class,
+                'choice_label'=>'name',
+                'placeholder' => '--Choisir une ville--'
+            ])
 
         ;
     }

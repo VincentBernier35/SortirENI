@@ -31,7 +31,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(length: 180)]
     private ?string $email = null;
 
-    #[ORM\Column]
+    #[ORM\Column (options: ['default' => false])]
     private ?bool $admin = null;
 
     #[ORM\Column]
@@ -60,6 +60,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->events = new ArrayCollection();
         $this->events_registered = new ArrayCollection();
     }
+
 
     public function getId(): ?int
     {
