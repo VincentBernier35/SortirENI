@@ -11,13 +11,17 @@ use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
-#[UniqueEntity(fields: ['email'], message: 'There is already an account with this email')]
+#[UniqueEntity(fields: 'email', message: 'There is already an account with this email')]
+#[UniqueEntity(fields: 'username', message: 'There is already an account with this
+username')]
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
+
+
 
     #[ORM\Column(length: 20, nullable: true)]
     private ?string $lastName = null;
@@ -210,12 +214,17 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     public function getRoles(): array
     {
-        $roles = $this->roles;
-        // guarantee every user at least has ROLE_USER
-        $roles[] = 'ROLE_USER';
+
+
+
+        if ($this->isAdmin()) {
+            $roles[] = 'ROLE_ADMIN';
+        }
+        else {
+            $roles[] = 'ROLE_USER';
+        }
 
         return array_unique($roles);
-
     }
 
     public function eraseCredentials():void
