@@ -2,9 +2,12 @@
 
 namespace App\Controller;
 
+use App\Entity\City;
 use App\Entity\Event;
+use App\Entity\Place;
 use App\Entity\User;
 use App\Form\EventFormType;
+use App\Form\PlaceFormType;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -18,20 +21,24 @@ class EventController extends AbstractController
     public function createEvent(Request $request, EntityManagerInterface $em,):Response
     {
         $user = $this->getUser();
-
+        $city = new City();
         $event = new Event();
         $eventForm = $this->createForm(EventFormType::class, $event);
-        $eventForm ->handleRequest($request);
+        $eventForm -> handleRequest($request);
 
-        if($eventForm->isSubmitted() && $eventForm->isValid()){
+        $place = new Place();
+        $placeForm = $this->createForm(PlaceFormType::class, $place);
+        $placeForm -> handleRequest($request);
+        if($eventForm->isSubmitted() && $eventForm->isValid() && $placeForm->isSubmitted() && $placeForm->isValid()){
             $em->persist($event);
+            $em->persist($place);
             $em->flush();
             return $this->redirectToRoute('{{id}}', ['id'=>$event->getId()]);
         }
-        return $this->render('event/event.html.twig', ['eventForm' => $eventForm, 'event' => $event, 'user'=>$user]);
+        return $this->render('event/event.html.twig', ['eventForm' => $eventForm, 'placeForm' => $placeForm, 'event' => $event, 'user'=>$user, 'place'=>$place, 'city'=>$city]);
     }
 
-    #[Route('{id}', name: 'event', requirements:['id'=>'\d+'], methods:['GET'])]
+    #[Route('/events', name: 'event', requirements:['id'=>'\d+'], methods:['GET'])]
     public function show(int $id, UserRepository $userRepository):Response{
         $event = $userRepository->find($id);
         if(!$event){
