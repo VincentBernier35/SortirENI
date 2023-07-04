@@ -53,7 +53,7 @@ class Event
 
     public function __construct()
     {
-        $this->$users_events = new ArrayCollection();
+        $this->users_events = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -165,6 +165,18 @@ class Event
     public function setSite(?Site $site): static
     {
         $this->site = $site;
+
+        return $this;
+    }
+
+    public function getPlace(): ?Place
+    {
+        return $this->place;
+    }
+
+    public function setPlace(?Place $place): static
+    {
+        $this->place = $place;
 
         return $this;
     }
