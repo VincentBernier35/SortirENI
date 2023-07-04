@@ -4,16 +4,16 @@ namespace App\Form;
 
 use App\Entity\City;
 use App\Entity\Event;
-use Doctrine\DBAL\Types\TextType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class EventType extends AbstractType
+class EventFormType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
@@ -41,13 +41,6 @@ class EventType extends AbstractType
             ->add('place', TextType::class,[
                 'label'=>'Ville organisatrice : ',
             ])
-            ->add('city', EntityType::class, [
-                'label' => 'Ville : ',
-                'class' => City::class,
-                'choice_label'=>'name',
-                'placeholder' => '--Choisir une ville--'
-            ])
-
         ;
     }
 

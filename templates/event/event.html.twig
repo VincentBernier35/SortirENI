@@ -1,27 +1,28 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}
-    {{ user.id }}| {{ parent() }}
+    Création
 {% endblock %}
 
 {% block body %}
-    <h1>{{ user.pseudo }}</h1>
-    <h2>{% for notice in app.flashes('notice') %}
-        {{ notice }}
-    {% endfor %}</h2>
-    <p>Prénom : {{ user.lastName }}</p>
-    <p>Nom : {{  user.firstName }}</p>
-    <p>Téléphone : {{ user.phoneNumber }}</p>
-    <p>Email : {{ user.email }}</p>
-    <p>Ville de rattachement : {{ user.site ? user.site.name : '?'}}</p>
-    <div class="card mt-2 mb-2 w-50 m-auto">
-        {% if user.image %}
-            <img src="{{ asset('./'~app_images_user_directory ~ '/' ~ user.image) }}"
-                 class="card-img-top img-fluid" alt="image" />
-        {% endif %}
-    </div>
+    <h1>Créer une sortie</h1>
 
-    <a href="{{ path('main_home') }}">
-        <button type="submit" class="btn btn-primary ">Retour</button>
-    </a>
+    {{ form_errors(registrationForm) }}
+    {{ form_start(eventForm) }}
+    {{ form_widget(eventForm) }}
+    {{ form_end(eventForm) }}
+
+    {{ form_errors(placeForm) }}
+    {{ form_start(placeForm) }}
+    {{ form_widget(placeForm) }}
+    {{ form_end(placeForm) }}
+
+
+    <div>
+        <a href="{{ path('main_home') }}">
+            <button type="submit" class="btn btn-primary ">Enregistrer</button>
+        </a>
+        <button type="submit" class="btn btn-primary ">Enregistrer</button>
+        <button type="submit" class="btn btn-primary ">Annuler</button>
+    </div>
 {% endblock %}
