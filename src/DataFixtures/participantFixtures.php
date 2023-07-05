@@ -30,7 +30,8 @@ class participantFixtures extends Fixture implements DependentFixtureInterface
             ->setSite($this->getReference('site'.mt_rand(1,6)))
             ->setActive(true)
             ->setPseudo($faker->name)
-            ->setPassword($password);
+            ->setPassword($password)
+            ->setImage('test'.mt_rand(1,6).'.jpg');
         $manager->persist($participant);
 
         // participants actif
@@ -45,7 +46,8 @@ class participantFixtures extends Fixture implements DependentFixtureInterface
                 ->setSite($this->getReference('site'.mt_rand(1,6)))
                 ->setActive(true)
                 ->setPseudo($faker->name)
-                ->setPassword($password);
+                ->setPassword($password)
+                ->setImage('test'.mt_rand(1,6).'.jpg');
             $manager->persist($participant);
             $this->addReference('participant'.$i, $participant);
         }
@@ -62,7 +64,8 @@ class participantFixtures extends Fixture implements DependentFixtureInterface
                 ->setSite($this->getReference('site'.mt_rand(1,6)))
                 ->setActive(false)
                 ->setPseudo($faker->name)
-                ->setPassword($password);
+                ->setPassword($password)
+                ->setImage('test'.mt_rand(1,6).'.jpg');
             $manager->persist($participant);
         }
 
