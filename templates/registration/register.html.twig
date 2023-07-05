@@ -4,16 +4,12 @@
 
 {% block body %}
     <h1>Inscrivez-vous et Rejoignez-nous !</h1>
-
     {{ form_errors(registrationForm) }}
-
     {{ form_start(registrationForm) }}
-        {{ form_widget(registrationForm) }}
-
-
-        <button type="submit" class="btn btn-primary ">Enregistrer</button>
-        <a href="{{ path('main_home') }}">
-            <button type="submit" class="btn btn-primary ">Annuler</button>
-        </a>
+    {{ form_widget(registrationForm) }}
+    <button type="submit" class="btn btn-primary ">Enregistrer</button>
+    <a href="{{ path('main_home') }}">
+        <button type="submit" class="btn btn-primary ">Annuler</button>
+    </a>
     {{ form_end(registrationForm) }}
 {% endblock %}

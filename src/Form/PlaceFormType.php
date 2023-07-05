@@ -22,7 +22,8 @@ class PlaceFormType extends AbstractType
                 'choice_label'=>'name',
                 'placeholder' => '--Choisir une ville--'
             ])
-            ->add('place', EntityType::class, [
+
+            ->add('name', EntityType::class, [
                 'label' => 'Ville de rattachement : ',
                 'class' => Place::class,
                 'choice_label'=>'name',
@@ -30,15 +31,6 @@ class PlaceFormType extends AbstractType
             ])
             ->add('street', TextType::class, [
                 'label' => 'Rue :'
-            ])
-            ->add('city', TextType::class,[
-                'label' => 'Code postal : '
-            ])
-            ->add('latitude', IntegerType::class,[
-                'label' => 'Latitude : '
-            ])
-            ->add('longitude', IntegerType::class,[
-                'label' => 'longitude : '
             ])
         ;
     }
