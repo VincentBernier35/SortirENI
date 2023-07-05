@@ -20,6 +20,8 @@ class EventController extends AbstractController
     #[Route(path:'/createEvent', name: 'createEvent',requirements:['id'=>'\d+'], methods: ['GET', 'POST'])]
     public function createEvent(Request $request, EntityManagerInterface $em,):Response
     {
+        //Toto : if no login? alter: to connecter
+
         $user = $this->getUser();
         $city = new City();
         $event = new Event();
@@ -35,7 +37,10 @@ class EventController extends AbstractController
             $em->flush();
             return $this->redirectToRoute('{{id}}', ['id'=>$event->getId()]);
         }
-        return $this->render('event/event.html.twig', ['eventForm' => $eventForm, 'placeForm' => $placeForm, 'event' => $event, 'user'=>$user, 'place'=>$place, 'city'=>$city]);
+        return $this->render('event/event.html.twig', ['eventForm' => $eventForm,
+                                                            'placeForm' => $placeForm,
+                                                            'event' => $event, 'user'=>$user,
+                                                            'place'=>$place, 'city'=>$city]);
     }
 
     #[Route('/events', name: 'event', requirements:['id'=>'\d+'], methods:['GET'])]
