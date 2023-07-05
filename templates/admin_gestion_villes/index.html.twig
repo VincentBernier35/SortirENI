@@ -4,99 +4,10 @@
 
 {% block body %}
 
-
-{#    <script>#}
-{#        function myFunction() {#}
-{#            let input;#}
-{#            input = document.querySelector(".myInput");#}
-{#            console.log("input is: ", input)#}
-{#            let filter = input.value.toUpperCase();#}
-{#            console.log("filter is: ", filter);#}
-
-{#            let tr = document.getElementsByTagName("tr")#}
-{#            let td = document.getElementsByTagName("td")#}
-
-{#            for (let i = 0; i < td.length; i++){#}
-{#                let a = td[i].getElementsByTagName("td")[0];#}
-{#                let txtValue = a.textContent || a.innerText;#}
-{#                if (txtValue.toUpperCase().indexOf(filter) > -1) {#}
-{#                    td[i].style.display = "";#}
-{#                } else {#}
-{#                    td[i].style.display = "none";#}
-{#                }#}
-{#            }#}
-
-{#        }#}
-
-
-{#    </script>#}
-
-
-
-
-
-
-{#<h1 class="text-center">Gérer les villes</h1>#}
-
-{#    <h2>Filtrer les villes</h2>#}
-
-{#    <form>#}
-{#        <div class="mb-3">#}
-{#            <label for="exampleInputEmail1" class="form-label">Le nom contient: </label>#}
-{#            <input type="text" class="form-control myInput" id="exampleInputEmail1 myInput" placeholder="cherchez une ville.." onkeyup="myFunction()" aria-describedby="emailHelp">#}
-{#        </div>#}
-
-{#        <button type="submit" class="btn btn-primary">Rechercher</button>#}
-{#    </form>#}
-
-
-{#    <table class="table table-striped">#}
-{#        <thead>#}
-{#        <tr>#}
-{#            <th scope="col">Ville</th>#}
-{#            <th scope="col">Code Postal</th>#}
-{#            <th scope="col">Actions</th>#}
-{#        </tr>#}
-{#        </thead>#}
-{#        <tbody>#}
-
-{#        {% for city in cities %}#}
-{#            <tr class="myTr">#}
-{#                <td class="myTd">{{ city.name }}</td>#}
-{#                <td class="myTd">{{ city.zipcode }}</td>#}
-{#                <td><button type="button" class="btn btn-info btn-sm">Modifier</button>  <button type="button" class="btn btn-danger btn-sm">Supprimer</button></td>#}
-{#            </tr>#}
-
-
-{#        {% endfor %}#}
-{#        </tbody>#}
-{#    </table>#}
-
-    <script>
-        function myFunction() {
-            var input, filter, ul, li, a, i, txtValue;
-            input = document.getElementById("myInput");
-            filter = input.value.toUpperCase();
-            ul = document.getElementById("myUL");
-            li = ul.getElementsByTagName("li");
-            for (i = 0; i < li.length; i++) {
-                a = li[i].getElementsByTagName("a")[0];
-                txtValue = a.textContent || a.innerText;
-                if (txtValue.toUpperCase().indexOf(filter) > -1) {
-                    li[i].style.display = "";
-                } else {
-                    li[i].style.display = "none";
-                }
-            }
-        }
-
-    </script>
-
     <style>
         * {
             box-sizing: border-box;
         }
-
         #myInput {
             background-image: url('/css/searchicon.png');
             background-position: 10px 12px;
@@ -107,13 +18,11 @@
             border: 1px solid #ddd;
             margin-bottom: 12px;
         }
-
         #myUL {
             list-style-type: none;
             padding: 0;
             margin: 0;
         }
-
         #myUL li a {
             border: 1px solid #ddd;
             margin-top: -1px; /* Prevent double borders */
@@ -130,25 +39,6 @@
         }
     </style>
 
-    <h1 class="text-center">Gérer les villes</h1>
-
-        <h2>Filtrer les villes</h2>
-
-
-    <div class="mb-3">
-        <input type="text" id="myInput" onkeyup="myFunction()" placeholder="commence à saisir une ville.." title="Type in a name">
-    </div>
-
-    <ul id="myUL">
-    {% for city in cities %}
-        <li><a href="#">{{ city.name }} - {{ city.zipcode }}
-                <button type="button" id="myClick" class="btn btn-info btn-sm">Modifier</button>  <button type="button" class="btn btn-danger btn-sm">Supprimer</button></a></li>
-    {% endfor %}
-
-    </ul>
-
-
-
     <script>
         function myFunction() {
             var input, filter, ul, li, a, i, txtValue;
@@ -156,9 +46,6 @@
             filter = input.value.toUpperCase();
             ul = document.getElementById("myUL");
             li = ul.getElementsByTagName("li");
-
-
-
             for (i = 0; i < li.length; i++) {
                 a = li[i].getElementsByTagName("a")[0];
                 txtValue = a.textContent || a.innerText;
@@ -170,5 +57,20 @@
             }
         }
     </script>
+
+    <h1 class="text-center">Gérer les villes</h1>
+    <h2>Filtrer les villes</h2>
+
+    <div class="mb-3">
+        <input type="text" id="myInput" onkeyup="myFunction()" placeholder="commence à saisir une ville.." title="Type in a name">
+    </div>
+
+    <ul id="myUL">
+        {% for city in cities %}
+            <li><a href="#">{{ city.name }} - {{ city.zipcode }}
+                    <button type="button" id="myClick" class="btn btn-info btn-sm">Modifier</button>  <button type="button" class="btn btn-danger btn-sm">Supprimer</button></a></li>
+        {% endfor %}
+
+    </ul>
 
 {% endblock %}
