@@ -27,7 +27,9 @@
     </div>
 
 
-    <h2>liste des participants inscrits:</h2>
+    <h1>Participants inscrits:</h1>
+
+
 
 <table class="table table-striped">
     <thead>
@@ -40,11 +42,14 @@
 
     {% for userRegistered in event.getUsersEvents %}
         <tr>
-            <td>toto</td>
+            <td>{{ userRegistered.pseudo }}</td>
             <td>{{ userRegistered.firstname }} {{ userRegistered.lastname }}</td>
         </tr>
 
     {% endfor %}
+        </tbody>
+    </table>
 
 
 {% endblock %}
+
