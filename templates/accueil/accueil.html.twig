@@ -1,0 +1,81 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    {{ form_start(accueilForm)}}
+    {{ form_widget(accueilForm) }}
+    <button class="btn btn-primary btn-sm">Rechercher</button>
+    {{ form_end(accueilForm)}}
+
+    <table>
+        <thead>
+        <tr>
+            <th>Nom de la sortie</th>
+            <th>Date de la sortie</th>
+            <th>Clôture</th>
+            <th>inscrits/places</th>
+            <th>Etat</th>
+            <th>Inscrit</th>
+            <th>Organisateur</th>
+            <th>Actions</th>
+            <th></th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for event in events %}
+            {% set isPresent = '' %}
+            {% for User in event.getUsersEvents %}
+                {% if User.email == UserConnected.email %}
+                    {% set isPresent = 'present'%}
+                {% endif %}
+            {% endfor %}
+
+            {% set canDisplayLink = '' %}
+            {% if event.state.reference > 0 and event.state.reference < 5  %}
+                {% set canDisplayLink = 'yes'%}
+            {% endif %}
+
+            {% set canWithDraw = '' %}
+            {% if (event.state.reference == 1 or event.state.reference == 2) and isPresent %}
+                {% set canWithDraw = 'yes'%}
+            {% endif %}
+
+            {% set canRegister = '' %}
+            {% if event.state.reference == 1 and isPresent == '' %}
+                {% set canRegister = 'yes'%}
+            {% endif %}
+
+            {% set canModifie = '' %}
+            {% if event.state.reference == 0 and event.promoter.id == UserConnected.id %}
+                {% set canModifie = 'yes'%}
+            {% endif %}
+
+            <tr>
+                <td>{{ event.name }}</td>
+                <td>{{ event.startTime|date('d/m/Y') }}</td>
+                <td>{{ event.deadLine|date('d/m/Y') }}</td>
+                <td>{{ event.getUsersEvents.count }}/{{ event.placeMax }}</td>
+                {% set st = event.state.reference %}
+                <td>{{ stateX[st] }}</td>
+                <td>{{ isPresent ? 'X' : '' }}</td>
+                <td>{{ event.promoter.firstname }} {{ event.promoter.lastName }}</td>
+                <td>
+                    {% if canDisplayLink == 'yes' %}
+                        <a href="{{ path('main_home_test', {'id': event.id}) }}" title="Détail de cet évènement"> Afficher</a> -
+                    {% endif %}
+                    {% if canWithDraw == 'yes' %}
+                    <a href="{{ path('main_home_test', {'id': event.id}) }}" title="Se désister de cet évènement"> Se désister</a> -
+                    {% endif %}
+                    {% if canRegister == 'yes' %}
+                    <a href="{{ path('main_home_test', {'id': event.id}) }}" title="S'incrire à cet évènement"> S'inscrire</a> -
+                    {% endif %}
+                    {% if canModifie == 'yes' %}
+                    <a href="{{ path('main_home_test', {'id': event.id}) }}" title="Modifier cet évènement"> Modifier</a>
+                    {% endif %}
+                </td>
+            </tr>
+        {% else %}
+            <tr><td colspan="5">Aucune donnée dans la BDD.</td></tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}
