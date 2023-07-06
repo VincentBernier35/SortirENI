@@ -13,7 +13,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class AccueilController extends AbstractController
 {
     #[Route('/accueil', name: 'app_accueil', methods: ['POST','GET'])]
-    public function accueil(Request $request,EventRepository $eventRepository, AccueilFormType $accueilFormType): Response
+    public function accueil(Request $request,EventRepository $eventRepository): Response
     {
         $event = new Event();
         $eventForm = $this->createForm(AccueilFormType::class, $event);
