@@ -7,13 +7,13 @@
         </button>
         <div class="collapse navbar-collapse " id="navbarSupportedContent">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                <li class="nav-item"><a class="nav-link text-light" href="/" title="Test">Accueil</a></li>
-                <li class="nav-item"><a class="nav-link text-light" href="{{ path('register') }}" title="Test">Inscription</a></li>
-                <li class="nav-item"><a class="nav-link text-light" href="{{ path('event_createEvent') }}" title="Test">Proposer une sortie</a></li>
-                <li class="nav-item"><a class="nav-link text-light" href="{{ path('event_editEvent') }}" title="Test">Modifier une sortie</a></li>
-                <li class="nav-item"><a class="nav-link text-light" href="{{ path('admin_gestion_villes') }}" title="Test">Gestion Ville</a></li>
-                <li class="nav-item"><a class="nav-link text-light" href="{{ path('app_login') }}" title="Test">Connexion</a></li>
-                <li class="nav-item"><a class="nav-link text-light" href="/logout" title="Test">Déconnexion</a></li>
+                <li class="nav-item"><a class="nav-link text-light" href="{{ path('app_accueil') }}" >Accueil</a></li>
+                <li class="nav-item"><a class="nav-link text-light" href="{{ path('register') }}">Inscription</a></li>
+                <li class="nav-item"><a class="nav-link text-light" href="{{ path('event_createEvent') }}" >Proposer une sortie</a></li>
+                <li class="nav-item"><a class="nav-link text-light" href="{{ path('event_listEvent') }}" >Mes sorties</a></li>
+                <li class="nav-item"><a class="nav-link text-light" href="{{ path('admin_gestion_villes') }}" >Gestion Ville</a></li>
+                <li class="nav-item"><a class="nav-link text-light" href="{{ path('app_login') }}" >Connexion</a></li>
+                <li class="nav-item"><a class="nav-link text-light" href="/logout" >Déconnexion</a></li>
     </ul>
         </div></div>
 </nav>

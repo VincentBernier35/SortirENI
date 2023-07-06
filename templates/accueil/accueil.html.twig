@@ -1,11 +1,15 @@
 {% extends 'base.html.twig' %}
-
 {% block body %}
+    {% block message %}{{ parent() }}{% endblock %}
     {{ form_start(accueilForm)}}
     {{ form_widget(accueilForm) }}
     <button class="btn btn-primary btn-sm">Rechercher</button>
     {{ form_end(accueilForm)}}
-    {{ isRegisteredChoice }}
+    <script src="{{ asset('javascript/accueil.js') }}"></script>
+    <div>
+        <h4>Date du jour: {{ "now"|date('d/m/Y')}}</h4>
+        <h4>Participant: {{ UserConnected.firstname }} {{ UserConnected.lastname }}</h4>
+    </div>
     <table>
         <thead>
         <tr>
@@ -48,6 +52,17 @@
             {% if event.state.reference == 0 and event.promoter.id == UserConnected.id %}
                 {% set canModifie = 'yes'%}
             {% endif %}
+
+            {% set canCancel = '' %}
+            {% if event.state.reference < 3  and event.promoter.id == UserConnected.id %}
+                {% set canCancel = 'yes'%}
+            {% endif %}
+
+            {% set canPublished = '' %}
+            {% if event.state.reference == 0  and event.promoter.id == UserConnected.id %}
+                {% set canPublished = 'yes'%}
+            {% endif %}
+
             {% if (isPresent == 'present' and isRegisteredChoice) or (isPresent == '' and isNotRegisteredChoice) or (isRegisteredChoice is empty and isNotRegisteredChoice is empty) %}
                 <tr>
                     <td>{{ event.name }}</td>
@@ -60,16 +75,22 @@
                     <td>{{ event.promoter.firstname }} {{ event.promoter.lastName }}</td>
                     <td>
                         {% if canDisplay == 'yes' %}
-                            <a href="{{ path('main_home_test', {'id': event.id}) }}" title="Détail de cet évènement">Afficher</a>
+                            <a href="{{ path('event_event', {'id': event.id}) }}" title="Détail de cet évènement">Afficher</a>
                         {% endif %}
                         {% if canWithDraw == 'yes' %}
-                        <a href="{{ path('main_home_test', {'id': event.id}) }}" title="Se désister de cet évènement">Se désister</a>
+                        <a href="{{ path('app_event_user_unregistered', {'id': event.id}) }}" title="Se désister de cet évènement">Se désister</a>
                         {% endif %}
-                        {% if canRegister == 'yes' %}
-                        <a href="{{ path('main_home_test', {'id': event.id}) }}" title="S'incrire à cet évènement"> S'inscrire </a>
+                        {% if (canRegister == 'yes' and event.getUsersEvents.count < event.placeMax) %}
+                        <a href="{{ path('app_event_user_registered', {'id': event.id}) }}" title="S'incrire à cet évènement"> S'inscrire </a>
                         {% endif %}
                         {% if canModifie == 'yes' %}
-                        <a href="{{ path('main_home_test', {'id': event.id}) }}" title="Modifier cet évènement"> Modifier</a>
+                        <a href="{{ path('event_editEvent', {'id': event.id}) }}" title="Modifier cet évènement"> Modifier</a>
+                        {% endif %}
+                        {% if canCancel == 'yes' %}
+                            <a href="{{ path('cancelEvent', {'id': event.id}) }}" title="Annuler cet évènement"> Annuler</a>
+                        {% endif %}
+                        {% if canPublished == 'yes' %}
+                            <a href="{{ path('publishEvent', {'id': event.id}) }}" title="Publier cet évènement"> Publier</a>
                         {% endif %}
                     </td>
                 </tr>
@@ -79,4 +100,6 @@
         {% endfor %}
         </tbody>
     </table>
+    <a href="{{ path('event_createEvent') }}"><button class="btn btn-primary ">Créer une sortie</button></a>
 {% endblock %}
+
