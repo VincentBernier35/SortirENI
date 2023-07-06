@@ -20,30 +20,38 @@ class EventController extends AbstractController
 {
     #[Route(path:'/createEvent', name: 'createEvent',requirements:['id'=>'\d+'], methods: ['GET', 'POST'])]
     public function createEvent(StateRepository $stateRepository, Request $request, EntityManagerInterface $em,Security $security):Response
-    {//Toto : if no login? alter: to connecter
-
-        $user = $this->getUser();
-        $userId = $user->getId();
-        $event = new Event();
-        $state = $stateRepository -> findOneBy(
-            ['reference'=>0]);
-        $event -> setState($state);
-        $event -> setPromoter($user);
-        $event -> setSite($user->getSite());
-        $eventForm = $this->createForm(EventFormType::class, $event);
-        $eventForm -> handleRequest($request);
-
-        if($eventForm->isSubmitted() && $eventForm->isValid()){
-
-            $em->persist($event);
-            $em->flush();
-            return $this->redirectToRoute('event_event', ['id'=>$event->getId()]);
-        }
+    {
         if($security->getUser()){
-            return $this->render('event/event.html.twig', ['eventForm' => $eventForm, 'event' => $event, 'user'=>$user]);
+            $user = $this->getUser();
+            $userId = $user->getId();
+            $event = new Event();
+            $state = $stateRepository -> findOneBy(
+                ['reference'=>0]);
+            $event -> setState($state);
+            $event -> setPromoter($user);
+            $event -> setSite($user->getSite());
+            $eventForm = $this->createForm(EventFormType::class, $event);
+            $eventForm -> handleRequest($request);
+
+            if($eventForm->isSubmitted() && $eventForm->isValid()){
+
+                $em->persist($event);
+                $em->flush();
+                return $this->redirectToRoute('event_event', ['id'=>$event->getId()]);
+            }
+                return $this->render('event/event.html.twig', ['eventForm' => $eventForm, 'event' => $event, 'user'=>$user]);
         }else{
             return $this->redirectToRoute('app_login');
         }
+    }
+
+    #[Route('listEvent', name: 'listevent', methods: ['GET'])]
+    public function listEvent(EventRepository $eventRepository): Response
+    {
+        $envents = $eventRepository -> findAll();
+        return $this -> render('event/list.html.twig', [
+            'events' => $envents
+        ]);
     }
 
     #[Route('{id}', name: 'event', requirements:['id'=>'\d+'], methods:['GET'])]
@@ -55,5 +63,23 @@ class EventController extends AbstractController
         }
 
         return $this->render('event/showOneEvent.html.twig', ['event' => $event]);
+    }
+    #[Route(path:'/editEvent', name: 'editEvent',requirements:['id'=>'\d+'], methods: ['GET', 'POST'])]
+    public function editEvent(Event $event, Request $request, EntityManagerInterface $em):Response
+    {
+        if(!$event){
+            throw $this->createNotFoundException('La sortie n\'exist pas');
+        }
+        if($event->getPromoter()!==$this->getUser()){
+            throw $this->createAccessDeniedException();
+        }
+        $eventForm=$this->createForm(EventFormType::class, $event);
+        $eventForm->handleRequest($event);
+        if($eventForm->isSubmitted()&&$eventForm->isValid()){
+            $em->flush();
+            $this->addFlash('notice','La sortie mise à jour avec succès ! ');
+            return $this->redirectToRoute('event_event', ['id'=>$event->getId()]);
+        }
+        return $this->render('event/edit.html.twig', ['eventForm' => $eventForm, 'event' => $event]);
     }
 }
