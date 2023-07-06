@@ -3,7 +3,6 @@
 namespace App\Repository;
 
 use App\Entity\Event;
-use Cassandra\Date;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
