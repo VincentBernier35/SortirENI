@@ -36,7 +36,7 @@ class RegistrationController extends AbstractController
             $em->flush();
             // do anything else you need here, like send an email
 
-            return $this->redirectToRoute('{{id}}', ['id'=>$user->getId()]);
+            return $this->redirectToRoute('profiler', ['id'=>$user->getId()]);
         }
 
         return $this->render('registration/register.html.twig', [
@@ -44,7 +44,7 @@ class RegistrationController extends AbstractController
         ]);
     }
 
-    #[Route('{id}', name: 'profiler', requirements:['id'=>'\d+'], methods:['GET'])]
+    #[Route('{id}/profiler', name: 'profiler', requirements:['id'=>'\d+'], methods:['GET'])]
     public function show(int $id, UserRepository $userRepository):Response{
         $user = $userRepository->find($id);
         if(!$user){
