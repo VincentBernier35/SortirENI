@@ -1,18 +1,44 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}
-    Création
+    liste
 {% endblock %}
 
 {% block body %}
     <h1>Mes sorties : </h1>
-
-    <button type="submit" class="btn btn-primary ">Enregistrer</button>
-    <button type="submit" class="btn btn-primary ">Publier la sortie</button>
-    <button type="submit" class="btn btn-primary ">Supprimer la sortie</button>
-    <a href="{{ path('main_home') }}">
-        <button class="btn btn-primary ">Annuler</button>
-    </a>
-    {{ form_end(eventForm) }}
+    <table>
+        <thead>
+            <tr>
+                <th>Thème</th>
+                <th>Quand</th>
+                <th>Où</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for event in events %}
+                <tr>
+                    <td>{{ event.name }}</td>
+                    <td>{{ event.startTime |date("m/d/Y", "Europe/Paris") }}</td>
+                    <td>{{ event.place.name }}</td>
+                    <td>
+                        <a href="{{ path('event_event', {'id': event.id}) }}"
+                           title="Détail de cette sortie">
+                            Détail
+                        </a>
+                        {% if event.getPromoter() is same as (user) %}
+                            <a href="{{ path('event_editEvent', {'id': event.id}) }}" title="Modifier">Modifier</a>
+                        {% endif %}
+                        {% if event.getPromoter() is not same as (user) %}
+                            <a href="{{ path('event_event', {'id': event.id}) }}" title="Désister">Modifier</a>
+                        {% endif %}
+                    </td>
+                </tr>
+            {% else %}
+                <tr><td colspan="5">Vous n'avez aucune sortie !</td></tr>
+            {% endfor %}
+        </tbody>
+    </table>
+<br>
 {% endblock %}
 

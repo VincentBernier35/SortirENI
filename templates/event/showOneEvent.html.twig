@@ -15,9 +15,10 @@
                 <p>Description et infos : {{ event.info }}</p>
             </div>
             <div class="col-sm">
-                <p>Ville organisatrice : {{ event.site.name }}</p>
-                <p>Lieu : {{  event.place.name }}</p>
+                <p>Ville organisatrice : {{ user.site.name }}</p>
+                <p>Lieu : {{ event.place.name }}</p>
                 <p>Rue : {{ event.place.street }}</p>
+                <p>Ville d'évenement : {{ event.place.city.name }}</p>
                 <p>Code postal : {{ event.place.city.zipcode }}</p>
                 <p>Latitude : {{ event.place.latitude}}</p>
                 <p>Longitude : {{ event.place.longitude }}</p>

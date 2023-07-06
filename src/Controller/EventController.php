@@ -45,41 +45,64 @@ class EventController extends AbstractController
         }
     }
 
-    #[Route('listEvent', name: 'listevent', methods: ['GET'])]
-    public function listEvent(EventRepository $eventRepository): Response
+    #[Route(path:'/listEvent', name: 'listEvent', methods: ['GET'])]
+    public function listEvent(EventRepository $eventRepository, Security $security): Response
     {
-        $envents = $eventRepository -> findAll();
-        return $this -> render('event/list.html.twig', [
-            'events' => $envents
-        ]);
+        if($security->getUser()) {
+            $user = $this->getUser();
+            $events = $user -> getEvents();
+
+            return $this->render('event/list.html.twig', [
+                'events' => $events, 'user' => $user
+            ]);
+        }else{
+            return $this->redirectToRoute('app_login');
+        }
     }
 
     #[Route('{id}', name: 'event', requirements:['id'=>'\d+'], methods:['GET'])]
     public function show(int $id, EventRepository $eventRepository):Response{
+        $user = $this->getUser();
         $event = $eventRepository->find($id);
 
         if(!$event){
             throw $this->createNotFoundException('Event inconnu');
         }
 
-        return $this->render('event/showOneEvent.html.twig', ['event' => $event]);
+        return $this->render('event/showOneEvent.html.twig', ['event' => $event,'user'=>$user]);
     }
-    #[Route(path:'/editEvent', name: 'editEvent',requirements:['id'=>'\d+'], methods: ['GET', 'POST'])]
-    public function editEvent(Event $event, Request $request, EntityManagerInterface $em):Response
+    #[Route(path:'{id}/editEvent', name: 'editEvent',requirements:['id'=>'\d+'], methods: ['GET', 'POST'])]
+    public function editEvent(int $id, Request $request, EventRepository $eventRepository, EntityManagerInterface $em):Response
     {
+        $event=$eventRepository->find($id);
         if(!$event){
-            throw $this->createNotFoundException('La sortie n\'exist pas');
+            throw $this->createNotFoundException('La sortie n\'exist pas !');
         }
         if($event->getPromoter()!==$this->getUser()){
             throw $this->createAccessDeniedException();
         }
         $eventForm=$this->createForm(EventFormType::class, $event);
-        $eventForm->handleRequest($event);
+        $eventForm->handleRequest($request);
         if($eventForm->isSubmitted()&&$eventForm->isValid()){
             $em->flush();
             $this->addFlash('notice','La sortie mise à jour avec succès ! ');
             return $this->redirectToRoute('event_event', ['id'=>$event->getId()]);
         }
-        return $this->render('event/edit.html.twig', ['eventForm' => $eventForm, 'event' => $event]);
+        return $this->render('event/edit.html.twig', ['eventForm' => $eventForm, 'event'=>$event]);
+    }
+
+    public function deleteEvent(int $id, EventRepository $eventRepository, Request $request):Response
+    {
+        $event=$eventRepository->find($id);
+        if($event){
+            throw $this->createNotFoundException('La sortie n\'exist pas !');
+        }
+        if($this->isCsrfTokenValid('delete'.$id, $request->query->get('token'),)){
+            $eventRepository->remove($event, true);
+            $this->addFlash('notice','La sortie a bien supprimée !');
+        }else{
+            $this->addFlash('danger', 'La sortie ne peut pas être supprimée !');
+        }
+        return $this->redirectToRoute('event_listEvent');
     }
 }
