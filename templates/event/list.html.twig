@@ -24,14 +24,12 @@
                     <td>
                         <a href="{{ path('event_event', {'id': event.id}) }}"
                            title="Détail de cette sortie">
-                            Détail
+                           Détail
                         </a>
-                        {% if event.getPromoter() is same as (user) %}
-                            <a href="{{ path('event_editEvent', {'id': event.id}) }}" title="Modifier">Modifier</a>
-                        {% endif %}
-                        {% if event.getPromoter() is not same as (user) %}
-                            <a href="{{ path('event_event', {'id': event.id}) }}" title="Désister">Modifier</a>
-                        {% endif %}
+                        <a href="{{ path('event_editEvent', {'id': event.id}) }}"
+                           title="Modifier">
+                           Modifier
+                        </a>
                     </td>
                 </tr>
             {% else %}
