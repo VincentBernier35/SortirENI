@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Event;
+use Cassandra\Date;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -39,28 +40,36 @@ class EventRepository extends ServiceEntityRepository
         }
     }
 
-//    /**
-//     * @return Event[] Returns an array of Event objects
-//     */
-//    public function findByExampleField($value): array
-//    {
-//        return $this->createQueryBuilder('e')
-//            ->andWhere('e.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('e.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
+    /**
+     * @return Event[]
+     */
+    public function findFilteredEvents(int $idSite, \DateTime $startTime, \DateTime $endTime, int $promoterID = 0, string $key = '&', int $state = 6) {
+        // en DQL
+        $entityManager = $this->getEntityManager();
 
-//    public function findOneBySomeField($value): ?Event
-//    {
-//        return $this->createQueryBuilder('e')
-//            ->andWhere('e.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->getQuery()
-//            ->getOneOrNullResult()
-//        ;
-//    }
+        $dql = "SELECT c FROM App\Entity\Event c JOIN c.state s JOIN c.users_events u".
+                " WHERE c.startTime BETWEEN :dateMin AND :dateMax".
+                " AND c.site = :idSite".
+                " AND s.reference < (:state )";
+        if ($promoterID != 0) {
+            $dql = $dql . " AND c.promoter = :idPromoter";
+        }
+        if ($key != '&') {
+            $dql = $dql . " AND c.name LIKE :keyword";
+        }
+
+        $query = $entityManager->createQuery($dql);
+        $query->setParameter('idSite',$idSite);
+        $query->setParameter('state',$state);
+        $query->setParameter('dateMin', $startTime->format('Y-m-d 00:00:00'));
+        $query->setParameter('dateMax', $endTime->format('Y-m-d 23:59:59'));
+        if ($promoterID != 0) {
+            $query->setParameter('idPromoter', $promoterID);
+        }
+        if ($key != '&') {
+            $query->setParameter('keyword', '%'.$key.'%');
+        }
+
+        return $query->getResult();
+    }
 }
