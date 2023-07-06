@@ -20,12 +20,27 @@ class AccueilController extends AbstractController
         $eventForm->handleRequest($request);
 
         if ($eventForm->isSubmitted() && $eventForm->isValid()) {
-            $data = $eventForm->getData();
-            dd($data);
-            $promoter = $eventForm->get('orga')->getData();
-            var_dump($promoter);
+            $siteID = $eventForm->get('site')->getData()->getId();
+            $isPromoterChoice = $eventForm->get('promoter')->getData();
+            $isRegisteredChoice = $eventForm->get('registered')->getData();
+            $isNotRegisteredChoice = $eventForm->get('notRegistered')->getData();
+            $isOldEventChoice = $eventForm->get('oldEvent')->getData();
+            $keyWord = $eventForm->get('key')->getData();
+            $startDateTime = $eventForm->get('startDateTime')->getData();
+            $endDateTime = $eventForm->get('endDateTime')->getData();
+
+            ($isPromoterChoice) ? ($promoterID = $this->getUser()->getId()) : ($promoterID = 0);
+            ($isOldEventChoice) ? ($maximumStateValue = 6) : ($maximumStateValue = 5);
+            if (is_null($keyWord)){
+                $keyWord = '&';
+            }
+
+            $events = $eventRepository->findFilteredEvents($siteID,$startDateTime,$endDateTime,$promoterID,$keyWord,$maximumStateValue);
+        } else {
+            $events = $eventRepository->findAll();
+            $isRegisteredChoice = null;
+            $isNotRegisteredChoice = null;
         }
-        $events = $eventRepository->findAll();
 
         return $this->render('accueil/accueil.html.twig', [
             'events' => $events,
@@ -38,7 +53,9 @@ class AccueilController extends AbstractController
                 3 => 'Activité en cours',
                 4 => 'Activité passée',
                 5 => 'Archivé'
-            ]
+            ],
+            'isRegisteredChoice' => $isRegisteredChoice,
+            'isNotRegisteredChoice' => $isNotRegisteredChoice
         ]);
     }
 }

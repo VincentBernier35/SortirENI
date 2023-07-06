@@ -5,7 +5,7 @@
     {{ form_widget(accueilForm) }}
     <button class="btn btn-primary btn-sm">Rechercher</button>
     {{ form_end(accueilForm)}}
-
+    {{ isRegisteredChoice }}
     <table>
         <thead>
         <tr>
@@ -29,9 +29,9 @@
                 {% endif %}
             {% endfor %}
 
-            {% set canDisplayLink = '' %}
+            {% set canDisplay = '' %}
             {% if event.state.reference > 0 and event.state.reference < 5  %}
-                {% set canDisplayLink = 'yes'%}
+                {% set canDisplay = 'yes'%}
             {% endif %}
 
             {% set canWithDraw = '' %}
@@ -48,31 +48,32 @@
             {% if event.state.reference == 0 and event.promoter.id == UserConnected.id %}
                 {% set canModifie = 'yes'%}
             {% endif %}
-
-            <tr>
-                <td>{{ event.name }}</td>
-                <td>{{ event.startTime|date('d/m/Y') }}</td>
-                <td>{{ event.deadLine|date('d/m/Y') }}</td>
-                <td>{{ event.getUsersEvents.count }}/{{ event.placeMax }}</td>
-                {% set st = event.state.reference %}
-                <td>{{ stateX[st] }}</td>
-                <td>{{ isPresent ? 'X' : '' }}</td>
-                <td>{{ event.promoter.firstname }} {{ event.promoter.lastName }}</td>
-                <td>
-                    {% if canDisplayLink == 'yes' %}
-                        <a href="{{ path('main_home_test', {'id': event.id}) }}" title="Détail de cet évènement"> Afficher</a> -
-                    {% endif %}
-                    {% if canWithDraw == 'yes' %}
-                    <a href="{{ path('main_home_test', {'id': event.id}) }}" title="Se désister de cet évènement"> Se désister</a> -
-                    {% endif %}
-                    {% if canRegister == 'yes' %}
-                    <a href="{{ path('main_home_test', {'id': event.id}) }}" title="S'incrire à cet évènement"> S'inscrire</a> -
-                    {% endif %}
-                    {% if canModifie == 'yes' %}
-                    <a href="{{ path('main_home_test', {'id': event.id}) }}" title="Modifier cet évènement"> Modifier</a>
-                    {% endif %}
-                </td>
-            </tr>
+            {% if (isPresent == 'present' and isRegisteredChoice) or (isPresent == '' and isNotRegisteredChoice) or (isRegisteredChoice is empty and isNotRegisteredChoice is empty) %}
+                <tr>
+                    <td>{{ event.name }}</td>
+                    <td>{{ event.startTime|date('d/m/Y') }}</td>
+                    <td>{{ event.deadLine|date('d/m/Y') }}</td>
+                    <td>{{ event.getUsersEvents.count }}/{{ event.placeMax }}</td>
+                    {% set st = event.state.reference %}
+                    <td>{{ stateX[st] }}</td>
+                    <td>{{ isPresent ? 'X' : '' }}</td>
+                    <td>{{ event.promoter.firstname }} {{ event.promoter.lastName }}</td>
+                    <td>
+                        {% if canDisplay == 'yes' %}
+                            <a href="{{ path('main_home_test', {'id': event.id}) }}" title="Détail de cet évènement">Afficher</a>
+                        {% endif %}
+                        {% if canWithDraw == 'yes' %}
+                        <a href="{{ path('main_home_test', {'id': event.id}) }}" title="Se désister de cet évènement">Se désister</a>
+                        {% endif %}
+                        {% if canRegister == 'yes' %}
+                        <a href="{{ path('main_home_test', {'id': event.id}) }}" title="S'incrire à cet évènement"> S'inscrire </a>
+                        {% endif %}
+                        {% if canModifie == 'yes' %}
+                        <a href="{{ path('main_home_test', {'id': event.id}) }}" title="Modifier cet évènement"> Modifier</a>
+                        {% endif %}
+                    </td>
+                </tr>
+            {% endif %}
         {% else %}
             <tr><td colspan="5">Aucune donnée dans la BDD.</td></tr>
         {% endfor %}
