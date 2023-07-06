@@ -53,4 +53,32 @@ class RegistrationController extends AbstractController
         $this->addFlash('success', 'Bienvenue, vous vous êtes bien inscrit !');
         return $this->render('registration/profiler.html.twig', ['user' => $user]);
     }
+
+    #[Route(path:'{id}/editProfil', name: 'editProfil',requirements:['id'=>'\d+'], methods: ['GET', 'POST'])]
+    public function editProfil(int $id, Request $request, UserRepository $userRepository, EntityManagerInterface $em):Response
+    {
+        $user=$userRepository->find($id);
+        if(!$user){
+            throw $this->createNotFoundException('L\'utilisateur n\'exist pas !');
+        }
+
+        $registrationForm=$this->createForm(RegistrationFormType::class, $user);
+        $registrationForm->handleRequest($request);
+
+        if($registrationForm->isSubmitted()&&$registrationForm->isValid()){
+            if ($request->request->has('editProfil')){
+                $em->flush();
+                $this->addFlash('success', 'Votre profil mise à jour avec succès ! ');
+                return $this->redirectToRoute('profiler', ['id' => $user->getId()]);
+            }elseif ($request->request->has('deleteProfil')){
+                $em->remove($user);
+                $em->flush();
+                $this->addFlash('success','Au revoir !');
+                return $this->redirectToRoute('main_home');
+            }else{
+                return $this->redirectToRoute('profiler', ['id' => $user->getId()]);
+            }
+        }
+        return $this->render('registration/editProfil.html.twig', ['registrationForm' => $registrationForm, 'user'=>$user]);
+    }
 }

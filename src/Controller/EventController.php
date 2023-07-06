@@ -88,16 +88,12 @@ class EventController extends AbstractController
         if($eventForm->isSubmitted()&&$eventForm->isValid()){
             if ($request->request->has('save')){
                     $em->flush();
-                    $this->addFlash('notice', 'La sortie mise à jour avec succès ! ');
+                    $this->addFlash('success', 'La sortie mise à jour avec succès ! ');
                     return $this->redirectToRoute('event_event', ['id' => $event->getId()]);
                 }elseif ($request->request->has('delete')){
-                    if($this->isCsrfTokenValid('delete'.$event->getId(), $request->query->get('token'),)){
-                        $eventRepository->remove($event, true);
-                        $em->flush();
-                        $this->addFlash('notice','La sortie a bien supprimée !');
-                    }else{
-                    $this->addFlash('danger', 'La sortie ne peut pas être supprimée !');
-                    }
+                    $em->remove($event);
+                    $em->flush();
+                    $this->addFlash('success','La sortie a bien supprimée !');
                     return $this->redirectToRoute('event_listEvent');
                 }else{
                     return $this->redirectToRoute('app_accueil');
