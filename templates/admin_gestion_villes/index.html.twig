@@ -1,3 +1,138 @@
+{#{% extends 'base.html.twig' %}#}
+
+{#{% block title %}Hello AdminGestionVillesController!{% endblock %}#}
+
+{#{% block body %}#}
+
+{#    <style>#}
+{#        * {#}
+{#            box-sizing: border-box;#}
+{#        }#}
+{#        #myInput {#}
+{#            background-position: 10px 12px;#}
+{#            background-repeat: no-repeat;#}
+{#            width: 100%;#}
+{#            font-size: 16px;#}
+{#            padding: 12px 20px 12px 40px;#}
+{#            border: 1px solid #ddd;#}
+{#            margin-bottom: 12px;#}
+{#        }#}
+{#        #myUL {#}
+{#            list-style-type: none;#}
+{#            padding: 0;#}
+{#            margin: 0;#}
+{#        }#}
+{#        #myUL li a {#}
+{#            border: 1px solid #ddd;#}
+{#            margin-top: -1px; /* Prevent double borders */#}
+{#            background-color: #f6f6f6;#}
+{#            padding: 12px;#}
+{#            text-decoration: none;#}
+{#            font-size: 18px;#}
+{#            color: black;#}
+{#            display: block#}
+{#        }#}
+
+{#        #myUL li a:hover:not(.header) {#}
+{#            background-color: #eee;#}
+{#        }#}
+
+{#        .container{#}
+{#            display: flex;#}
+{#            justify-content: space-between;#}
+{#        }#}
+
+{#        .containerTitle{#}
+{#            display: flex;#}
+{#            justify-content: space-between;#}
+{#            font-weight: bold;#}
+{#        }#}
+{#        .name{#}
+{#            width: 50%;#}
+{#        }#}
+{#        .zipcode{#}
+{#            width: 40%;#}
+{#        }#}
+{#        .btnInsideFor{#}
+{#            display: flex;#}
+{#        }#}
+{#        .nameTitle{#}
+{#            margin-left: 10%;#}
+{#        }#}
+
+{#    </style>#}
+
+{#    <script>#}
+
+
+
+
+{#        function myFunction() {#}
+{#            var input, filter, ul, li, a, i, txtValue;#}
+{#            input = document.getElementById("myInput");#}
+{#            filter = input.value.toUpperCase();#}
+{#            ul = document.getElementById("myUL");#}
+{#            li = ul.getElementsByTagName("li");#}
+{#            for (i = 0; i < li.length; i++) {#}
+{#                a = li[i].getElementsByTagName("a")[0];#}
+{#                txtValue = a.textContent || a.innerText;#}
+{#                if (txtValue.toUpperCase().indexOf(filter) > -1) {#}
+{#                    li[i].style.display = "";#}
+{#                } else {#}
+{#                    li[i].style.display = "none";#}
+{#                }#}
+{#            }#}
+{#        }#}
+
+{#        const buttonUpdate = document.querySelector(".buttonUpdate");#}
+{#        console.log(buttonUpdate)#}
+
+{#        // buttonUpdate.addEventListener('click', event => {#}
+{#        //     console.log("toto")#}
+{#        // });#}
+{#    </script>#}
+
+{#    <h1 class="text-center">Gérer les villes</h1>#}
+{#    <h2>Filtrer les villes</h2>#}
+
+{#    <div class="mb-3">#}
+{#        <input type="text" id="myInput" onkeyup="myFunction()" placeholder="commence à saisir une ville.." title="Type in a name">#}
+{#    </div>#}
+
+{#    <ul id="myUL">#}
+{#        <li>#}
+{#            <a href="#">#}
+{#                <div class="containerTitle">#}
+{#                    <div class="title nameTitle ">Ville</div>#}
+{#                    <div class="title ">Code postal</div>#}
+{#                    <div class="title">Actions</div>#}
+{#                </div>#}
+{#            </a>#}
+{#        </li>#}
+{#        {% for city in cities %}#}
+{#            <li>#}
+{#                <a href="#">#}
+{#                    <div class="container">#}
+{#                        <div class="name">{{ city.name }}</div>#}
+{#                        <div class="zipcode">{{ city.zipcode }}</div>#}
+{#                        <div class="btn btnInsideFor"><a href="{{ url('gestion_villes', {'id': city.id}) }}"><button type="button" class="btn btn-info btn-sm buttonInsideFor buttonUpdate">Modifier</button></a> </div>#}
+{#                        <div class="btn btnInsideFor"><a href="{{ url('admin_gestion_villes_delete', {'id': city.id}) }}"></a><button type="button" class="btn btn-danger btn-sm">Supprimer</button> </div>#}
+{#                    </div>#}
+{#                </a>#}
+{#            </li>#}
+{#        {% endfor %}#}
+
+{#        <li>#}
+{#                <div class="containerTitle">#}
+{#                    <div class="title name"><input type="text" placeholder="Saisir une ville"></div>#}
+{#                    <div class="title zipcode"><input type="text" placeholder="Saisir un code postal"></div>#}
+{#                    <div class="title btn btnInsideFor"><button type="button" id="myClick" class="btn btn-info btn-sm ">Ajouter</button></div>#}
+{#                </div>#}
+{#        </li>#}
+
+{#    </ul>#}
+
+{#{% endblock %}#}
 {% extends 'base.html.twig' %}
 
 {% block title %}Hello AdminGestionVillesController!{% endblock %}
@@ -9,7 +144,7 @@
             box-sizing: border-box;
         }
         #myInput {
-            background-image: url('/css/searchicon.png');
+
             background-position: 10px 12px;
             background-repeat: no-repeat;
             width: 100%;
@@ -23,7 +158,7 @@
             padding: 0;
             margin: 0;
         }
-        #myUL li a {
+        #myUL li span {
             border: 1px solid #ddd;
             margin-top: -1px; /* Prevent double borders */
             background-color: #f6f6f6;
@@ -34,7 +169,7 @@
             display: block
         }
 
-        #myUL li a:hover:not(.header) {
+        #myUL li span:hover:not(.header) {
             background-color: #eee;
         }
 
@@ -65,14 +200,14 @@
 
     <script>
         function myFunction() {
-            var input, filter, ul, li, a, i, txtValue;
+            var input, filter, ul, li, span, i, txtValue;
             input = document.getElementById("myInput");
             filter = input.value.toUpperCase();
             ul = document.getElementById("myUL");
             li = ul.getElementsByTagName("li");
             for (i = 0; i < li.length; i++) {
-                a = li[i].getElementsByTagName("a")[0];
-                txtValue = a.textContent || a.innerText;
+                span = li[i].getElementsByTagName("span")[0];
+                txtValue = span.textContent || span.innerText;
                 if (txtValue.toUpperCase().indexOf(filter) > -1) {
                     li[i].style.display = "";
                 } else {
@@ -85,38 +220,46 @@
     <h1 class="text-center">Gérer les villes</h1>
     <h2>Filtrer les villes</h2>
 
+
     <div class="mb-3">
         <input type="text" id="myInput" onkeyup="myFunction()" placeholder="commence à saisir une ville.." title="Type in a name">
     </div>
 
+    {% if (message is defined) %}
+    <h1>{{ message }}</h1>
+    {% endif %}
+
     <ul id="myUL">
         <li>
-            <a href="#">
+            <span>
                 <div class="containerTitle">
                     <div class="title nameTitle ">Ville</div>
                     <div class="title ">Code postal</div>
                     <div class="title">Actions</div>
                 </div>
-            </a>
+            </span>
         </li>
         {% for city in cities %}
             <li>
-                <a href="#">
+                <span>
                     <div class="container">
                         <div class="name">{{ city.name }}</div>
                         <div class="zipcode">{{ city.zipcode }}</div>
-                        <div class="btn btnInsideFor"><button type="button" id="myClick" class="btn btn-info btn-sm buttonInsideFor">Modifier</button> <button type="button" class="btn btn-danger btn-sm">Supprimer</button></div>
+                        <div class="btn btnInsideFor">
+                            <a href="#"></a><button type="button" id="myClick" class="btn btn-info btn-sm buttonInsideFor">Modifier</button> 
+                            <a href="{{ url('admin_gestion_villes_delete', {'id': city.id}) }}"><button type="button" class="btn btn-danger btn-sm">Supprimer</button></a>
+                        </div>
                     </div>
-                </a>
+                </span>
             </li>
         {% endfor %}
 
         <li>
-                <div class="containerTitle">
-                    <div class="title name"><input type="text" placeholder="Saisir une ville"></div>
-                    <div class="title zipcode"><input type="text" placeholder="Saisir un code postal"></div>
-                    <div class="title btn btnInsideFor"><button type="button" id="myClick" class="btn btn-info btn-sm ">Ajouter</button></div>
-                </div>
+            <div class="containerTitle">
+                <div class="title name"><input type="text" placeholder="Saisir une ville"></div>
+                <div class="title zipcode"><input type="text" placeholder="Saisir un code postal"></div>
+                <div class="title btn btnInsideFor"><button type="button" id="myClick" class="btn btn-info btn-sm ">Ajouter</button></div>
+            </div>
         </li>
 
     </ul>
