@@ -229,6 +229,10 @@
     <h1>{{ message }}</h1>
     {% endif %}
 
+    <h2>{% for notice in app.flashes('notice') %}
+            {{ success }}
+        {% endfor %}</h2>
+
     <ul id="myUL">
         <li>
             <span>

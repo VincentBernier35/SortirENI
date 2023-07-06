@@ -61,11 +61,8 @@ class AdminGestionVillesController extends AbstractController
         }
 
 
-//        $em->remove($city);
-//        $em->flush();
-
         //Message flash
-        $this->addFlash('success','wish has been deleted !');
+        $this->addFlash('success','La ville à bien été supprimée !');
 
         return $this->render('admin_gestion_villes/index.html.twig', ['cities' => $cityRepository->findAll()]);
     }
