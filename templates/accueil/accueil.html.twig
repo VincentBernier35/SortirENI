@@ -6,7 +6,10 @@
     <button class="btn btn-primary btn-sm">Rechercher</button>
     {{ form_end(accueilForm)}}
     <script src="{{ asset('javascript/accueil.js') }}"></script>
-    {{ isRegisteredChoice }}
+    <div>
+        <h4>Date du jour: {{ "now"|date('d/m/Y')}}</h4>
+        <h4>Participant: {{ UserConnected.firstname }} {{ UserConnected.lastname }}</h4>
+    </div>
     <table>
         <thead>
         <tr>
@@ -81,13 +84,13 @@
                         <a href="{{ path('app_event_user_registered', {'id': event.id}) }}" title="S'incrire à cet évènement"> S'inscrire </a>
                         {% endif %}
                         {% if canModifie == 'yes' %}
-                        <a href="{{ path('main_home_test', {'id': event.id}) }}" title="Modifier cet évènement"> Modifier</a>
+                        <a href="{{ path('event_editEvent', {'id': event.id}) }}" title="Modifier cet évènement"> Modifier</a>
                         {% endif %}
                         {% if canCancel == 'yes' %}
-                            <a href="{{ path('main_home_test', {'id': event.id}) }}" title="Annuler cet évènement"> Annuler</a>
+                            <a href="{{ path('cancelEvent', {'id': event.id}) }}" title="Annuler cet évènement"> Annuler</a>
                         {% endif %}
                         {% if canPublished == 'yes' %}
-                            <a href="{{ path('main_home_test', {'id': event.id}) }}" title="Publier cet évènement"> Publier</a>
+                            <a href="{{ path('publishEvent', {'id': event.id}) }}" title="Publier cet évènement"> Publier</a>
                         {% endif %}
                     </td>
                 </tr>
@@ -97,5 +100,6 @@
         {% endfor %}
         </tbody>
     </table>
+    <a href="{{ path('event_createEvent') }}"><button class="btn btn-primary ">Créer une sortie</button></a>
 {% endblock %}
 

@@ -17,7 +17,11 @@ class AccueilFormType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('site', EntityType::class, ['label' => 'Site: ', 'class' => Site::class, 'required' => true, 'choice_label' => 'name'])
+            ->add('site', EntityType::class, ['label' => 'Site: ',
+                                                        'class' => Site::class,
+                                                        'required' => true,
+                                                        'choice_label' => 'name',
+                                                        'placeholder' => '--Choisir un lieu--'])
             ->add('promoter', CheckboxType::class, [
                 'mapped' => false,
                 'label' => "Sortie dont je suis l'organisateur/trice",
