@@ -6,9 +6,7 @@
 
 {% block body %}
     <h1>{{ user.pseudo }}</h1>
-    <h2>{% for notice in app.flashes('notice') %}
-        {{ notice }}
-    {% endfor %}</h2>
+
     <p>Prénom : {{ user.lastName }}</p>
     <p>Nom : {{  user.firstName }}</p>
     <p>Téléphone : {{ user.phoneNumber }}</p>

@@ -50,7 +50,7 @@ class RegistrationController extends AbstractController
         if(!$user){
             throw $this->createNotFoundException('Utilisateur inconnu');
         }
-        $this->addFlash('notice', 'Bienvenue, vous vous êtes bien inscrit !');
+        $this->addFlash('success', 'Bienvenue, vous vous êtes bien inscrit !');
         return $this->render('registration/profiler.html.twig', ['user' => $user]);
     }
 }
