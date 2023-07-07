@@ -1,0 +1,20 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Register{% endblock %}
+
+{% block body %}
+    <h1>Modifier votre profil</h1>
+    {{ form_start(registrationForm) }}
+    {{ form_widget(registrationForm) }}
+    {% if user.image != null %}
+        <img src="{{ asset(app_images_user_directory ~ '/' ~ user.image) }}"
+             class="img-fluid" alt="image" style="width: 300px"/>
+    {% endif %}
+
+    <button type="submit" name="saveProfil" class="btn btn-primary ">Enregistrer</button>
+    <button type="submit" name="deleteProfil" class="btn btn-primary ">Désinscrire</button>
+    <a href="{{ path('main_home') }}">
+        <button class="btn btn-primary ">Annuler</button>
+    </a>
+    {{ form_end(registrationForm) }}
+{% endblock %}

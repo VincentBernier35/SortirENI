@@ -4,7 +4,6 @@ namespace App\Controller;
 
 
 use App\Entity\Event;
-use App\Entity\State;
 use App\Form\EventFormType;
 use App\Repository\EventRepository;
 use App\Repository\StateRepository;
@@ -13,7 +12,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Security\Core\Security;
+use Symfony\Bundle\SecurityBundle\Security;
 
 #[Route(path:'/event', name: 'event_')]
 class EventController extends AbstractController
@@ -21,26 +20,23 @@ class EventController extends AbstractController
     #[Route(path:'/createEvent', name: 'createEvent',requirements:['id'=>'\d+'], methods: ['GET', 'POST'])]
     public function createEvent(StateRepository $stateRepository, Request $request, EntityManagerInterface $em,Security $security):Response
     {
-        if($security->getUser()){
+        if ( $security->getUser() ){
             $user = $this->getUser();
-            $userId = $user->getId();
             $event = new Event();
-            $state = $stateRepository -> findOneBy(
-                ['reference'=>0]);
+            $state = $stateRepository -> findOneBy(['reference'=>0]);
             $event -> setState($state);
             $event -> setPromoter($user);
             $event -> setSite($user->getSite());
             $eventForm = $this->createForm(EventFormType::class, $event);
             $eventForm -> handleRequest($request);
 
-            if($eventForm->isSubmitted() && $eventForm->isValid()){
-
+            if ( $eventForm->isSubmitted() && $eventForm->isValid() ){
                 $em->persist($event);
                 $em->flush();
                 return $this->redirectToRoute('event_event', ['id'=>$event->getId()]);
             }
                 return $this->render('event/event.html.twig', ['eventForm' => $eventForm, 'event' => $event, 'user'=>$user]);
-        }else{
+        } else {
             return $this->redirectToRoute('app_login');
         }
     }
@@ -75,34 +71,31 @@ class EventController extends AbstractController
     public function editEvent(int $id, Request $request, EventRepository $eventRepository, EntityManagerInterface $em):Response
     {
         $event=$eventRepository->find($id);
-        if(!$event){
-            throw $this->createNotFoundException('La sortie n\'exist pas !');
+        if (!$event){
+            throw $this->createNotFoundException('La sortie n\'existe pas !');
         }
-        if($event->getPromoter()!==$this->getUser()){
+        if ($event->getPromoter()!==$this->getUser()){
             throw $this->createAccessDeniedException();
         }
         $eventForm=$this->createForm(EventFormType::class, $event);
         $eventForm->handleRequest($request);
-        if($eventForm->isSubmitted()&&$eventForm->isValid()){
-            $em->flush();
-            $this->addFlash('notice','La sortie mise à jour avec succès ! ');
-            return $this->redirectToRoute('event_event', ['id'=>$event->getId()]);
-        }
-        return $this->render('event/edit.html.twig', ['eventForm' => $eventForm, 'event'=>$event]);
-    }
 
-    public function deleteEvent(int $id, EventRepository $eventRepository, Request $request):Response
-    {
-        $event=$eventRepository->find($id);
-        if($event){
-            throw $this->createNotFoundException('La sortie n\'exist pas !');
-        }
-        if($this->isCsrfTokenValid('delete'.$id, $request->query->get('token'),)){
-            $eventRepository->remove($event, true);
-            $this->addFlash('notice','La sortie a bien supprimée !');
-        }else{
-            $this->addFlash('danger', 'La sortie ne peut pas être supprimée !');
-        }
-        return $this->redirectToRoute('event_listEvent');
+        if ($eventForm->isSubmitted()&&$eventForm->isValid()){
+            if ($request->request->has('save')){
+                    $em->flush();
+                    $this->addFlash('success', 'La sortie mise à jour a été faites avec succès ! ');
+                    return $this->redirectToRoute('event_event', ['id' => $event->getId()]);
+                }
+            elseif ($request->request->has('delete')){
+                    $em->remove($event);
+                    $em->flush();
+                    $this->addFlash('success','La sortie a bien été supprimée !');
+                    return $this->redirectToRoute('event_listEvent');
+                }
+            else {
+                    return $this->redirectToRoute('app_accueil');
+                }
+            }
+        return $this->render('event/edit.html.twig', ['eventForm' => $eventForm, 'event'=>$event]);
     }
 }

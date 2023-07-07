@@ -6,9 +6,7 @@
 
 {% block body %}
     <h1>{{ user.pseudo }}</h1>
-    <h2>{% for notice in app.flashes('notice') %}
-        {{ notice }}
-    {% endfor %}</h2>
+
     <p>Prénom : {{ user.lastName }}</p>
     <p>Nom : {{  user.firstName }}</p>
     <p>Téléphone : {{ user.phoneNumber }}</p>
@@ -20,8 +18,10 @@
                  class="card-img-top img-fluid" alt="image" />
         {% endif %}
     </div>
-
+    <a href="{{ path('editProfil', {'id': user.id}) }}">
+        <button type="submit" name="editProfil" class="btn btn-primary ">Modifier</button>
+    </a>
     <a href="{{ path('main_home') }}">
-        <button type="submit" class="btn btn-primary ">Retour</button>
+        <button type="submit" class="btn btn-primary ">Annuler</button>
     </a>
 {% endblock %}

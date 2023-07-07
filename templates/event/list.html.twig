@@ -17,6 +17,10 @@
         </thead>
         <tbody>
             {% for event in events %}
+                {% set canModifie = '' %}
+                {% if event.state.reference == 0 and event.promoter.id == user.id %}
+                    {% set canModifie = 'yes'%}
+                {% endif %}
                 <tr>
                     <td>{{ event.name }}</td>
                     <td>{{ event.startTime |date("m/d/Y", "Europe/Paris") }}</td>
@@ -24,13 +28,10 @@
                     <td>
                         <a href="{{ path('event_event', {'id': event.id}) }}"
                            title="Détail de cette sortie">
-                            Détail
+                           Détail
                         </a>
-                        {% if event.getPromoter() is same as (user) %}
-                            <a href="{{ path('event_editEvent', {'id': event.id}) }}" title="Modifier">Modifier</a>
-                        {% endif %}
-                        {% if event.getPromoter() is not same as (user) %}
-                            <a href="{{ path('event_event', {'id': event.id}) }}" title="Désister">Modifier</a>
+                        {% if canModifie == 'yes' %}
+                            <a href="{{ path('event_editEvent', {'id': event.id}) }}" title="Modifier cet évènement"> Modifier</a>
                         {% endif %}
                     </td>
                 </tr>
