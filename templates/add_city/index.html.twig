@@ -1,0 +1,18 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello AddCityController!{% endblock %}
+
+{% block body %}
+<h1>Ajouter une ville</h1>
+    <div>
+        {{ form_start(addCitiesForm) }}
+        {{ form_widget(addCitiesForm) }}
+        <button class="btn-info">Ajouter</button>
+        {{ form_end(addCitiesForm) }}
+    </div>
+
+
+    <a class="nav-link text-light" href="{{ path('admin_gestion_villes') }}" >
+        <button type="button" id="myClick" class="btn btn-info mt-3 buttonInsideFor">Retour à la liste des villes</button>
+    </a>
+{% endblock %}
