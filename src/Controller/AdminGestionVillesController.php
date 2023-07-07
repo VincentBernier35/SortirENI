@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\City;
+use App\Form\AddCitiesFormType;
 use App\Repository\CityRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -15,11 +16,30 @@ use Symfony\Component\Routing\Annotation\Route;
 class AdminGestionVillesController extends AbstractController
 {
     #[Route('index', name: 'gestion_villes')]
-    public function index(CityRepository $cityRepository): Response
+    public function index(Request$request, CityRepository $cityRepository): Response
     {
+
+
+//***  Formulaire d'ajout
+        $newCity = new City();
+        $addCitiesForm = $this->createForm(AddCitiesFormType::class, $newCity);
+        $addCitiesForm->handleRequest($request);
+
+        if($addCitiesForm->isSubmitted()){
+            $cityRepository->save($newCity, true);
+
+            // message flash
+            $this->addFlash('succes', 'la ville à bien été ajouté !');
+
+        }
+
         $city = $cityRepository->findAll();
 
-        return $this->render('admin_gestion_villes/index.html.twig', ['cities' => $city]);
+        return $this->render('admin_gestion_villes/index.html.twig', [
+            'cities' => $city,
+            'addCitiesForm' => $addCitiesForm,
+            'newCity' => $newCity
+        ]);
     }
 
 //    #[Route('update/{id}', name: 'gestion_villes_update')]
@@ -30,14 +50,28 @@ class AdminGestionVillesController extends AbstractController
 //        return $this->render('admin_gestion_villes/index.html.twig', ['cities' => $city]);
 //    }
 
-//    #[Route('create', name: 'gestion_villes_create')]
-//    public function create(City $city, CityRepository $cityRepository): Response
-//    {
-//        $city = new City();
-//        $city = $cityRepository->
-//
-//        return $this->render('admin_gestion_villes/index.html.twig', ['cities' => $city]);
-//    }
+    #[Route('create', name: 'gestion_villes_create', methods: ['GET', 'POST'])]
+    public function create(Request $request, EntityManagerInterface $em, CityRepository $cityRepository ): Response
+    {
+        $cities = $cityRepository->findAll();
+        $city = new City();
+
+        $addCitiesForm = $this->createForm(AddCitiesFormType::class, $city);
+        $addCitiesForm->handleRequest($request);
+
+        if($addCitiesForm->isSubmitted()){
+            $em->persist($city);
+            $em->flush();
+
+            // message flash
+            $this->addFlash('success', 'la ville à bien été ajouté !');
+
+
+            return $this->render('admin_gestion_villes/index.html.twig', ['cities' => $cities]);
+        }
+
+        return $this->render('admin_gestion_villes/index.html.twig', ['addCitiesForm' => $addCitiesForm]);
+    }
 
     #[Route('{id}/supprimer', name: 'gestion_villes_delete', requirements: ['id'=>'\d+'], methods: ['GET','POST', 'DELETE'] )]
     public function delete(int $id, Request $request, EntityManagerInterface $em, CityRepository $cityRepository): Response

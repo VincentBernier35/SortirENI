@@ -116,22 +116,30 @@
                     </div>
                 </span></li>
         {% endfor %}
-
-
-        <li>
-            <form action="">
-                <div class="containerTitle box">
-                    <div class="title boxVille"><a href=""><input type="text"></a></div>
-                    <div class="title boxZip"><a href=""><input type="text"></a></div>
-                    <div class="title boxActions">
-                        <a href="#">
-                            <button type="submit" class="btn btn-info btn-sm">Ajouter</button>
-                        </a>
-                    </div>
-                </div>
-            </form>
-
-        </li>
     </ul>
+
+            <div>
+                {{ form_start(addCitiesForm) }}
+                {{ form_widget(addCitiesForm) }}
+                <button class="btn-info">Ajouter</button>
+                {{ form_end(addCitiesForm) }}
+            </div>
+
+
+{#        <li>#}
+{#            <form action="">#}
+{#                <div class="containerTitle box">#}
+{#                    <div class="title boxVille"><a href=""><input type="text"></a></div>#}
+{#                    <div class="title boxZip"><a href=""><input type="text"></a></div>#}
+{#                    <div class="title boxActions">#}
+{#                        <a href="#">#}
+{#                            <button type="submit" class="btn btn-info btn-sm">Ajouter</button>#}
+{#                        </a>#}
+{#                    </div>#}
+{#                </div>#}
+{#            </form>#}
+
+{#        </li>#}
+
 
 {% endblock %}
