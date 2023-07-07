@@ -37,14 +37,16 @@
         <tr>
             <th scope="col">Pseudo</th>
             <th scope="col">Nom</th>
+            <th scope="col">Email</th>
         </tr>
     </thead>
     <tbody>
 
     {% for userRegistered in event.getUsersEvents %}
         <tr>
-            <td>{{ userRegistered.pseudo }}</td>
+            <td><a href="{{ path('profiler', {'id': user.id}) }}">{{ userRegistered.pseudo }}</a></td>
             <td>{{ userRegistered.firstname }} {{ userRegistered.lastname }}</td>
+            <td>{{ userRegistered.email }} </td>
         </tr>
 
     {% endfor %}
