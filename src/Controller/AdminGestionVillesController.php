@@ -29,7 +29,7 @@ class AdminGestionVillesController extends AbstractController
             $cityRepository->save($newCity, true);
 
             // message flash
-            $this->addFlash('succes', 'la ville à bien été ajouté !');
+            $this->addFlash('success', 'la ville à bien été ajouté !');
 
         }
 
@@ -66,17 +66,22 @@ class AdminGestionVillesController extends AbstractController
             // message flash
             $this->addFlash('success', 'la ville à bien été ajouté !');
 
-
             return $this->render('admin_gestion_villes/index.html.twig', ['cities' => $cities]);
         }
 
         return $this->render('admin_gestion_villes/index.html.twig', ['addCitiesForm' => $addCitiesForm]);
     }
 
+
     #[Route('{id}/supprimer', name: 'gestion_villes_delete', requirements: ['id'=>'\d+'], methods: ['GET','POST', 'DELETE'] )]
     public function delete(int $id, Request $request, EntityManagerInterface $em, CityRepository $cityRepository): Response
     {
         $city = $em->getRepository(City::class)->find($id);
+
+        $city = new City();
+
+        $addCitiesForm = $this->createForm(AddCitiesFormType::class, $city);
+        $addCitiesForm->handleRequest($request);
 
         if (!$city) {
             throw $this->createNotFoundException('city not found');
@@ -96,6 +101,9 @@ class AdminGestionVillesController extends AbstractController
 
         //Message flash
         $this->addFlash('success','La ville à bien été supprimée !');
-        return $this->render('admin_gestion_villes/index.html.twig', ['cities' => $cityRepository->findAll()]);
+        return $this->render('admin_gestion_villes/index.html.twig', [
+            'cities' => $cityRepository->findAll(),
+            'addCitiesForm' => $addCitiesForm
+        ]);
     }
 }
