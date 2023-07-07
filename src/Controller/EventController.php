@@ -11,8 +11,11 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\SecurityBundle\Security;
+use Symfony\Component\Routing\Generator\UrlGenerator;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 #[Route(path:'/event', name: 'event_')]
 class EventController extends AbstractController
@@ -60,7 +63,6 @@ class EventController extends AbstractController
     public function show(int $id, EventRepository $eventRepository):Response{
         $user = $this->getUser();
         $event = $eventRepository->find($id);
-
         if(!$event){
             throw $this->createNotFoundException('Event inconnu');
         }
@@ -70,6 +72,7 @@ class EventController extends AbstractController
     #[Route(path:'{id}/editEvent', name: 'editEvent',requirements:['id'=>'\d+'], methods: ['GET', 'POST'])]
     public function editEvent(int $id, Request $request, EventRepository $eventRepository, EntityManagerInterface $em):Response
     {
+        $user = $this->getUser();
         $event=$eventRepository->find($id);
         if (!$event){
             throw $this->createNotFoundException('La sortie n\'existe pas !');
@@ -96,6 +99,7 @@ class EventController extends AbstractController
                     return $this->redirectToRoute('app_accueil');
                 }
             }
-        return $this->render('event/edit.html.twig', ['eventForm' => $eventForm, 'event'=>$event]);
+        return $this->render('event/edit.html.twig', ['eventForm' => $eventForm, 'event'=>$event, 'user' => $user]);
     }
+
 }
