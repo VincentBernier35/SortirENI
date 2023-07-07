@@ -87,10 +87,10 @@
                         <a href="{{ path('event_editEvent', {'id': event.id}) }}" title="Modifier cet évènement"> Modifier</a>
                         {% endif %}
                         {% if canCancel == 'yes' %}
-                            <a href="{{ path('cancelEvent', {'id': event.id}) }}" title="Annuler cet évènement"> Annuler</a>
+                            <a href="{{ path('event_cancelEvent', {'id': event.id}) }}" title="Annuler cet évènement"> Annuler</a>
                         {% endif %}
                         {% if canPublished == 'yes' %}
-                            <a href="{{ path('publishEvent', {'id': event.id}) }}" title="Publier cet évènement"> Publier</a>
+                            <a href="{{ path('event_publishEvent', {'id': event.id}) }}" title="Publier cet évènement"> Publier</a>
                         {% endif %}
                     </td>
                 </tr>

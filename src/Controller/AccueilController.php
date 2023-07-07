@@ -19,6 +19,7 @@ class AccueilController extends AbstractController
         if ($security->getUser()) {
 
             $event = new Event();
+            $user = $this->getUser();
             $eventForm = $this->createForm(AccueilFormType::class, $event);
             $eventForm->handleRequest($request);
 
@@ -32,7 +33,7 @@ class AccueilController extends AbstractController
                 $startDateTime = $eventForm->get('startDateTime')->getData();
                 $endDateTime = $eventForm->get('endDateTime')->getData();
 
-                ($isPromoterChoice) ? ($promoterID = $this->getUser()->getId()) : ($promoterID = 0);
+                ($isPromoterChoice) ? ($promoterID = $user->getId()) : ($promoterID = 0);
                 ($isOldEventChoice) ? ($maximumStateValue = 6) : ($maximumStateValue = 5);
                 if (is_null($keyWord)) {
                     $keyWord = '&';
@@ -40,6 +41,7 @@ class AccueilController extends AbstractController
 
                 $events = $eventRepository->findFilteredEvents($siteID, $startDateTime, $endDateTime, $promoterID, $keyWord, $maximumStateValue);
             } else {
+                //$events = $eventRepository->findBasicEvents($user->getId());
                 $events = $eventRepository->findAll();
                 $isRegisteredChoice = null;
                 $isNotRegisteredChoice = null;
@@ -58,7 +60,7 @@ class AccueilController extends AbstractController
                 2 => 'Fermé',
                 3 => 'Activité en cours',
                 4 => 'Activité passée',
-                5 => 'Archivé'
+                5 => 'Archivé/Annulé'
             ],
             'isRegisteredChoice' => $isRegisteredChoice,
             'isNotRegisteredChoice' => $isNotRegisteredChoice

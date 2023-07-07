@@ -52,7 +52,12 @@ class EventFormType extends AbstractType
                 'label'=>'Lieu : ',
                 'choice_label' => 'name',
                 'placeholder' => '--Choisir un lieu--'
-            ]);
+            ])
+            ->add('cancelReason', TextareaType::class,[
+                'label'=>'Motif : ',
+                'required'   => false
+            ])
+        ;
     }
 
     public function configureOptions(OptionsResolver $resolver): void

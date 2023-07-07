@@ -51,6 +51,9 @@ class Event
     #[ORM\ManyToMany(targetEntity: User::class, inversedBy: 'events_registered')]
     private Collection $users_events;
 
+    #[ORM\Column(type: Types::TEXT, nullable: true)]
+    private ?string $cancelReason = null;
+
     /**
      * @param Collection $users_events
      */
@@ -219,6 +222,18 @@ class Event
     public function removeUsersEvent(User $usersEvent): static
     {
         $this->users_events->removeElement($usersEvent);
+
+        return $this;
+    }
+
+    public function getCancelReason(): ?string
+    {
+        return $this->cancelReason;
+    }
+
+    public function setCancelReason(?string $cancelReason): static
+    {
+        $this->cancelReason = $cancelReason;
 
         return $this;
     }
