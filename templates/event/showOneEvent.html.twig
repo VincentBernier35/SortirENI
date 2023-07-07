@@ -44,7 +44,7 @@
 
     {% for userRegistered in event.getUsersEvents %}
         <tr>
-            <td><a href="{{ path('profiler', {'id': user.id}) }}">{{ userRegistered.pseudo }}</a></td>
+            <td><a href="{{ path('profiler', {'id': userRegistered.id}) }}">{{ userRegistered.pseudo }}</a></td>
             <td>{{ userRegistered.firstname }} {{ userRegistered.lastname }}</td>
             <td>{{ userRegistered.email }} </td>
         </tr>
