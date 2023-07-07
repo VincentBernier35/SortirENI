@@ -88,18 +88,18 @@ class EventController extends AbstractController
                     $em->flush();
                     $this->addFlash('success', 'La sortie mise à jour a été faites avec succès ! ');
                     return $this->redirectToRoute('event_event', ['id' => $event->getId()]);
-                }
-            elseif ($request->request->has('delete')){
+                } elseif ($request->request->has('delete')){
                     $em->remove($event);
                     $em->flush();
                     $this->addFlash('success','La sortie a bien été supprimée !');
                     return $this->redirectToRoute('event_listEvent');
-                }
-            else {
+                } elseif ($request->request->has('publish')){
+
+                    return $this->redirectToRoute('publishEvent', ['id' => $event->getId()]);
+                } else {
                     return $this->redirectToRoute('app_accueil');
                 }
-            }
+        }
         return $this->render('event/edit.html.twig', ['eventForm' => $eventForm, 'event'=>$event, 'user' => $user]);
     }
-
 }

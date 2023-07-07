@@ -51,14 +51,14 @@ class RegistrationController extends AbstractController
         ]);
     }
 
-    #[Route('{id}/profiler', name: 'profiler', requirements:['id'=>'\d+'], methods:['GET'])]
-    public function show(int $id, UserRepository $userRepository):Response{
-        $user = $userRepository->find($id);
+    #[Route('/profiler', name: 'profiler', methods:['GET'])]
+    public function show():Response{
+        $user = $this->getUser()->getId();
         if(!$user){
             throw $this->createNotFoundException('Utilisateur inconnu');
         }
 
-        return $this->render('registration/profiler.html.twig', ['user' => $user]);
+        return $this->render('registration/profiler.html.twig', ['user' => $this->getUser()]);
     }
 
     #[Route(path:'{id}/editProfil', name: 'editProfil',requirements:['id'=>'\d+'], methods: ['GET', 'POST'])]
