@@ -8,7 +8,7 @@
     <script src="{{ asset('javascript/accueil.js') }}"></script>
     <div>
         <h4>Date du jour: {{ "now"|date('d/m/Y')}}</h4>
-        <h4>Participant: {{ UserConnected.firstname }} {{ UserConnected.lastname }}</h4>
+        <h4>Participant: {{ user.firstname }} {{ user.lastname }}</h4>
     </div>
     <table>
         <thead>
@@ -28,7 +28,7 @@
         {% for event in events %}
             {% set isPresent = '' %}
             {% for User in event.getUsersEvents %}
-                {% if User.email == UserConnected.email %}
+                {% if User.email == user.email %}
                     {% set isPresent = 'present'%}
                 {% endif %}
             {% endfor %}
@@ -49,17 +49,17 @@
             {% endif %}
 
             {% set canModifie = '' %}
-            {% if event.state.reference == 0 and event.promoter.id == UserConnected.id %}
+            {% if event.state.reference == 0 and event.promoter.id == user.id %}
                 {% set canModifie = 'yes'%}
             {% endif %}
 
             {% set canCancel = '' %}
-            {% if event.state.reference < 3  and event.promoter.id == UserConnected.id %}
+            {% if event.state.reference < 3  and event.promoter.id == user.id %}
                 {% set canCancel = 'yes'%}
             {% endif %}
 
             {% set canPublished = '' %}
-            {% if event.state.reference == 0  and event.promoter.id == UserConnected.id %}
+            {% if event.state.reference == 0  and event.promoter.id == user.id %}
                 {% set canPublished = 'yes'%}
             {% endif %}
 

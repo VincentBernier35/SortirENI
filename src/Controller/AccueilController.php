@@ -53,7 +53,7 @@ class AccueilController extends AbstractController
         return $this->render('accueil/accueil.html.twig', [
             'events' => $events,
             'accueilForm' => $eventForm,
-            'UserConnected' => $this->getUser(),
+            'user' => $this->getUser(),
             'stateX' => [
                 0 => 'En création',
                 1 => 'En cours',
