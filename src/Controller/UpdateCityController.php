@@ -24,6 +24,7 @@ class UpdateCityController extends AbstractController
 
         return $this->render('update_city/index.html.twig', [
             'controller_name' => 'UpdateCityController',
+            'updateCityForm' => $updateCityForm
         ]);
     }
 }
