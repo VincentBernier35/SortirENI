@@ -71,4 +71,21 @@ class EventRepository extends ServiceEntityRepository
 
         return $query->getResult();
     }
+
+    /**
+     * @return Event[]
+     */
+    public function findBasicEvents(int $idUser) {
+        // en DQL
+        $entityManager = $this->getEntityManager();
+
+        $dql = "SELECT c FROM App\Entity\Event c JOIN c.state s".
+            " WHERE s.reference < 5".
+            " AND NOT (s.reference = 0 AND c.promoter != :idUser)";
+
+        $query = $entityManager->createQuery($dql);
+        $query->setParameter('idUser',$idUser);
+
+        return $query->getResult();
+    }
 }

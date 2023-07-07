@@ -1,0 +1,26 @@
+{% extends 'base.html.twig' %}
+
+
+{% block body %}
+
+    <h1>Annuler une sortie</h1>
+    <div class="container">
+        <div class="row">
+            <div class="col-sm">
+                <p>Nom de la sortie : {{ event.name }}</p>
+                <p>Date et heure de la sortie : {{  event.startTime | date('d/m/Y') }}</p>
+                <p>Ville organisatrice : {{ user.site.name }}</p>
+                <p>Lieu : {{ event.place.name }}</p>
+            </div>
+        </div>
+    </div>
+    {{ form_start(eventForm) }}
+    {{ form_row(eventForm.cancelReason) }}
+    <div>
+        <button type="submit" name="save" class="btn btn-primary ">Enregistrer</button>
+        <button type="submit" name="cancel" class="btn btn-primary ">Annuler</button>
+    </div>
+    {{ form_end(eventForm) }}
+
+{% endblock %}
+
