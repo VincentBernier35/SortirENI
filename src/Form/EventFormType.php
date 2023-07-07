@@ -20,10 +20,6 @@ class EventFormType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
-        $event = new Event();
-        $state = new State();
-        $state->setId(0);
-        $event->setState($state);
         $builder
             ->add('name', TextType::class, [
                 'label'=>'Nom de la sortie : '
@@ -52,10 +48,6 @@ class EventFormType extends AbstractType
                 'label'=>'Lieu : ',
                 'choice_label' => 'name',
                 'placeholder' => '--Choisir un lieu--'
-            ])
-            ->add('cancelReason', TextareaType::class,[
-                'label'=>'Motif : ',
-                'required'   => false
             ])
         ;
     }
