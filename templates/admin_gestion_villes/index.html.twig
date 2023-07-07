@@ -110,7 +110,7 @@
                         <div class="name boxVille">{{ city.name }}</div>
                         <div class="zipcode boxZip">{{ city.zipcode }}</div>
                         <div class="btn boxActions">
-                            <a href="#"></a><button type="button" id="myClick" class="btn btn-info btn-sm buttonInsideFor">Modifier</button>
+                            <a href="{{ path('app_update_city') }}"><button type="button" id="myClick" class="btn btn-info btn-sm buttonInsideFor">Modifier</button></a>
                             <a href="{{ url('admin_gestion_villes_delete', {'id': city.id}) }}"><button type="button" class="btn btn-danger btn-sm">Supprimer</button></a>
                         </div>
                     </div>
@@ -118,13 +118,11 @@
         {% endfor %}
     </ul>
 
-            <div>
-                {{ form_start(addCitiesForm) }}
-                {{ form_widget(addCitiesForm) }}
-                <button class="btn-info">Ajouter</button>
-                {{ form_end(addCitiesForm) }}
-            </div>
 
+
+    <a class="nav-link text-light" href="{{ path('app_add_city') }}" >
+        <button type="button" id="myClick" class="btn btn-info mt-3 buttonInsideFor">Ajouter une ville</button>
+    </a>
 
 {#        <li>#}
 {#            <form action="">#}
