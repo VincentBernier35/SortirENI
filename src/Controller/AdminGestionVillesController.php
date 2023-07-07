@@ -42,28 +42,26 @@ class AdminGestionVillesController extends AbstractController
     #[Route('{id}/supprimer', name: 'gestion_villes_delete', requirements: ['id'=>'\d+'], methods: ['GET','POST', 'DELETE'] )]
     public function delete(int $id, Request $request, EntityManagerInterface $em, CityRepository $cityRepository): Response
     {
-
         $city = $em->getRepository(City::class)->find($id);
-
-
-
 
         if (!$city) {
             throw $this->createNotFoundException('city not found');
         }
 
         if(count($city->getPlaces()) > 0){
-            $message = "Vous ne pouvez pas supprimer cette ville";
+//            $message = "Vous ne pouvez pas supprimer cette ville";
+            $this->addFlash('danger','Vous ne pouvez pas supprimer cette ville !');
             return $this->render('admin_gestion_villes/index.html.twig', [
-                'cities' => $cityRepository->findAll(),
-                'message' => $message
+                'cities' => $cityRepository->findAll()
+//                'message' => $message
             ]);
         }
 
+        $em->remove($city);
+        $em->flush();
 
         //Message flash
         $this->addFlash('success','La ville à bien été supprimée !');
-
         return $this->render('admin_gestion_villes/index.html.twig', ['cities' => $cityRepository->findAll()]);
     }
 }
