@@ -22,7 +22,7 @@ security:
                 target: app_login
             remember_me:
                 secret: '%kernel.secret%'
-                lifetime: 28800 #8 hours
+                lifetime: 604800 #8 hours
                 path: /
 
 
