@@ -4,7 +4,7 @@
 
 {% block body %}
 
-    <h1>Modifier une villeeeee</h1>
+    <h1>Modifier une ville</h1>
     <div>
         {{ form_start(updateCityForm) }}
         {{ form_widget(updateCityForm) }}
@@ -13,7 +13,7 @@
     </div>
 
 
-    <a class="nav-link text-light" href="{{ path('admin_gestion_villes') }}" >
+    <a class="nav-link text-light" href="{{ path('admin_city_management_index') }}" >
         <button type="button" id="myClick" class="btn btn-info mt-3 buttonInsideFor">Retour à la liste des villes</button>
     </a>
 {% endblock %}
