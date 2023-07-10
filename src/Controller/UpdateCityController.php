@@ -24,8 +24,8 @@ class UpdateCityController extends AbstractController
             $this->addFlash('success','La ville est modifiée !');
         }
 
-        return $this->render('city/addCity.html.twig', [
-            'addCitiesForm' => $updateCityForm,
+        return $this->render('city/updateCity.html.twig', [
+            'updateCityForm' => $updateCityForm,
             'city'=> $city
         ]);
     }

@@ -33,7 +33,7 @@ class AdminGestionSitesController extends AbstractController
         $campus = $siteRepository->findAll();
 
 
-        return $this->render('admin_gestion_sites/index.html.twig', [
+        return $this->render('admin_gestion_sites/campusManagement.html.twig', [
             'allCampus' => $campus,
             'addCampusForm' => $addCampusForm,
             'newCampus' => $newCampus
@@ -67,7 +67,7 @@ class AdminGestionSitesController extends AbstractController
             $this->addFlash('success','La ville à bien été supprimée !');
         }
 
-        return $this->render('admin_gestion_villes/index.html.twig', [
+        return $this->render('admin_gestion_villes/campusManagement.html.twig', [
             'allCampus' => $siteRepository->findAll(),
             'addCampusForm' => $addCampusForm,
             'newCampus' => $newCampus
