@@ -80,7 +80,7 @@
         }
     </script>
 
-    <h1 class="text-center">Gérer les villes</h1>
+    <h1 class="text-center">Gérer les campus</h1>
     <h2>Filtrer les villes</h2>
 
     {% if (message is defined) %}
@@ -99,18 +99,16 @@
         <li><span href="#">
                 <div class="containerTitle box">
                     <div class="title boxVille">Ville</div>
-                    <div class="title boxZip">Code postal</div>
                     <div class="title boxActions">Actions</div>
                 </div>
             </span></li>
-        {% for city in cities %}
+        {% for campus in allCampus %}
             <li><span href="#">
                     <div class="container box">
-                        <div class="name boxVille">{{ city.name }}</div>
-                        <div class="zipcode boxZip">{{ city.zipcode }}</div>
+                        <div class="name boxVille">{{ campus.name }}</div>
                         <div class="btn boxActions">
-                            <a href="{{ path('admin_update_city', {'id': city.id})  }}"><button type="button" id="myClick" class="btn btn-info btn-sm buttonInsideFor">Modifier</button></a>
-                            <a href="{{ url('admin_gestion_villes_delete', {'id': city.id}) }}"><button type="button" class="btn btn-danger btn-sm">Supprimer</button></a>
+                            <a href="{{ path('admin_admin_update_campus', {'id': campus.id})  }}"><button type="button" id="myClick" class="btn btn-info btn-sm buttonInsideFor">Modifier</button></a>
+                            <a href="{{ url('admin_gestion_campus_delete', {'id': campus.id}) }}"><button type="button" class="btn btn-danger btn-sm">Supprimer</button></a>
                         </div>
                     </div>
                 </span></li>
@@ -119,8 +117,8 @@
 
 
 
-    <a class="nav-link text-light" href="{{ path('admin_add_city') }}" >
-        <button type="button" id="myClick" class="btn btn-info mt-3 buttonInsideFor">Ajouter une ville</button>
+    <a class="nav-link text-light" href="{{ path('admin_admin_add_campus') }}" >
+        <button type="button" id="myClick" class="btn btn-info mt-3 buttonInsideFor">Ajouter un campus</button>
     </a>
 
 

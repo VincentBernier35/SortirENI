@@ -5,6 +5,7 @@ namespace App\Controller;
 
 use App\Entity\Site;
 use App\Form\AddCampusFormType;
+use App\Form\UpdateCampusFormType;
 use App\Repository\SiteRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -22,7 +23,7 @@ class AdminGestionSitesController extends AbstractController
         //*** add form here to get update when display the list of sites - Try otherways to get a better SOC
         $newCampus = new Site();
         $addCampusForm = $this->createForm(AddCampusFormType::class, $newCampus);
-        $addCampusForm->handleRequest(AddCampusFormType::class, $newCampus);
+        $addCampusForm->handleRequest($request);
 
         if($addCampusForm->isSubmitted()){
             $siteRepository->save($newCampus, true);
@@ -47,7 +48,7 @@ class AdminGestionSitesController extends AbstractController
         //*** add form here to get update when display the list of sites - Try otherways to get a better SOC
         $newCampus = new Site();
         $addCampusForm = $this->createForm(AddCampusFormType::class, $newCampus);
-        $addCampusForm->handleRequest(AddCampusFormType::class, $newCampus);
+        $addCampusForm->handleRequest($request);
 
 
         if($addCampusForm->isSubmitted()){
@@ -67,10 +68,45 @@ class AdminGestionSitesController extends AbstractController
             $this->addFlash('success','La ville à bien été supprimée !');
         }
 
-        return $this->render('admin_gestion_villes/campusManagement.html.twig', [
+        return $this->render('admin_gestion_sites/campusManagement.html.twig', [
             'allCampus' => $siteRepository->findAll(),
             'addCampusForm' => $addCampusForm,
             'newCampus' => $newCampus
         ]);
 }
+
+    #[Route('/admin/campus/update/{id}', name: 'admin_update_campus', requirements:['id'=>'\d+'], methods: ['GET','POST'])]
+    public function update(Site $site, Request $request, EntityManagerInterface $em): Response
+    {
+        $updateCampusFormType = $this->createForm(UpdateCampusFormType::class, $site);
+        $updateCampusFormType->handleRequest($request);
+
+        if($updateCampusFormType->isSubmitted() && $updateCampusFormType->isValid()){
+            $em->flush();
+            $this->addFlash('success','La ville est modifiée !');
+        }
+
+        return $this->render('admin_gestion_sites/updateCampus.html.twig', [
+            'updateCampusFormType' => $updateCampusFormType,
+            'site'=> $site
+        ]);
+    }
+
+    #[Route('/admin/campus/add', name: 'admin_add_campus')]
+    public function create(Request $request, SiteRepository $siteRepository): Response
+    {
+        $newCampus = new Site();
+        $addCampusFormType = $this->createForm(AddCampusFormType::class, $newCampus);
+        $addCampusFormType->handleRequest($request);
+
+        if($addCampusFormType->isSubmitted()){
+            $siteRepository->save($newCampus, true);
+            // message flash
+            $this->addFlash('success', 'le campus à bien été ajouté !');
+        }
+
+        return $this->render('admin_gestion_sites/addCampus.html.twig', [
+            'addCampusFormType' => $addCampusFormType,
+        ]);
+    }
 }
