@@ -13,7 +13,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class AccueilController extends AbstractController
 {
-    #[Route('/accueil', name: 'app_accueil', methods: ['POST','GET'])]
+    #[Route('/user/accueil', name: 'app_accueil', methods: ['POST','GET'])]
     public function accueil(Request $request,EventRepository $eventRepository, Security $security): Response
     {
         if ($security->getUser()) {
@@ -50,7 +50,7 @@ class AccueilController extends AbstractController
             return $this->redirectToRoute('app_login');
         }
 
-        return $this->render('app_accueil', [
+        return $this->render('accueil/accueil.html.twig', [
             'events' => $events,
             'accueilForm' => $eventForm,
             'user' => $this->getUser(),
