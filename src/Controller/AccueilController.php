@@ -50,7 +50,7 @@ class AccueilController extends AbstractController
             return $this->redirectToRoute('app_login');
         }
 
-        return $this->render('app_accueil', [
+        return $this->render('accueil/accueil.html.twig', [
             'events' => $events,
             'accueilForm' => $eventForm,
             'user' => $this->getUser(),

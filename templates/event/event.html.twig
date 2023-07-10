@@ -14,24 +14,26 @@
     <p>{{ form_row(eventForm.duration)}}minutes</p>
     {{ form_row(eventForm.info) }}
     <p>Ville organisatrice : {{ user.site.name }}</p>
-
     {{ form_row(eventForm.place) }}<br>
-    <div class="row" id="tableH" style="display: none">
-        <label for="city">Ville :</label><input type="text" id="cityname" required>
-        <label for="zipcode">Code postal :</label><input type="text" id="zipcode" required>
-        <label for="place">Lieu :</label><input type="text" id="placename" required>
-        <label for="street">Rue :</label><input type="text" id="street" required>
-        <label for="Latitude">Latitude :</label><input type="text" id="Longitude" required>
-        <label for="Longitude">Longitude :</label><input type="text" id="Longitude " required>
-
-    </div>
-    <button type="submit" class="btn btn-warning" onclick="addBut()">Ajouter un lieu</button>
-    <br><br>
-    <button type="submit" class="btn btn-primary ">Enregistrer</button>
+    <a href="{{ path('main_home') }}">
+        <button type="submit" class="btn btn-warning" onclick="addBut()">Ajouter un lieu</button>
+    </a>
+        <button type="submit" class="btn btn-primary ">Enregistrer</button>
     <a href="{{ path('main_home') }}">
         <button class="btn btn-primary ">Annuler</button>
     </a>
     {{ form_end(eventForm) }}
+
+
+    <div class="row" id="tableH" style="display: none">
+        {{ form_start(placeForm) }}
+        {{ form_widget(placeForm) }}
+        {{ form_end(placeForm) }}
+        <button type="submit" class="btn btn-primary ">Enregistrer ce lieu</button>
+        <a href="{{ path('main_home') }}">
+            <button class="btn btn-primary ">Annuler</button>
+        </a>
+    </div>
 
     <script type="text/javascript">
         function addBut(){

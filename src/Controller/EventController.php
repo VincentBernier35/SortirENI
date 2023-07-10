@@ -4,8 +4,11 @@ namespace App\Controller;
 
 
 use App\Entity\Event;
+use App\Entity\Place;
 use App\Form\EventFormType;
+use App\Form\PlaceFormType;
 use App\Repository\EventRepository;
+use App\Repository\PlaceRepository;
 use App\Repository\StateRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -21,7 +24,7 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 class EventController extends AbstractController
 {
     #[Route(path:'/createEvent', name: 'createEvent',requirements:['id'=>'\d+'], methods: ['GET', 'POST'])]
-    public function createEvent(StateRepository $stateRepository, Request $request, EntityManagerInterface $em,Security $security):Response
+    public function createEvent(PlaceRepository $placeRepository, StateRepository $stateRepository, Request $request, EntityManagerInterface $em,Security $security):Response
     {
         if ( $security->getUser() ){
             $user = $this->getUser();
@@ -33,12 +36,21 @@ class EventController extends AbstractController
             $eventForm = $this->createForm(EventFormType::class, $event);
             $eventForm -> handleRequest($request);
 
+            $place = new Place();
+            $placeForm = $this->createForm(PlaceFormType::class,$place);
+            $placeForm->handleRequest($request);
+            if($placeForm->isSubmitted() && $placeForm->isValid()){
+                $placeRepository->save($place, true);
+                $this->addFlash('success', 'le lieu à bien été ajouté !');
+                return $this->redirect($this->generateUrl('event_createEvent', ['place'=>$place, 'placeForm'=>$placeForm]));
+            }
+
             if ( $eventForm->isSubmitted() && $eventForm->isValid() ){
                 $em->persist($event);
                 $em->flush();
                 return $this->redirectToRoute('event_event', ['id'=>$event->getId()]);
             }
-                return $this->render('event/event.html.twig', ['eventForm' => $eventForm, 'event' => $event, 'user'=>$user]);
+                return $this->render('event/event.html.twig', ['placeForm'=>$placeForm, 'eventForm' => $eventForm, 'event' => $event, 'user'=>$user]);
         } else {
             return $this->redirectToRoute('app_login');
         }
