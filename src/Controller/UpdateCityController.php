@@ -3,7 +3,6 @@
 namespace App\Controller;
 
 use App\Entity\City;
-use App\Form\AddCitiesFormType;
 use App\Form\UpdateCityType;
 use Doctrine\ORM\EntityManagerInterface;
 
@@ -14,7 +13,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class UpdateCityController extends AbstractController
 {
-    #[Route('/{id}/updateCity', name: 'app_update_city', requirements:['id'=>'\d+'], methods: ['GET','POST'])]
+    #[Route('/admin/city/update/{id}', name: 'admin_update_city', requirements:['id'=>'\d+'], methods: ['GET','POST'])]
     public function index(City $city, Request $request, EntityManagerInterface $em): Response
     {
         $updateCityForm = $this->createForm(UpdateCityType::class, $city);
@@ -25,7 +24,7 @@ class UpdateCityController extends AbstractController
             $this->addFlash('success','La ville est modifiée !');
         }
 
-        return $this->render('add_city/index.html.twig', [
+        return $this->render('city/addCity.html.twig', [
             'addCitiesForm' => $updateCityForm,
             'city'=> $city
         ]);

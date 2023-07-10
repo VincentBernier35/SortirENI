@@ -13,7 +13,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class AccueilController extends AbstractController
 {
-    #[Route('/accueil', name: 'app_accueil', methods: ['POST','GET'])]
+    #[Route('/user/accueil', name: 'app_accueil', methods: ['POST','GET'])]
     public function accueil(Request $request,EventRepository $eventRepository, Security $security): Response
     {
         if ($security->getUser()) {

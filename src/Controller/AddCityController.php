@@ -12,7 +12,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class AddCityController extends AbstractController
 {
-    #[Route('/add/city', name: 'app_add_city')]
+    #[Route('/admin/city/add', name: 'admin_add_city')]
     public function index(Request $request, CityRepository $cityRepository): Response
     {
         $newCity = new City();
@@ -25,7 +25,7 @@ class AddCityController extends AbstractController
             $this->addFlash('success', 'la ville à bien été ajouté !');
         }
 
-        return $this->render('add_city/index.html.twig', [
+        return $this->render('city/addCity.html.twig', [
             'addCitiesForm' => $addCitiesForm,
 
         ]);

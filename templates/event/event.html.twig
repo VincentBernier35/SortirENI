@@ -15,31 +15,14 @@
     {{ form_row(eventForm.info) }}
     <p>Ville organisatrice : {{ user.site.name }}</p>
     {{ form_row(eventForm.place) }}<br>
-    <a href="{{ path('main_home') }}">
-        <button type="submit" class="btn btn-warning" onclick="addBut()">Ajouter un lieu</button>
-    </a>
+    <a href="{{ path('event_add_place') }}">
+        Ajouter un lieu
+    </a><br><br>
         <button type="submit" class="btn btn-primary ">Enregistrer</button>
-    <a href="{{ path('main_home') }}">
-        <button class="btn btn-primary ">Annuler</button>
+    <a href="{{ path('app_accueil') }}">
+        Annuler
     </a>
     {{ form_end(eventForm) }}
-
-
-    <div class="row" id="tableH" style="display: none">
-        {{ form_start(placeForm) }}
-        {{ form_widget(placeForm) }}
-        {{ form_end(placeForm) }}
-        <button type="submit" class="btn btn-primary ">Enregistrer ce lieu</button>
-        <a href="{{ path('main_home') }}">
-            <button class="btn btn-primary ">Annuler</button>
-        </a>
-    </div>
-
-    <script type="text/javascript">
-        function addBut(){
-            document.getElementById("tableH").style.display="block";
-        }
-    </script>
 
 {% endblock %}
 

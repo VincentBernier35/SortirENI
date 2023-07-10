@@ -14,17 +14,14 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\SecurityBundle\Security;
-use Symfony\Component\Routing\Generator\UrlGenerator;
-use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
-#[Route(path:'/event', name: 'event_')]
+#[Route(path:'/user/event', name: 'event_')]
 class EventController extends AbstractController
 {
-    #[Route(path:'/createEvent', name: 'createEvent',requirements:['id'=>'\d+'], methods: ['GET', 'POST'])]
-    public function createEvent(PlaceRepository $placeRepository, StateRepository $stateRepository, Request $request, EntityManagerInterface $em,Security $security):Response
+    #[Route(path:'/create', name: 'createEvent',requirements:['id'=>'\d+'], methods: ['GET', 'POST'])]
+    public function createEvent(StateRepository $stateRepository, Request $request, EntityManagerInterface $em,Security $security):Response
     {
         if ( $security->getUser() ){
             $user = $this->getUser();
@@ -35,28 +32,33 @@ class EventController extends AbstractController
             $event -> setSite($user->getSite());
             $eventForm = $this->createForm(EventFormType::class, $event);
             $eventForm -> handleRequest($request);
-
-            $place = new Place();
-            $placeForm = $this->createForm(PlaceFormType::class,$place);
-            $placeForm->handleRequest($request);
-            if($placeForm->isSubmitted() && $placeForm->isValid()){
-                $placeRepository->save($place, true);
-                $this->addFlash('success', 'le lieu à bien été ajouté !');
-                return $this->redirect($this->generateUrl('event_createEvent', ['place'=>$place, 'placeForm'=>$placeForm]));
-            }
-
             if ( $eventForm->isSubmitted() && $eventForm->isValid() ){
                 $em->persist($event);
                 $em->flush();
                 return $this->redirectToRoute('event_event', ['id'=>$event->getId()]);
             }
-                return $this->render('event/event.html.twig', ['placeForm'=>$placeForm, 'eventForm' => $eventForm, 'event' => $event, 'user'=>$user]);
         } else {
             return $this->redirectToRoute('app_login');
         }
+        return $this->render('event/event.html.twig', ['eventForm' => $eventForm, 'user'=>$user]);
     }
 
-    #[Route(path:'/listEvent', name: 'listEvent', methods: ['GET'])]
+    #[Route(path:'/place/add', name: 'add_place', methods: ['GET', 'POST'])]
+    public function addPlace(Request $request, PlaceRepository $placeRepository): Response
+    {
+        $place = new place();
+        $placeForm = $this->createForm(PlaceFormType::class, $place);
+        $placeForm->handleRequest($request);
+
+        if($placeForm->isSubmitted() && $placeForm->isValid()){
+            $placeRepository->save($place, true);
+            $this->addFlash('success', 'ce lieu à bien été ajouté !');
+            return $this->redirectToRoute('event_createEvent');
+        }
+        return $this->render('event/addPlace.html.twig', ['placeForm' => $placeForm]);
+    }
+
+    #[Route(path:'/list', name: 'listEvent', methods: ['GET'])]
     public function listEvent(EventRepository $eventRepository, Security $security): Response
     {
         if($security->getUser()) {
@@ -81,7 +83,7 @@ class EventController extends AbstractController
 
         return $this->render('event/showOneEvent.html.twig', ['event' => $event,'user'=>$user]);
     }
-    #[Route(path:'{id}/editEvent', name: 'editEvent',requirements:['id'=>'\d+'], methods: ['GET', 'POST'])]
+    #[Route(path:'/edit/{id}', name: 'editEvent',requirements:['id'=>'\d+'], methods: ['GET', 'POST'])]
     public function editEvent(int $id, Request $request, EventRepository $eventRepository, EntityManagerInterface $em):Response
     {
         $user = $this->getUser();

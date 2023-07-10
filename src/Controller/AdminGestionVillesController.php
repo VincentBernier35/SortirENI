@@ -11,11 +11,10 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-
-#[Route('/admin/', name: 'admin_')]
+#[Route('/admin', name: 'admin_')]
 class AdminGestionVillesController extends AbstractController
 {
-    #[Route('index', name: 'gestion_villes')]
+    #[Route('/city', name: 'gestion_villes')]
     public function index(Request$request, CityRepository $cityRepository): Response
     {
 //***  Formulaire d'ajout
@@ -30,17 +29,16 @@ class AdminGestionVillesController extends AbstractController
         }
 
         $city = $cityRepository->findAll();
-        return $this->render('admin_gestion_villes/index.html.twig', [
+        return $this->render('city/citiesManagement.html.twig', [
             'cities' => $city,
             'addCitiesForm' => $addCitiesForm,
             'newCity' => $newCity
         ]);
     }
 
-    #[Route('{id}/supprimer', name: 'gestion_villes_delete', requirements: ['id'=>'\d+'], methods: ['GET','POST', 'DELETE'] )]
+    #[Route('/city/delete/{id}', name: 'gestion_villes_delete', requirements: ['id'=>'\d+'], methods: ['GET','POST', 'DELETE'] )]
     public function delete(City $city, Request $request, EntityManagerInterface $em, CityRepository $cityRepository): Response
     {
-
         $newCity = new City();
 
         $addCitiesForm = $this->createForm(AddCitiesFormType::class, $newCity);
@@ -54,7 +52,6 @@ class AdminGestionVillesController extends AbstractController
 
         }
 
-
         if(count($city->getPlaces()) > 0){
             $this->addFlash('danger','Vous ne pouvez pas supprimer cette ville !');
         } else {
@@ -65,17 +62,11 @@ class AdminGestionVillesController extends AbstractController
             $this->addFlash('success','La ville à bien été supprimée !');
         }
 
-        return $this->render('admin_gestion_villes/index.html.twig', [
+        return $this->render('city/citiesManagement.html.twig', [
             'cities' => $cityRepository->findAll(),
             'addCitiesForm' => $addCitiesForm,
             'newCity' => $newCity
         ]);
     }
-
-
-
-
-
-
 }
 
