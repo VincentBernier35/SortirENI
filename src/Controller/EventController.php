@@ -108,8 +108,7 @@ class EventController extends AbstractController
                     $this->addFlash('success','La sortie a bien été supprimée !');
                     return $this->redirectToRoute('event_listEvent');
                 } elseif ($request->request->has('publish')){
-
-                    return $this->redirectToRoute('publishEvent', ['id' => $event->getId()]);
+                    return $this->redirectToRoute('event_event', ['id' => $event->getId()]);
                 } else {
                     return $this->redirectToRoute('app_accueil');
                 }

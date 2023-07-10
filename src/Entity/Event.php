@@ -7,6 +7,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: EventRepository::class)]
 class Event
@@ -19,16 +20,21 @@ class Event
     #[ORM\Column(length: 100)]
     private ?string $name = null;
 
-    #[ORM\Column]
-    private ?\DateTimeImmutable $startTime = null;
+    #[ORM\Column(type: 'datetime')]
+    #[Assert\GreaterThan('today UTC+2', message:'La date de l\'évènement doit être dans futur !' )]
+    private ?\DateTimeInterface $startTime = null;
 
     #[ORM\Column]
+    #[Assert\GreaterThan(30, message:'La duration de l\'évènement doit durer au moins 30 minutes !' )]
     private ?int $duration = null;
 
-    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
+    #[ORM\Column(type: 'datetime')]
+    #[Assert\GreaterThan('today UTC+2', message:'La date limite d\'inscription doit être dans futur !')]
+    #[Assert\LessThan(propertyPath:'deadLine', message:'La date limite d\'inscription doit être inférieur à la date de l\'évènement !' )]
     private ?\DateTimeInterface $deadLine = null;
 
     #[ORM\Column]
+    #[Assert\GreaterThan(1, message:'Le numbre des places doit être au moins 2 !')]
     private ?int $placeMax = null;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
@@ -61,7 +67,6 @@ class Event
     public function __construct()
     {
         $this->users_events = new ArrayCollection();
-
     }
 
 
@@ -82,12 +87,12 @@ class Event
         return $this;
     }
 
-    public function getStartTime(): ?\DateTimeImmutable
+    public function getStartTime(): ?\DateTimeInterface
     {
         return $this->startTime;
     }
 
-    public function setStartTime(\DateTimeImmutable $startTime): static
+    public function setStartTime(\DateTimeInterface $startTime): self
     {
         $this->startTime = $startTime;
 
@@ -111,7 +116,7 @@ class Event
         return $this->deadLine;
     }
 
-    public function setDeadLine(\DateTimeInterface $deadLine): static
+    public function setDeadLine(\DateTimeInterface $deadLine): self
     {
         $this->deadLine = $deadLine;
 
