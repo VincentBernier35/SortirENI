@@ -16,7 +16,7 @@ use Symfony\Component\Routing\Annotation\Route;
 #[Route('/admin/', name: 'admin_')]
 class AdminGestionSitesController extends AbstractController
 {
-    #[Route('campus/index', name: 'gestion_campus')]
+    #[Route('campus/index', name: 'campus_management_index')]
     public function index(Request $request, SiteRepository $siteRepository): Response
     {
 
@@ -41,7 +41,7 @@ class AdminGestionSitesController extends AbstractController
         ]);
     }
 
-    #[Route('campus/{id}/supprimer', name: 'gestion_campus_delete', requirements: ['id'=>'\d+'], methods: ['GET','POST', 'DELETE'] )]
+    #[Route('campus/delete/{id}', name: 'campus_management_delete', requirements: ['id'=>'\d+'], methods: ['GET','POST', 'DELETE'] )]
     public function delete(Site $site, Request $request, EntityManagerInterface $em, SiteRepository $siteRepository): Response
     {
 
@@ -75,7 +75,7 @@ class AdminGestionSitesController extends AbstractController
         ]);
 }
 
-    #[Route('/admin/campus/update/{id}', name: 'admin_update_campus', requirements:['id'=>'\d+'], methods: ['GET','POST'])]
+    #[Route('campus/update/{id}', name: 'campus_management_update', requirements:['id'=>'\d+'], methods: ['GET','POST'])]
     public function update(Site $site, Request $request, EntityManagerInterface $em): Response
     {
         $updateCampusFormType = $this->createForm(UpdateCampusFormType::class, $site);
@@ -92,7 +92,7 @@ class AdminGestionSitesController extends AbstractController
         ]);
     }
 
-    #[Route('/admin/campus/add', name: 'admin_add_campus')]
+    #[Route('campus/create', name: 'campus_management_create')]
     public function create(Request $request, SiteRepository $siteRepository): Response
     {
         $newCampus = new Site();
