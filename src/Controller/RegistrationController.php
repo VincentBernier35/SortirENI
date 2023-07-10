@@ -15,7 +15,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class RegistrationController extends AbstractController
 {
-    #[Route('/register', name: 'register', methods: ['GET', 'POST'])]
+    #[Route('admin/register', name: 'register', methods: ['GET', 'POST'])]
     public function register(Request $request, UserPasswordHasherInterface $userPasswordHasher, EntityManagerInterface $em, FileUploader $fileUploader): Response
     {
         $user = new User();
@@ -51,7 +51,7 @@ class RegistrationController extends AbstractController
         ]);
     }
 
-    #[Route('{id}/profiler', name: 'profiler', requirements:['id'=>'\d+'],methods:['GET'])]
+    #[Route('profil/{id}', name: 'profiler', requirements:['id'=>'\d+'],methods:['GET'])]
     public function show(int $id, UserRepository $userRepository):Response{
         $user = $userRepository->find($id);
         if(!$user){
@@ -61,7 +61,7 @@ class RegistrationController extends AbstractController
         return $this->render('registration/profiler.html.twig', ['user' => $user]);
     }
 
-    #[Route(path:'{id}/editProfil', name: 'editProfil',requirements:['id'=>'\d+'], methods: ['GET', 'POST'])]
+    #[Route(path:'admin/profil/edit/{id}', name: 'editProfil',requirements:['id'=>'\d+'], methods: ['GET', 'POST'])]
     public function editProfil(int $id, Request $request, UserRepository $userRepository, EntityManagerInterface $em, FileUploader $fileUploader):Response
     {
         $user = $userRepository->find($id);
