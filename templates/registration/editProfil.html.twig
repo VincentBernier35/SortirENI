@@ -12,9 +12,9 @@
     {% endif %}
 
     <button type="submit" name="saveProfil" class="btn btn-primary ">Enregistrer</button>
-    <button type="submit" name="deleteProfil" class="btn btn-primary ">Désinscrire</button>
+    <button type="submit" name="deleteProfil" class="btn btn-primary ">Supprimer mon profil</button>
+    {{ form_end(registrationForm) }}
     <a href="{{ path('main_home') }}">
         <button class="btn btn-primary ">Annuler</button>
     </a>
-    {{ form_end(registrationForm) }}
 {% endblock %}

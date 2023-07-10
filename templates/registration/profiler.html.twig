@@ -18,9 +18,11 @@
                  class="card-img-top img-fluid" alt="image" />
         {% endif %}
     </div>
+    {% if app.user.id == user.id %}
     <a href="{{ path('editProfil', {'id': user.id}) }}">
         <button type="submit" name="editProfil" class="btn btn-primary ">Modifier</button>
     </a>
+    {% endif %}
     <a href="{{ path('main_home') }}">
         <button type="submit" class="btn btn-primary ">Annuler</button>
     </a>

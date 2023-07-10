@@ -21,8 +21,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column]
     private ?int $id = null;
 
-
-
     #[ORM\Column(length: 20, nullable: true)]
     private ?string $lastName = null;
 
@@ -45,9 +43,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?Site $site = null;
 
     #[ORM\OneToMany(mappedBy: 'promoter', targetEntity: Event::class)]
+    #[ORM\JoinColumn(onDelete: 'CASCADE')]
     private Collection $events;
 
     #[ORM\ManyToMany(targetEntity: Event::class, mappedBy: 'users_events')]
+    #[ORM\JoinColumn(onDelete: 'CASCADE')]
     private Collection $events_registered;
 
     #[ORM\Column(length: 255)]
