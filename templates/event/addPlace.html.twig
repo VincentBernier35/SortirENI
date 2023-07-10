@@ -1,0 +1,21 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    Ajout
+{% endblock %}
+
+{% block body %}
+    <h1>Ajouter un lieu</h1>
+        {{ form_start(placeForm) }}
+        {{ form_row(placeForm.city) }}
+        {{ form_row(placeForm.name) }}
+        {{ form_row(placeForm.street) }}
+        {{ form_row(placeForm.latitude ) }}
+        {{ form_row(placeForm.longitude ) }}
+        <button type="submit" class="btn btn-primary ">Enregistrer ce lieu</button>
+        <a href="{{ path('event_createEvent') }}">
+           Annuler
+        </a>
+        {{ form_end(placeForm) }}
+{% endblock %}
+

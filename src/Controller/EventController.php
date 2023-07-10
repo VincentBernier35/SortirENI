@@ -4,8 +4,11 @@ namespace App\Controller;
 
 
 use App\Entity\Event;
+use App\Entity\Place;
 use App\Form\EventFormType;
+use App\Form\PlaceFormType;
 use App\Repository\EventRepository;
+use App\Repository\PlaceRepository;
 use App\Repository\StateRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -29,16 +32,30 @@ class EventController extends AbstractController
             $event -> setSite($user->getSite());
             $eventForm = $this->createForm(EventFormType::class, $event);
             $eventForm -> handleRequest($request);
-
             if ( $eventForm->isSubmitted() && $eventForm->isValid() ){
                 $em->persist($event);
                 $em->flush();
                 return $this->redirectToRoute('event_event', ['id'=>$event->getId()]);
             }
-                return $this->render('event/event.html.twig', ['eventForm' => $eventForm, 'event' => $event, 'user'=>$user]);
         } else {
             return $this->redirectToRoute('app_login');
         }
+        return $this->render('event/event.html.twig', ['eventForm' => $eventForm, 'user'=>$user]);
+    }
+
+    #[Route(path:'/place/add', name: 'add_place', methods: ['GET', 'POST'])]
+    public function addPlace(Request $request, PlaceRepository $placeRepository): Response
+    {
+        $place = new place();
+        $placeForm = $this->createForm(PlaceFormType::class, $place);
+        $placeForm->handleRequest($request);
+
+        if($placeForm->isSubmitted() && $placeForm->isValid()){
+            $placeRepository->save($place, true);
+            $this->addFlash('success', 'ce lieu à bien été ajouté !');
+            return $this->redirectToRoute('event_createEvent');
+        }
+        return $this->render('event/addPlace.html.twig', ['placeForm' => $placeForm]);
     }
 
     #[Route(path:'/list', name: 'listEvent', methods: ['GET'])]
