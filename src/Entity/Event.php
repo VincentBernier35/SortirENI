@@ -52,6 +52,7 @@ class Event
 
     #[ORM\ManyToOne(inversedBy: 'events')]
     #[ORM\JoinColumn(nullable: false)]
+    #[ORM\JoinColumn(onDelete: 'CASCADE')]
     private ?User $promoter = null;
 
     #[ORM\ManyToMany(targetEntity: User::class, inversedBy: 'events_registered')]

@@ -14,10 +14,12 @@
     <p>{{ form_row(eventForm.duration)}}minutes</p>
     {{ form_row(eventForm.info) }}
     {{ form_row(eventForm.place) }}<br>
+
     {% set canDelete = '' %}
     {% if event.state.reference == 0 and event.promoter.id == user.id %}
         {% set canDelete = 'yes'%}
     {% endif %}
+
     <button type="submit" name="save" class="btn btn-primary ">Enregistrer</button>
     {% if canDelete == 'yes' %}
         <button type="submit" name="delete" class="btn btn-primary ">Supprimer la sortie</button>
