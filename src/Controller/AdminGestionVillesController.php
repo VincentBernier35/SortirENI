@@ -16,7 +16,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class AdminGestionVillesController extends AbstractController
 {
     #[Route('index', name: 'gestion_villes')]
-    public function index(Request$request, CityRepository $cityRepository): Response
+    public function index(Request $request, CityRepository $cityRepository): Response
     {
 //***  Formulaire d'ajout
         $newCity = new City();
