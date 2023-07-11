@@ -1,3 +1,8 @@
+<style>
+    li:hover {
+        transform: scale(1.05);
+    }
+</style>
 <nav class="navbar navbar-expand-lg navbar-light bg-info" data-bs-theme="dark">
     <div class="container-fluid">
         <a class="navbar-brand text-light" href="#">ENI Sortir ! </a>
@@ -8,21 +13,21 @@
         <div class="collapse navbar-collapse " id="navbarSupportedContent">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 <li class="nav-item"><a class="nav-link text-light" href="{{ path('app_accueil') }}" >Accueil</a></li>
-                {% if is_granted("ROLE_ADMIN") %}
-                <li class="nav-item"><a class="nav-link text-light" href="{{ path('register') }}">Inscription</a></li>
+                {% if (is_granted("ROLE_ADMIN")) %}
+                    <li class="nav-item"><a class="nav-link text-light" href="{{ path('register') }}">Inscription</a></li>
                 {% endif %}
                 {% if app.user %}
-                <li class="nav-item"><a class="nav-link text-light" href="{{ path('event_createEvent') }}" >Proposer une sortie</a></li>
-                <li class="nav-item"><a class="nav-link text-light" href="{{ path('event_listEvent') }}" >Mes sorties</a></li>
+                    <li class="nav-item"><a class="nav-link text-light" href="{{ path('event_createEvent') }}" >Proposer une sortie</a></li>
+                    <li class="nav-item"><a class="nav-link text-light" href="{{ path('event_listEvent') }}" >Mes sorties</a></li>
                 {% endif %}
-                {% if is_granted("ROLE_ADMIN") %}
-                <li class="nav-item"><a class="nav-link text-light" href="{{ path('admin_city_management_index') }}" >Gestion Ville</a></li>
-                <li class="nav-item"><a class="nav-link text-light" href="{{ path('admin_campus_management_index') }}" >Gestion Campus</a></li>
+                {% if (is_granted("ROLE_ADMIN")) %}
+                    <li class="nav-item"><a class="nav-link text-light" href="{{ path('admin_city_management_index') }}" >Gestion Ville</a></li>
+                    <li class="nav-item"><a class="nav-link text-light" href="{{ path('admin_campus_management_index') }}" >Gestion Campus</a></li>
                 {% endif %}
                 {% if app.user %}
-                <li class="nav-item"><a class="nav-link text-light" href="{{ path('profiler', {'id': app.user.id}) }}" >Mon profil</a></li>
+                    <li class="nav-item"><a class="nav-link text-light" href="{{ path('profiler', {'id': app.user.id}) }}" >Mon profil</a></li>
                 {% endif %}
                 <li class="nav-item"><a class="nav-link text-light" href="{{ path('app_login') }}" >Connexion</a></li>
                 <li class="nav-item"><a class="nav-link text-light" href="/logout" >Déconnexion</a></li>
-    </ul>
+            </ul>
 </nav>
