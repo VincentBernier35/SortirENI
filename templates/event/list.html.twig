@@ -23,14 +23,14 @@
                 {% endif %}
                 <tr>
                     <td>{{ event.name }}</td>
-                    <td>{{ event.startTime |date("m/d/Y", "Europe/Paris") }}</td>
+                    <td>{{ event.startTime |date("d/m/y H:i", "Europe/Paris") }}</td>
                     <td>{{ event.place.name }}</td>
                     <td>
                         <a href="{{ path('event_event', {'id': event.id}) }}"
                            title="Détail de cette sortie">
                            Détail
                         </a>
-                        {% if canModifie == 'yes' %}
+                        {% if canModifie == 'yes' and event.startTime|date("d/m/y") > "now" | date("d/m/y") %}
                             <a href="{{ path('event_editEvent', {'id': event.id}) }}" title="Modifier cet évènement"> Modifier</a>
                         {% endif %}
                     </td>

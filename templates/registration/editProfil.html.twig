@@ -3,6 +3,7 @@
 {% block title %}Register{% endblock %}
 
 {% block body %}
+    <div class="wrap">
     <h1>Modifier votre profil</h1>
     {{ form_start(registrationForm) }}
     {{ form_widget(registrationForm) }}
@@ -17,4 +18,5 @@
     <a href="{{ path('main_home') }}">
         <button class="btn btn-primary ">Annuler</button>
     </a>
+    </div>
 {% endblock %}
