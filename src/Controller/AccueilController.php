@@ -66,4 +66,13 @@ class AccueilController extends AbstractController
             'isNotRegisteredChoice' => $isNotRegisteredChoice
         ]);
     }
+
+    #[Route('welcome', name: 'app_welcome', methods: ['POST','GET'])]
+    public function welcome(Request $request,EventRepository $eventRepository, Security $security): Response
+    {
+        return $this->render('accueil/welcome.html.twig', [
+            'toto' => 'toto'
+        ]);
+    }
+
 }
