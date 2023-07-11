@@ -5,13 +5,26 @@
             display: flex;
             justify-content: space-between;
         }
+        .date{
+            display: flex;
+        }
+        .card{
+            margin-top: 50px;
+            margin-bottom: 50px;
+            box-shadow: -5px -5px 20px #fff, 5px 5px 20px #babecc;
+            padding: 10px;
+        }
+        .card:hover{
+            transform: scale(1.05);
+        }
+
     </style>
 
     {% block message %}{{ parent() }}{% endblock %}
     {{ form_start(accueilForm)}}
 
     <div class="rowTop">
-        <div>
+        <div class="card">
             <div class="col">
                 {{ form_row(accueilForm.site) }}
             </div>
@@ -19,15 +32,18 @@
                 {{ form_row(accueilForm.key) }}
             </div>
 
-            <div class="col">
-                {{ form_row(accueilForm.startDateTime) }}
+            <div class="date">
+                <div class="col">
+                    {{ form_row(accueilForm.startDateTime) }}
+                </div>
+                <div class="col" id="some-custom-id">
+                    {{ form_row(accueilForm.endDateTime) }}
+                </div>
             </div>
-            <div class="col" id="some-custom-id">
-                {{ form_row(accueilForm.endDateTime) }}
-            </div>
+
         </div>
 
-        <div>
+        <div class="card">
             <div class="col" id="some-custom-id">
                 {{ form_row(accueilForm.promoter) }}
             </div>
@@ -40,13 +56,16 @@
             <div class="col">
                 {{ form_row(accueilForm.oldEvent) }}
             </div>
+
+            <button class="btn btn-primary">Rechercher</button>
         </div>
 
-        <div>
+        <div class="card text-white bg-info" style="max-width: 18rem;">
             <h4>Date du jour: {{ "now"|date('d/m/Y')}}</h4>
             <h4>Participant: {{ user.firstname }} {{ user.lastname }}</h4>
-            <button class="btn btn-primary btn-sm">Rechercher</button>
+
         </div>
+
 
     </div>
 
@@ -108,7 +127,7 @@
             {% endif %}
 
             {% if (isPresent == 'present' and isRegisteredChoice) or (isPresent == '' and isNotRegisteredChoice) or (isRegisteredChoice is empty and isNotRegisteredChoice is empty) %}
-                <tr>
+                <tr class="tr">
                     <td>{{ event.name }}</td>
                     <td>{{ event.startTime|date('d/m/Y') }}</td>
                     <td>{{ event.deadLine|date('d/m/Y') }}</td>
