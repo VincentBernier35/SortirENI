@@ -66,7 +66,7 @@ class RegistrationFormType extends AbstractType
                 'placeholder' => '--Choisir votre ville--'
             ])
             ->add('image', FileType::class,[
-                'label' => 'Ma photo : ',
+                'label' => 'Photo : ',
                 'mapped' => false,
                 'required' => false,
                 'constraints' => [

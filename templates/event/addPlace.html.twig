@@ -5,17 +5,104 @@
 {% endblock %}
 
 {% block body %}
-    <h1>Ajouter un lieu</h1>
-        {{ form_start(placeForm) }}
-        {{ form_row(placeForm.city) }}
-        {{ form_row(placeForm.name) }}
-        {{ form_row(placeForm.street) }}
-        {{ form_row(placeForm.latitude ) }}
-        {{ form_row(placeForm.longitude ) }}
-        <button type="submit" class="btn btn-primary ">Enregistrer ce lieu</button>
-        <a href="{{ path('event_createEvent') }}">
-           Annuler
-        </a>
-        {{ form_end(placeForm) }}
+    <style>
+        .wrap{
+            width: 100%;
+            height: 80vh;
+            background-image: linear-gradient(to right top, white,white);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .form{
+            width: 800px;
+            height: 860px;
+            background: white;
+            border-radius: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            font-weight: bold;
+            transition: all 0.2s ease-in-out;;
+            cursor: pointer;
+            font-size: 15px;
+            box-shadow: -5px -5px 20px #fff, 5px 5px 20px #babecc;
+            padding-top: 20px;
+        }
+        .my-form input {
+            margin-left: 8px;
+            box-shadow: inset 2px 2px 5px #babecc, inset -5px -5px 10px #fff;
+            box-sizing: border-box;
+            transition: all 0.2s ease-in-out;
+            appearance: none;
+            -webkit-appearance: none;
+            position: absolute;
+            outline: none;
+            background: none;
+            z-index: 1;
+        }
+        .my-form ::placeholder {
+            color: transparent;
+        }
+        .submitBtn:hover {
+            box-shadow: -2px -2px 5px #fff, 2px 2px 5px #babecc;
+            transform: translateY(-2px);
+        }
+        .title {
+            color: #61677c;
+            font-size: 30px;
+            margin-bottom: 20px;
+        }
+        .inputContainer {
+            position: relative;
+            height: 45px;
+            width: 100%;
+            margin-bottom: 10px;
+        }
+        .submitBtn, .my-form input {
+            background-color: #ebecf0;
+            text-shadow: 1px 1px 0 #fff;
+            border-radius: 7px;
+            font-size: 15px;
+            padding: 12px;
+            border: 0;
+            outline: 0;
+        }
+    </style>
+    <div class="wrap">
+
+        <div class="form">
+            <div class="right">
+                <iframe src="https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d10671.851461633189!2d-2.0054016!3d48.03374395!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1sfr!2sfr!4v1689060677162!5m2!1sfr!2sfr" width="400" height="300" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+            </div>
+            <div class="left">
+        <h1 class="title">Ajouter un lieu</h1>
+            {{ form_start(placeForm, {'attr': {'class': 'my-form'}}) }}
+            <div class="inputContainer">
+            {{ form_row(placeForm.city) }}
+            </div>
+            <div class="inputContainer">
+            {{ form_row(placeForm.name) }}
+            </div>
+            <div class="inputContainer">
+            {{ form_row(placeForm.street) }}
+            </div>
+            <div class="inputContainer">
+            {{ form_row(placeForm.latitude ) }}
+            </div>
+            <div class="inputContainer">
+            {{ form_row(placeForm.longitude ) }}
+            </div>
+            <button type="submit" class="submitBtn">Enregistrer ce lieu</button>
+            <a href="{{ path('event_createEvent') }}" class="submitBtn">
+               Annuler
+            </a>
+            {{ form_end(placeForm) }}
+            </div>
+        </div>
+    </div>
+
 {% endblock %}
 

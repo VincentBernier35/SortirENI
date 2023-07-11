@@ -3,20 +3,98 @@
 {% block title %}Réinitialisation{% endblock %}
 
 {% block body %}
-    {% for flash_error in app.flashes('reset_password_error') %}
-        <div class="alert alert-danger" role="alert">{{ flash_error }}</div>
-    {% endfor %}
-    <h1>Réinitialisez votre mot de passe</h1>
-
-    {{ form_start(requestForm) }}
-        {{ form_row(requestForm.email) }}
+    <style>
+        .wrap{
+            width: 100%;
+            height: 80vh;
+            background-image: linear-gradient(to right top, white,white);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .form{
+            width: 1000px;
+            height: 460px;
+            background: white;
+            border-radius: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            font-weight: bold;
+            transition: all 0.2s ease-in-out;
+            font-size: 15px;
+            box-shadow: -5px -5px 20px #fff, 5px 5px 20px #babecc;
+            padding-top: 20px;
+        }
+        .title {
+            color: #61677c;
+            font-size: 45px;
+            margin-bottom: 20px;
+        }
+        .inputContainer {
+            position: relative;
+            height: 45px;
+            width: 100%;
+            margin-bottom: 10px;
+        }
+        .submitBtn, input {
+            background-color: #ebecf0;
+            text-shadow: 1px 1px 0 #fff;
+            border-radius: 7px;
+            font-size: 15px;
+            padding: 12px;
+            border: 0;
+            outline: 0;
+        }
+        input {
+            margin-left: 8px;
+            box-shadow: inset 2px 2px 5px #babecc, inset -5px -5px 10px #fff;
+            box-sizing: border-box;
+            transition: all 0.2s ease-in-out;
+            appearance: none;
+            -webkit-appearance: none;
+            position: absolute;
+            outline: none;
+            background: none;
+            z-index: 1;
+            width: 300px;
+        }
+        .submitBtn {
+            color: #61677c;
+            font-weight: bold;
+            transition: all 0.2s ease-in-out;;
+            cursor: pointer;
+            font-size: 20px;
+            box-shadow: -5px -5px 20px #fff, 5px 5px 20px #babecc;
+        }
+        .submitBtn:hover {
+            box-shadow: -2px -2px 5px #fff, 2px 2px 5px #babecc;
+            transform: translateY(-2px);
+        }
+        label{
+            font-size: 20px;
+        }
+    </style>
+<div class="wrap">
+    <div class="form">
+        {% for flash_error in app.flashes('reset_password_error') %}
+            <div class="alert alert-danger" role="alert">{{ flash_error }}</div>
+        {% endfor %}
+        <h1 class="title">Réinitialisez votre mot de passe</h1>
         <div>
             <small>
                 Entrez votre adresse e-mail et nous vous enverrons un
                 lien pour réinitialiser votre mot de passe.
             </small>
-        </div>
-
-        <button class="btn btn-primary">Envoyer un e-mail de réinitialisation du mot de passe</button>
-    {{ form_end(requestForm) }}
+        </div><br>
+        {{ form_start(requestForm) }}
+        <div class="inputContainer">
+            {{ form_row(requestForm.email) }}
+        </div><br><br>
+            <button class="submitBtn">Envoyer un e-mail de réinitialisation du mot de passe</button>
+        {{ form_end(requestForm) }}
+    </div>
+</div>
 {% endblock %}

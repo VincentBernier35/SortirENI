@@ -5,41 +5,73 @@
 {% endblock %}
 
 {% block body %}
-    <h1>Mes sorties : </h1>
-    <table>
-        <thead>
-            <tr>
-                <th>Thème</th>
-                <th>Quand</th>
-                <th>Où</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody>
+    <style>
+        .wrap{
+            width: 100%;
+            height: 80vh;
+            background-image: linear-gradient(to right top, white,white);
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+        }
+        .formL{
+            font-weight: bold;
+            margin: 15px;
+            transition: all 0.2s ease-in-out;
+            font-size: 15px;
+            box-shadow: -5px -5px 20px #fff, 5px 5px 20px #babecc;
+            padding-top: 10px;
+            border-radius: 5px;
+        }
+        .title {
+            color: #61677c;
+            font-size: 35px;
+            margin-bottom: 20px;
+        }
+        .submitBtn {
+            background-color: #ebecf0;
+            text-shadow: 1px 1px 0 #fff;
+            border-radius: 3px;
+            font-size: 15px;
+            padding: 12px;
+            border: 0;
+            outline: 0;
+            color: #61677c;
+            font-weight: bold;
+            transition: all 0.2s ease-in-out;;
+            cursor: pointer;
+            box-shadow: -5px -5px 20px #fff, 5px 5px 20px #babecc;
+        }
+        .submitBtn:hover {
+            box-shadow: -2px -2px 5px #fff, 2px 2px 5px #babecc;
+            transform: translateY(-2px);
+        }
+        .titleP{
+            font-size: 20px;
+        }
+    </style>
+    <h1 class="title">Mes sorties : </h1>
+ <div class="wrap">
             {% for event in events %}
                 {% set canModifie = '' %}
                 {% if event.state.reference == 0 and event.promoter.id == user.id %}
                     {% set canModifie = 'yes'%}
                 {% endif %}
-                <tr>
-                    <td>{{ event.name }}</td>
-                    <td>{{ event.startTime |date("d/m/y H:i", "Europe/Paris") }}</td>
-                    <td>{{ event.place.name }}</td>
-                    <td>
-                        <a href="{{ path('event_event', {'id': event.id}) }}"
-                           title="Détail de cette sortie">
+                <div class="formL">
+                    <p class="titleP">Thème :</p>{{ event.name }}<br><br><br>
+                    <p class="titleP">Quand :</p>{{ event.startTime |date("d/m/y H:i", "Europe/Paris") }}<br><br><br>
+                    <p class="titleP">Où :</p>{{ event.place.name }}
+                    <br><br>
+                    <a href="{{ path('event_event', {'id': event.id}) }}"
+                           title="Détail de cette sortie" class="submitBtn">
                            Détail
-                        </a>
-                        {% if canModifie == 'yes' and event.startTime|date("d/m/y") > "now" | date("d/m/y") %}
-                            <a href="{{ path('event_editEvent', {'id': event.id}) }}" title="Modifier cet évènement"> Modifier</a>
-                        {% endif %}
-                    </td>
-                </tr>
+                    </a>
+                    {% if canModifie == 'yes' and event.startTime|date("d/m/y") > "now" | date("d/m/y") %}
+                         <a href="{{ path('event_editEvent', {'id': event.id}) }}" title="Modifier cet évènement" class="submitBtn"> Modifier</a>
+                    {% endif %}
+                </div>
             {% else %}
                 <tr><td colspan="5">Vous n'avez aucune sortie !</td></tr>
             {% endfor %}
-        </tbody>
-    </table>
-<br>
+ </div>
 {% endblock %}
 

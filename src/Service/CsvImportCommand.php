@@ -7,7 +7,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Finder\Finder;
 
-class CsvImportCommand extends Command
+class CsvImportCommand
 {
     // change these options about the file to read
     private $csvParsingOptions = array(

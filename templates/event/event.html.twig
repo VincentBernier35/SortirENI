@@ -5,24 +5,129 @@
 {% endblock %}
 
 {% block body %}
-    <h1>Proposer une sortie</h1>
-    {{ form_start(eventForm) }}
-    {{ form_row(eventForm.name) }}
-    {{ form_row(eventForm.startTime) }}
-    {{ form_row(eventForm.deadLine) }}
-    {{ form_row(eventForm.placeMax) }}
-    <p>{{ form_row(eventForm.duration)}}minutes</p>
-    {{ form_row(eventForm.info) }}
-    <p>Ville organisatrice : {{ user.site.name }}</p>
-    {{ form_row(eventForm.place) }}<br>
-    <a href="{{ path('event_add_place') }}">
-        Ajouter un lieu
-    </a><br><br>
-        <button type="submit" class="btn btn-primary ">Enregistrer</button>
-    <a href="{{ path('app_accueil') }}">
-        Annuler
-    </a>
-    {{ form_end(eventForm) }}
+    <style>
+        .wrap{
+            width: 100%;
+            height: 80vh;
+            background-image: linear-gradient(to right top, white,white);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .form{
+            width: 800px;
+            height: 760px;
+            background: white;
+            border-radius: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            font-weight: bold;
+            transition: all 0.2s ease-in-out;;
+            cursor: pointer;
+            font-size: 15px;
+            box-shadow: -5px -5px 20px #fff, 5px 5px 20px #babecc;
+            padding-top: 20px;
+        }
+        .title {
+            color: #61677c;
+            font-size: 35px;
+            margin-bottom: 20px;
+        }
+        .inputContainer {
+             position: relative;
+             height: 45px;
+             width: 100%;
+             margin-bottom: 10px;
+         }
+        .submitBtn, .my-form input {
+            background-color: #ebecf0;
+            text-shadow: 1px 1px 0 #fff;
+            border-radius: 7px;
+            font-size: 15px;
+            padding: 12px;
+            border: 0;
+            outline: 0;
+        }
+        .my-form input {
+            margin-left: 8px;
+            box-shadow: inset 2px 2px 5px #babecc, inset -5px -5px 10px #fff;
+            box-sizing: border-box;
+            transition: all 0.2s ease-in-out;
+            appearance: none;
+            -webkit-appearance: none;
+            position: absolute;
+            outline: none;
+            background: none;
+            z-index: 1;
+        }
 
+        .my-form ::placeholder {
+            color: transparent;
+        }
+        .submitBtn {
+            color: #61677c;
+            font-weight: bold;
+            transition: all 0.2s ease-in-out;;
+            cursor: pointer;
+            font-size: 14px;
+            box-shadow: -5px -5px 20px #fff, 5px 5px 20px #babecc;
+        }
+        .submitBtn:hover {
+            box-shadow: -2px -2px 5px #fff, 2px 2px 5px #babecc;
+            transform: translateY(-2px);
+        }
+        .input:focus + .my-form label {
+            top: -7px;
+            left: 3px;
+            z-index: 10;
+            font-size: 14px;
+            font-weight: 600;
+            color: purple;
+        }
+    </style>
+    <div class="wrap">
+        <div class="form">
+            <h1 class="title">Proposer une sortie</h1>
+            <div>
+            {{ form_start(eventForm, {'attr': {'class': 'my-form'}}) }}
+            <div class="inputContainer">
+                {{ form_row(eventForm.name) }}
+            </div>
+            <div class="inputContainer">
+                {{ form_row(eventForm.startTime) }}
+            </div>
+            <div class="inputContainer">
+                {{ form_row(eventForm.deadLine) }}
+            </div>
+            <div class="inputContainer">
+                {{ form_row(eventForm.placeMax) }}
+            </div>
+            <div class="inputContainer">
+                <p>{{ form_row(eventForm.duration)}}minutes</p>
+            </div>
+            <div class="inputContainer">
+                {{ form_row(eventForm.info) }}
+            </div>
+            <div class="inputContainer">
+                <p>Ville organisatrice : {{ user.site.name }}</p>
+            </div>
+            <div class="inputContainer">
+                {{ form_row(eventForm.place) }}
+            </div>
+
+            <a href="{{ path('event_add_place') }}" class="submitBtn">
+                Ajouter un lieu
+            </a><br><br><br>
+                <button type="submit" class="submitBtn">Enregistrer</button>
+            <a href="{{ path('app_accueil') }}" class="submitBtn">
+                Annuler
+            </a>
+            {{ form_end(eventForm) }}
+            </div>
+        </div>
+    </div>
 {% endblock %}
 
