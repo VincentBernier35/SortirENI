@@ -5,25 +5,35 @@
 {% endblock %}
 
 {% block body %}
-    <h1>{{ user.pseudo }}</h1>
+    <div class="wrap">
+        <div class="form">
+            <div class="right">
+                <h1>{{ user.pseudo }}</h1>
+                <p>Prénom : {{ user.lastName }}</p>
+                <p>Nom : {{  user.firstName }}</p>
+                <p>Téléphone : {{ user.phoneNumber }}</p>
+                <p>Email : {{ user.email }}</p>
+                <p>Ville de rattachement : {{ user.site ? user.site.name : '?'}}</p>
 
-    <p>Prénom : {{ user.lastName }}</p>
-    <p>Nom : {{  user.firstName }}</p>
-    <p>Téléphone : {{ user.phoneNumber }}</p>
-    <p>Email : {{ user.email }}</p>
-    <p>Ville de rattachement : {{ user.site ? user.site.name : '?'}}</p>
-    <div class="card mt-2 mb-2 w-50 m-auto">
-        {% if user.image %}
-            <img src="{{ asset('./'~app_images_user_directory ~ '/' ~ user.image) }}"
-                 class="card-img-top img-fluid" alt="image" />
-        {% endif %}
+                {% if app.user.id == user.id %}
+                    <a href="{{ path('editProfil', {'id': user.id}) }}">
+                        <button type="submit" name="editProfil" class="submitBtn">Modifier</button>
+                    </a>
+                {% endif %}
+                <a href="{{ path('main_home') }}">
+                    <button type="submit" class="submitBtn">Annuler</button>
+                </a>
+
+            </div>
+            <div class="left">
+                <div class="card mt-2 mb-2 w-50 m-auto">
+                    {% if user.image %}
+                        <img src="{{ asset('./'~app_images_user_directory ~ '/' ~ user.image) }}"
+                             class="card-img-top img-fluid" alt="image" />
+                    {% endif %}
+                </div>
+            </div>
+
+        </div>
     </div>
-    {% if app.user.id == user.id %}
-    <a href="{{ path('editProfil', {'id': user.id}) }}">
-        <button type="submit" name="editProfil" class="btn btn-primary ">Modifier</button>
-    </a>
-    {% endif %}
-    <a href="{{ path('main_home') }}">
-        <button type="submit" class="btn btn-primary ">Annuler</button>
-    </a>
 {% endblock %}
