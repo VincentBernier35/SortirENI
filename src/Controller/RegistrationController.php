@@ -92,9 +92,11 @@ class RegistrationController extends AbstractController
                 return $this->redirectToRoute('profiler', ['id' => $user->getId()]);
             }
             elseif ($request->request->has('deleteProfil')){
-                $em->remove($user);
+                $user->setActive(false);
+                $em->persist($user);
                 $em->flush();
-                return $this->redirectToRoute('/logout');
+
+                return $this->redirectToRoute('app_logout');
             }
             else{
                 return $this->redirectToRoute('profiler', ['id' => $user->getId()]);
