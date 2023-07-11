@@ -16,7 +16,13 @@
 `php bin/console app:fixtures:load`
 7. lancer le serveur
 `symfony server:start`
+8. utiliser un serveur SMTP pour tester la feature "mot de passe oublié
+`https://www.papercut.com/help/manuals/ng-mf/common/sys-notifications-configure-email/`
+9. si utilisation de papercut
+`symfony console messenger:consume async`
 
 # compte admin
 admin@admin.fr
 mdp: 123456
+
+# Happy coding !
