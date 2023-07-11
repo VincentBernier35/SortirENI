@@ -25,12 +25,12 @@ class EventFormType extends AbstractType
                 'label'=>'Nom de la sortie : '
             ])
             ->add('startTime', DateTimeType::class,[
-                'label'=>'Date et heure de la sortie :',
+                'label'=>'Date et heure de la sortie : ',
                 'widget'=>'single_text',
                 'input'=>'datetime'
             ])
             ->add('deadLine', DateType::class,[
-                'label'=>'Date limite d\'inscription :',
+                'label'=>'Date limite d\'inscription : ',
                 'widget'=>'single_text',
                 'input'=>'datetime',
             ])

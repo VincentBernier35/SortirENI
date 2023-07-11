@@ -3,11 +3,44 @@
 {% block title %}E-mail de réinitialisation du mot de passe envoyé{% endblock %}
 
 {% block body %}
-    <p>
-        Si un compte correspondant à votre adresse e-mail existe, un e-mail vient d'être envoyé contenant un lien que vous pouvez utiliser pour réinitialiser votre mot de passe.
-    </p>
-    <p>
-        Ce lien expirera dans {{ resetToken.expirationMessageKey|trans(resetToken.expirationMessageData, 'ResetPasswordBundle') }}.
-    </p>
-    <p>Si vous ne recevez pas d'e-mail, veuillez vérifier votre dossier spam ou <a href="{{ path('app_forgot_password_request') }}">essayez à nouveau.</a></p>
+    <style>
+        .wrap{
+            width: 100%;
+            height: 80vh;
+            background-image: linear-gradient(to right top, white,white);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .form{
+            width: 1000px;
+            height: 460px;
+            background: white;
+            border-radius: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            font-weight: bold;
+            transition: all 0.2s ease-in-out;
+            font-size: 15px;
+            box-shadow: -5px -5px 20px #fff, 5px 5px 20px #babecc;
+            padding-top: 20px;
+        }
+        .textP{
+            margin: 20px;
+            font-size: 20px;
+        }
+    </style>
+    <div class="wrap">
+        <div class="form">
+            <p class="textP">
+                Si un compte correspondant à votre adresse e-mail existe, un e-mail vient d'être envoyé contenant un lien que vous pouvez utiliser pour réinitialiser votre mot de passe.
+            </p>
+            <p class="textP">
+                Ce lien expirera dans {{ resetToken.expirationMessageKey|trans(resetToken.expirationMessageData, 'ResetPasswordBundle') }}.
+            </p>
+            <p class="textP">Si vous ne recevez pas d'e-mail, veuillez vérifier votre dossier spam ou <a href="{{ path('app_forgot_password_request') }}">essayez à nouveau.</a></p>
+    </div></div>
 {% endblock %}

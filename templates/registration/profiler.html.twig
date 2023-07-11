@@ -5,10 +5,39 @@
 {% endblock %}
 
 {% block body %}
+    <style>
+        .wrap{
+            width: 100%;
+            height: 80vh;
+            background-image: linear-gradient(to right top, white,white);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .form{
+            width: 800px;
+            height: 460px;
+            background: white;
+            border-radius: 20px;
+            display: flex;
+            overflow: hidden;
+            font-weight: bold;
+            transition: all 0.2s ease-in-out;;
+            cursor: pointer;
+            font-size: 16px;
+            box-shadow: -5px -5px 20px #fff, 5px 5px 20px #babecc;
+        }
+        .left{
+            padding-left: 20px;
+            width: 750px;
+            height: 460px;
+            overflow: hidden;
+        }
+    </style>
     <div class="wrap">
         <div class="form">
             <div class="right">
-                <h1>{{ user.pseudo }}</h1>
+                <h1 class="title">{{ user.pseudo }}</h1>
                 <p>Prénom : {{ user.lastName }}</p>
                 <p>Nom : {{  user.firstName }}</p>
                 <p>Téléphone : {{ user.phoneNumber }}</p>
@@ -23,15 +52,12 @@
                 <a href="{{ path('main_home') }}">
                     <button type="submit" class="submitBtn">Annuler</button>
                 </a>
-
             </div>
             <div class="left">
-                <div class="card mt-2 mb-2 w-50 m-auto">
                     {% if user.image %}
                         <img src="{{ asset('./'~app_images_user_directory ~ '/' ~ user.image) }}"
                              class="card-img-top img-fluid" alt="image" />
                     {% endif %}
-                </div>
             </div>
 
         </div>

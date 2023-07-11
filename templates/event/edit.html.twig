@@ -5,27 +5,96 @@
 {% endblock %}
 
 {% block body %}
-    <h1>Modifier cette sortie</h1>
-    {{ form_start(eventForm) }}
-    {{ form_row(eventForm.name) }}
-    {{ form_row(eventForm.startTime) }}
-    {{ form_row(eventForm.deadLine) }}
-    {{ form_row(eventForm.placeMax) }}
-    <p>{{ form_row(eventForm.duration)}}minutes</p>
-    {{ form_row(eventForm.info) }}
-    {{ form_row(eventForm.place) }}<br>
+    <style>
+        .wrap{
+            width: 100%;
+            height: 80vh;
+            background-image: linear-gradient(to right top, white,white);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .form{
+            width: 800px;
+            height: 700px;
+            background: white;
+            border-radius: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            font-weight: bold;
+            transition: all 0.2s ease-in-out;;
+            cursor: pointer;
+            font-size: 16px;
+            box-shadow: -5px -5px 20px #fff, 5px 5px 20px #babecc;
+        }.title {
+             color: #61677c;
+             font-size: 35px;
+             margin-bottom: 20px;
+         }
+        .submitBtn, .my-form input {
+            background-color: #ebecf0;
+            text-shadow: 1px 1px 0 #fff;
+            border-radius: 7px;
+            font-size: 15px;
+            padding: 12px;
+            border: 0;
+            outline: 0;
+        }
+        .my-form input {
+            margin: 8px;
+            box-shadow: inset 2px 2px 5px #babecc, inset -5px -5px 10px #fff;
+            box-sizing: border-box;
+            transition: all 0.2s ease-in-out;
+            appearance: none;
+            -webkit-appearance: none;
+            outline: none;
+            background: none;
+            z-index: 1;
+        }
 
-    {% set canDelete = '' %}
-    {% if event.state.reference == 0 and event.promoter.id == user.id %}
-        {% set canDelete = 'yes'%}
-    {% endif %}
+        .my-form ::placeholder {
+            color: transparent;
+        }
+        .submitBtn {
+            color: #61677c;
+            font-weight: bold;
+            transition: all 0.2s ease-in-out;;
+            cursor: pointer;
+            font-size: 14px;
+            box-shadow: -5px -5px 20px #fff, 5px 5px 20px #babecc;
+        }
+        .submitBtn:hover {
+            box-shadow: -2px -2px 5px #fff, 2px 2px 5px #babecc;
+            transform: translateY(-2px);
+        }
+    </style>
+<div class="wrap">
+    <div class="form">
+        <h1 class="title">Modifier cette sortie</h1>
+        {{ form_start(eventForm, {'attr': {'class': 'my-form'}}) }}
+        {{ form_row(eventForm.name) }}
+        {{ form_row(eventForm.startTime) }}
+        {{ form_row(eventForm.deadLine) }}
+        {{ form_row(eventForm.placeMax) }}
+        <p>{{ form_row(eventForm.duration)}}minutes</p>
+        {{ form_row(eventForm.info) }}
+        {{ form_row(eventForm.place) }}<br>
 
-    <button type="submit" name="save" class="btn btn-primary ">Enregistrer</button>
-    {% if canDelete == 'yes' %}
-        <button type="submit" name="delete" class="btn btn-primary ">Supprimer la sortie</button>
-    {% endif %}
-    <button type="submit" name="gotohome" class="btn btn-primary ">Annuler</button>
-    <button type="submit" name="publish" class="btn btn-primary ">Publier</button>
-    {{ form_end(eventForm) }}
+        {% set canDelete = '' %}
+        {% if event.state.reference == 0 and event.promoter.id == user.id %}
+            {% set canDelete = 'yes'%}
+        {% endif %}
+        <button type="submit" name="save" class="submitBtn">Enregistrer</button>
+        {% if canDelete == 'yes' %}
+            <button type="submit" name="delete" class="submitBtn">Supprimer la sortie</button>
+        {% endif %}
+        <button type="submit" name="gotohome" class="submitBtn">Annuler</button>
+        <button type="submit" name="publish" class="submitBtn">Publier</button>
+        {{ form_end(eventForm) }}
+    </div>
+</div>
 {% endblock %}
 

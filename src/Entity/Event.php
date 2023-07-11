@@ -30,7 +30,7 @@ class Event
 
     #[ORM\Column(type: 'datetime')]
     #[Assert\GreaterThan('today UTC+2', message:'La date limite d\'inscription doit être dans futur !')]
-    #[Assert\LessThan(propertyPath:'deadLine', message:'La date limite d\'inscription doit être inférieur à la date de l\'évènement !' )]
+    #[Assert\LessThan(propertyPath:'startTime', message:'La date limite d\'inscription doit être inférieur à la date de l\'évènement !' )]
     private ?\DateTimeInterface $deadLine = null;
 
     #[ORM\Column]

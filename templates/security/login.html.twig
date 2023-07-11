@@ -3,41 +3,119 @@
 {% block title %}Log in!{% endblock %}
 
 {% block body %}
-<form method="post">
-    {% if error %}
-        <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
-    {% endif %}
+    <style>
+        .wrap{
+            width: 100%;
+            height: 80vh;
+            background-image: linear-gradient(to right top, white,white);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .form{
+            width: 800px;
+            height: 560px;
+            background: white;
+            border-radius: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            font-weight: bold;
+            transition: all 0.2s ease-in-out;
+            font-size: 15px;
+            box-shadow: -5px -5px 20px #fff, 5px 5px 20px #babecc;
+            padding-top: 20px;
+        }
+        .title {
+            color: #61677c;
+            font-size: 45px;
+            margin-bottom: 20px;
+        }
+        .inputContainer {
+            position: relative;
+            height: 45px;
+            width: 100%;
+            margin-bottom: 10px;
+        }
+        .submitBtn, .inputE, .inputS {
+            background-color: #ebecf0;
+            text-shadow: 1px 1px 0 #fff;
+            border-radius: 7px;
+            font-size: 15px;
+            padding: 12px;
+            border: 0;
+            outline: 0;
+        }
+        .inputE {
+            margin-left: 8px;
+            box-shadow: inset 2px 2px 5px #babecc, inset -5px -5px 10px #fff;
+            box-sizing: border-box;
+            transition: all 0.2s ease-in-out;
+            appearance: none;
+            -webkit-appearance: none;
+            position: absolute;
+            outline: none;
+            background: none;
+            z-index: 1;
+            width: 300px;
+        }
+        .inputS {
+            margin-left: 8px;
+            box-shadow: inset 2px 2px 5px #babecc, inset -5px -5px 10px #fff;
+            box-sizing: border-box;
+            transition: all 0.2s ease-in-out;
+            width: 20px;
+            height: 20px;
+            background: none;
+        }
+        .submitBtn {
+            color: #61677c;
+            font-weight: bold;
+            transition: all 0.2s ease-in-out;;
+            cursor: pointer;
+            font-size: 20px;
+            box-shadow: -5px -5px 20px #fff, 5px 5px 20px #babecc;
+        }
+        .submitBtn:hover {
+            box-shadow: -2px -2px 5px #fff, 2px 2px 5px #babecc;
+            transform: translateY(-2px);
+        }
+        label{
+            font-size: 20px;
+        }
+    </style>
 
-    {% if app.user %}
-        <div class="mb-3">
-            Vous êtes connectés  {{ app.user.firstname }}, <a href="{{ path('app_logout') }}">Logout</a>
-        </div>
-    {% endif %}
-
-    <h1 class="h3 mb-3 font-weight-normal">Veuillez vous connecter</h1>
-    <label for="inputEmail">email</label>
-    <input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="form-control" autocomplete="email" required autofocus>
-    <label for="inputPassword">mot de passe</label>
-    <input type="password" name="password" id="inputPassword" class="form-control" autocomplete="current-password" required>
-
-    <input type="hidden" name="_csrf_token"
-           value="{{ csrf_token('authenticate') }}"
-    >
-
-
+    <div class="wrap">
+      <div class="form">
+        <form method="post">
+            {% if error %}
+                <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+            {% endif %}
+            {% if app.user %}
+                <div>
+                    Vous êtes connectés  {{ app.user.firstname }}, <a href="{{ path('app_logout') }}">Logout</a>
+                </div>
+            {% endif %}
+        <h1 class="title">Veuillez vous connecter</h1><br>
+            <div class="inputContainer">
+                <label for="inputEmail">email : </label>
+                <input class="inputE" type="email" value="{{ last_username }}" name="email" id="inputEmail" autocomplete="email" required autofocus>
+            </div>
+            <div class="inputContainer">
+                <label for="inputPassword">mot de passe : </label>
+                <input class="inputE" type="password" name="password" id="inputPassword" autocomplete="current-password" required>
+            </div>
+        <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
 {#        Uncomment this section and add a remember_me option below your firewall to activate remember me functionality.#}
 {#        See https://symfony.com/doc/current/security/remember_me.html#}
-
-        <div class="checkbox mb-3 mt-3">
-            <button class="btn btn-lg btn-primary" type="submit">
-                Connexion
-            </button>
-            <label>
-                <input type="checkbox" name="_remember_me"> Se souvenir de moi
-            </label>
-            <a href="{{ path('app_forgot_password_request') }}" >Mot de passe oublié ?</a>
-        </div>
-
-
-</form>
+        <br><a href="{{ path('app_forgot_password_request') }}" class="submitBtn">Mot de passe oublié ?</a><br><br><br>
+            <label>Se souvenir de moi</label>
+            <input class="inputS" type="checkbox" name="_remember_me">
+            <br><br>
+            <button class="submitBtn" type="submit">Connexion</button>
+        </form>
+      </div>
+    </div>
 {% endblock %}
