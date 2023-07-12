@@ -16,7 +16,7 @@
         }
         .form{
             width: 800px;
-            height: 700px;
+            height: 750px;
             background: white;
             border-radius: 20px;
             display: flex;
@@ -54,12 +54,20 @@
             background: none;
             z-index: 1;
         }
-
+        .lieu{
+            display: flex;
+        }
+        .btn{
+            padding-left: 180px;
+        }
+        .btns{
+            padding-top: 20px;
+        }
         .my-form ::placeholder {
             color: transparent;
         }
         .submitBtn {
-            color: #61677c;
+            color: #ff6f61;
             font-weight: bold;
             transition: all 0.2s ease-in-out;;
             cursor: pointer;
@@ -69,6 +77,35 @@
         .submitBtn:hover {
             box-shadow: -2px -2px 5px #fff, 2px 2px 5px #babecc;
             transform: translateY(-2px);
+        }
+        .my-form textarea{
+            margin-left: 8px;
+            box-shadow: inset 2px 2px 5px #babecc, inset -5px -5px 10px #fff;
+            box-sizing: border-box;
+            transition: all 0.2s ease-in-out;
+            appearance: none;
+            -webkit-appearance: none;
+            position: absolute;
+            outline: none;
+            background: none;
+            z-index: 1;
+            border: none;
+            border-radius: 10px;
+        }
+        .my-form select{
+            padding: 5px;
+            margin-left: 8px;
+            box-shadow: inset 2px 2px 5px #babecc, inset -5px -5px 10px #fff;
+            box-sizing: border-box;
+            transition: all 0.2s ease-in-out;
+            appearance: none;
+            -webkit-appearance: none;
+            position: absolute;
+            outline: none;
+            background: none;
+            z-index: 1;
+            border: none;
+            border-radius: 5px;
         }
     </style>
 <div class="wrap">
@@ -81,18 +118,30 @@
         {{ form_row(eventForm.placeMax) }}
         <p>{{ form_row(eventForm.duration)}}minutes</p>
         {{ form_row(eventForm.info) }}
+        <br><br>
+        <div class="lieu">
         {{ form_row(eventForm.place) }}<br>
-
+            <div class="btn">
+                <a href="{{ path('event_add_place') }}" class="submitBtn">
+                    Ajouter un lieu
+                </a>
+            </div><br><br>
+        </div>
         {% set canDelete = '' %}
         {% if event.state.reference == 0 and event.promoter.id == user.id %}
             {% set canDelete = 'yes'%}
         {% endif %}
+        <div class="inputContainer">
+            {{ form_row(eventForm.Image) }}
+        </div>
+            <div class="btns">
         <button type="submit" name="save" class="submitBtn">Enregistrer</button>
         {% if canDelete == 'yes' %}
             <button type="submit" name="delete" class="submitBtn">Supprimer la sortie</button>
         {% endif %}
         <button type="submit" name="gotohome" class="submitBtn">Annuler</button>
         <button type="submit" name="publish" class="submitBtn">Publier</button>
+            </div>
         {{ form_end(eventForm) }}
     </div>
 </div>

@@ -9,32 +9,28 @@
         .wrap{
             width: 100%;
             height: 80vh;
-            background-image: linear-gradient(to right top, white,white);
             display: flex;
             justify-content: center;
             align-items: center;
         }
         .form{
-            width: 800px;
+            padding-left: 150px;
+            padding-top: 30px;
+            width: 700px;
             height: 760px;
             background: white;
             border-radius: 20px;
             display: flex;
             flex-direction: column;
-            justify-content: center;
-            align-items: center;
             overflow: hidden;
             font-weight: bold;
-            transition: all 0.2s ease-in-out;;
-            cursor: pointer;
-            font-size: 15px;
+            transition: all 0.2s ease-in-out;
             box-shadow: -5px -5px 20px #fff, 5px 5px 20px #babecc;
-            padding-top: 20px;
         }
         .title {
             color: #61677c;
             font-size: 35px;
-            margin-bottom: 20px;
+            margin-bottom: 40px;
         }
         .inputContainer {
              position: relative;
@@ -51,7 +47,7 @@
             border: 0;
             outline: 0;
         }
-        .my-form input {
+        .my-form input{
             margin-left: 8px;
             box-shadow: inset 2px 2px 5px #babecc, inset -5px -5px 10px #fff;
             box-sizing: border-box;
@@ -63,9 +59,46 @@
             background: none;
             z-index: 1;
         }
-
+        .my-form textarea{
+            margin-left: 8px;
+            box-shadow: inset 2px 2px 5px #babecc, inset -5px -5px 10px #fff;
+            box-sizing: border-box;
+            transition: all 0.2s ease-in-out;
+            appearance: none;
+            -webkit-appearance: none;
+            position: absolute;
+            outline: none;
+            background: none;
+            z-index: 1;
+            border: none;
+            border-radius: 10px;
+        }
+        .my-form select{
+            padding: 5px;
+            margin-left: 8px;
+            box-shadow: inset 2px 2px 5px #babecc, inset -5px -5px 10px #fff;
+            box-sizing: border-box;
+            transition: all 0.2s ease-in-out;
+            appearance: none;
+            -webkit-appearance: none;
+            position: absolute;
+            outline: none;
+            background: none;
+            z-index: 1;
+            border: none;
+            border-radius: 5px;
+        }
         .my-form ::placeholder {
             color: transparent;
+        }
+        .lieu{
+            display: flex;
+        }
+        .btn{
+            padding-left: 150px;
+        }
+        .btns{
+            padding-top: 20px;
         }
         .submitBtn {
             color: #ff6f61;
@@ -78,14 +111,6 @@
         .submitBtn:hover {
             box-shadow: -2px -2px 5px #fff, 2px 2px 5px #babecc;
             transform: translateY(-2px);
-        }
-        .input:focus + .my-form label {
-            top: -7px;
-            left: 3px;
-            z-index: 10;
-            font-size: 14px;
-            font-weight: 600;
-            color: purple;
         }
     </style>
     <div class="wrap">
@@ -114,18 +139,24 @@
             <div class="inputContainer">
                 <p>Ville organisatrice : {{ user.site.name }}</p>
             </div>
-            <div class="inputContainer">
+            <div class="lieu">
                 {{ form_row(eventForm.place) }}
+                <div class="btn">
+                <a href="{{ path('event_add_place') }}" class="submitBtn">
+                    Ajouter un lieu
+                </a>
+                </div>
+            </div><br><br>
+            <div class="inputContainer">
+                {{ form_row(eventForm.Image) }}
             </div>
-
-            <a href="{{ path('event_add_place') }}" class="submitBtn">
-                Ajouter un lieu
-            </a><br><br><br>
+            <div class="btns">
                 <button type="submit" class="submitBtn">Enregistrer</button>
-            <a href="{{ path('app_accueil') }}" class="submitBtn">
-                Annuler
-            </a>
-            {{ form_end(eventForm) }}
+                <a href="{{ path('app_accueil') }}" class="submitBtn">
+                    Annuler
+                </a>
+            </div>
+                {{ form_end(eventForm) }}
             </div>
         </div>
     </div>
