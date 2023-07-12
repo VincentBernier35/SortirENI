@@ -39,6 +39,7 @@
             margin-bottom: 20px;
             box-shadow: -5px -5px 20px #fff, 5px 5px 20px #babecc;
         }
+
         .card-img-top{
             width: 362px;
             height: 200px;
@@ -53,7 +54,7 @@
         }
         .left{
             padding: 10px;
-            width: 500px;
+            width: 362px;
             height: 260px;
         }
         .right{
@@ -89,7 +90,25 @@
             margin-top: 50px;
             justify-content: space-evenly;
         }
+        .containerCardTop{
+            width: 362px;
 
+            margin-bottom: 20px;
+
+        }
+        .bloc2DivTop{
+            display: flex;
+        }
+        .topPage{
+            display: flex;
+            flex-wrap: wrap;
+            margin-top: 50px;
+            justify-content: space-evenly;
+        }
+
+        .toto{
+            height: 250px;
+        }
         @media only screen and (max-width: 600px) {
             . * {
                 font-size: small;
@@ -121,35 +140,58 @@
                 font-size: 10px;
                 box-shadow: -5px -5px 20px #fff, 5px 5px 20px #babecc;
             }
+            .bloc2DivTop{
+                display: flex;
+                flex-direction: column;
+            }
 
         }
     </style>
 
     {% block message %}{{ parent() }}{% endblock %}
     {{ form_start(accueilForm, {'attr': {'class': 'my-form'}})}}
-    <div class="rowTop">
-        <div class="form">
-            <div class="left">
-                {{ form_row(accueilForm.site) }}<br>
-                <div class="nomSortie">
-                    {{ form_row(accueilForm.key) }}</div><br>
-                {{ form_row(accueilForm.startDateTime) }}<br>
-                {{ form_row(accueilForm.endDateTime) }}
+
+
+    <div class="topPage">
+        <div class="bloc2DivTop">
+            <div class="containerCard  containerCardTop">
+                <div class="card toto">
+                    <div class="left">
+                        {{ form_row(accueilForm.site) }}<br>
+                        <div class="nomSortie">
+                            {{ form_row(accueilForm.key) }}</div><br>
+                        {{ form_row(accueilForm.startDateTime) }}<br>
+                        {{ form_row(accueilForm.endDateTime) }}
+                    </div>
+                </div>
             </div>
-            <div class="right">
-                {{ form_row(accueilForm.promoter) }}
-                {{ form_row(accueilForm.registered) }}
-                {{ form_row(accueilForm.notRegistered) }}
-                {{ form_row(accueilForm.oldEvent) }}
-                <br>
-                <button class="submitBtn">Rechercher</button>
+
+            <div class="containerCard containerCardTop">
+                <div class="card toto">
+                    <div class="right">
+                        {{ form_row(accueilForm.promoter) }}
+                        {{ form_row(accueilForm.registered) }}
+                        {{ form_row(accueilForm.notRegistered) }}
+                        {{ form_row(accueilForm.oldEvent) }}
+                        <br>
+                        <button class="submitBtn">Rechercher</button>
+                    </div>
+                </div>
             </div>
         </div>
-        <div class="card1" style="max-width: 18rem;">
-            <h4>Date du jour: {{ "now"|date('d/m/Y')}}</h4><br><br>
-            <h4>Participant: {{ user.firstname }} {{ user.lastname }}</h4>
+
+
+
+        <div>
+            <div class="card1 containerCardTop toto" style="max-width: 18rem;">
+                <h4>Date du jour: {{ "now"|date('d/m/Y')}}</h4><br><br>
+                <h4>Participant: {{ user.firstname }} {{ user.lastname }}</h4>
+            </div>
         </div>
     </div>
+
+
+
 
     <script src="{{ asset('javascript/accueil.js') }}"></script>
     {{ form_end(accueilForm)}}
