@@ -13,8 +13,8 @@
             display: flex;
             justify-content: center;
             align-items: center;
+            flex-direction: column;
         }
-
         .form {
             width: 800px;
             height: 460px;
@@ -28,14 +28,32 @@
             font-size: 16px;
             box-shadow: -5px -5px 20px #fff, 5px 5px 20px #babecc;
         }
-
+        .csv {
+            padding: 30px;
+            width: 800px;
+            height: 160px;
+            background: white;
+            border-radius: 20px;
+            display: flex;
+            overflow: hidden;
+            font-weight: bold;
+            transition: all 0.2s ease-in-out;;
+            cursor: pointer;
+            font-size: 16px;
+            box-shadow: -5px -5px 20px #fff, 5px 5px 20px #babecc;
+        }
         .left {
             padding-left: 20px;
             width: 750px;
             height: 460px;
             overflow: hidden;
         }
+        .my-form label{
+            font-size: 20px;
+            font-weight: bold;
+        }
     </style>
+    {% block message %}{{ parent() }}{% endblock %}
     <div class="wrap">
         <div class="form">
             <div class="right">
@@ -61,14 +79,14 @@
                          class="card-img-top img-fluid" alt="image"/>
                 {% endif %}
             </div>
-        </div>
-    </div>
+        </div><br><br>
     {% if (is_granted("ROLE_ADMIN")) %}
     <div class="csv">
-        {{ form_start(CSVForm) }}
-        {{ form_widget(CSVForm) }}
+        {{ form_start(CSVForm, {'attr': {'class': 'my-form'}}) }}
+        {{ form_widget(CSVForm) }}<br>
         <button type="submit" class="submitBtn">Insérer</button>
         {{ form_end(CSVForm) }}
     </div>
     {% endif %}
+</div>
 {% endblock %}

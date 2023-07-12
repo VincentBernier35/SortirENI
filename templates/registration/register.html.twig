@@ -95,6 +95,33 @@
             box-shadow: -2px -2px 5px #fff, 2px 2px 5px #babecc;
             transform: translateY(-2px);
         }
+        @media only screen and (max-width: 600px) {
+            .form{
+                width: 320px;
+                height: 450px;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-content: center;
+                font-size: 10px;
+            }
+            .title{
+                font-size: small;
+            }
+            .left{
+                width: 320px;
+                height: 80px;
+            }
+            .submitBtn {
+                padding: 2px;
+                color: #ff6f61;
+                font-weight: bold;
+                transition: all 0.2s ease-in-out;;
+                cursor: pointer;
+                font-size: 10px;
+                box-shadow: -5px -5px 20px #fff, 5px 5px 20px #babecc;
+            }
+        }
     </style>
     <div class="wrap">
         <form class="form">
