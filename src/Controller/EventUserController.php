@@ -16,7 +16,8 @@ class EventUserController extends AbstractController
     {
         try {
             $event = $eventRepository->find($id);
-            $event->removeUsersEvent($this->getUser());
+            $actualUser = $this->getUser();
+            $event->removeUsersEvent($actualUser);
             $em->persist($event);
             $em->flush();
             $this->addFlash('success', 'Vous avez été correctement supprimé(e) de cet évènement');
