@@ -2,6 +2,7 @@ twig:
     default_path: '%kernel.project_dir%/templates'
     globals:
         app_images_user_directory: '/images/user'
+        app_images_event_directory: '/images/event'
 
 when@test:
     twig:
