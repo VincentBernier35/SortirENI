@@ -16,7 +16,7 @@
         }
         .form{
             width: 800px;
-            height: 860px;
+            height: 960px;
             background: white;
             border-radius: 20px;
             display: flex;
@@ -25,8 +25,7 @@
             align-items: center;
             overflow: hidden;
             font-weight: bold;
-            transition: all 0.2s ease-in-out;;
-            cursor: pointer;
+            transition: all 0.2s ease-in-out;
             font-size: 15px;
             box-shadow: -5px -5px 20px #fff, 5px 5px 20px #babecc;
             padding-top: 20px;
@@ -73,6 +72,21 @@
             border: 0;
             outline: 0;
         }
+        .my-form select{
+            padding: 5px;
+            margin-left: 8px;
+            box-shadow: inset 2px 2px 5px #babecc, inset -5px -5px 10px #fff;
+            box-sizing: border-box;
+            transition: all 0.2s ease-in-out;
+            appearance: none;
+            -webkit-appearance: none;
+            position: absolute;
+            outline: none;
+            background: none;
+            z-index: 1;
+            border: none;
+            border-radius: 5px;
+        }
     </style>
     <div class="wrap">
         <div class="form">
@@ -96,7 +110,7 @@
             </div>
             <div class="inputContainer">
             {{ form_row(placeForm.longitude ) }}
-            </div>
+            </div><br>
             <button type="submit" class="submitBtn">Enregistrer ce lieu</button>
             <a href="{{ path('event_createEvent') }}" class="submitBtn">
                Annuler
