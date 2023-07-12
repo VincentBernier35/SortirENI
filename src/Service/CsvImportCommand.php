@@ -2,53 +2,92 @@
 
 namespace App\Service;
 
-use Symfony\Component\Console\Command\Command;
-use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Finder\Finder;
+use App\Entity\Site;
+use App\Entity\User;
+use App\Repository\SiteRepository;
+use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\HttpFoundation\File\Exception\FileException;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
+use Symfony\Component\Serializer\Encoder\CsvEncoder;
+use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
+use Symfony\Component\Serializer\Serializer;
 
-class CsvImportCommand
+final class CsvImportCommand
 {
-    // change these options about the file to read
-    private $csvParsingOptions = array(
-        'finder_in' => 'app/Resources/',
-        'finder_name' => 'test.csv',
-        'ignoreFirstLine' => true
-    );
+    private EntityManagerInterface $entityManager;
+    private SiteRepository $siteRepository;
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    private UserPasswordHasherInterface $userPasswordHasher;
+
+    public function __construct(
+        private readonly string     $dataDirectory,
+        EntityManagerInterface      $entityManager,
+        SiteRepository              $siteRepository,
+        UserPasswordHasherInterface $userPasswordHasher
+    )
     {
-        // use the parseCSV() function
-        $csv = $this->parseCSV();
+        $this->entityManager = $entityManager;
+        $this->siteRepository = $siteRepository;
+        $this->userPasswordHasher = $userPasswordHasher;
     }
 
-    /**
-     * Parse a csv file
-     *
-     * @return array
-     */
-    private function parseCSV()
+    public function uploadCSV(UploadedFile $file): void
     {
-        $ignoreFirstLine = $this->csvParsingOptions['ignoreFirstLine'];
+        $fileName = 'users.csv';
 
-        $finder = new Finder();
-        $finder->files()
-            ->in($this->csvParsingOptions['finder_in'])
-            ->name($this->csvParsingOptions['finder_name'])
-        ;
-        foreach ($finder as $file) { $csv = $file; }
-
-        $rows = array();
-        if (($handle = fopen($csv->getRealPath(), "r")) !== FALSE) {
-            $i = 0;
-            while (($data = fgetcsv($handle, null, ";")) !== FALSE) {
-                $i++;
-                if ($ignoreFirstLine && $i == 1) { continue; }
-                $rows[] = $data;
-            }
-            fclose($handle);
+        try {
+            $file->move($this->dataDirectory, $fileName);
+        } catch (FileException $e) {
+            // ... handle exception if something happens during file upload
         }
+    }
 
-        return $rows;
+    private function parseCSV(): array
+    {
+        $file = $this->dataDirectory . '/users.csv';
+        $fileExtension = pathinfo($file, PATHINFO_EXTENSION);
+        $normalizer = [new ObjectNormalizer()];
+        $encoders = [new CsvEncoder()];
+        $serializer = new Serializer($normalizer, $encoders);
+
+        /**@var string $fileString */
+        $fileString = file_get_contents($file);
+
+        return $serializer->decode($fileString, $fileExtension);
+    }
+
+    public function createUsersFromCSV(): void
+    {
+        $check = $this->parseCSV()[0];
+        if (array_key_exists('pseudo', $check)
+            and array_key_exists('firstname', $check)
+            and array_key_exists('lastname', $check)
+            and array_key_exists('phone', $check)
+            and array_key_exists('email', $check)
+            and array_key_exists('password', $check)
+            and array_key_exists('site', $check)) {
+
+            foreach ($this->parseCSV() as $row) {
+                $user = new User();
+                /**@var Site $site */
+                $site = $this->siteRepository->findOneBy(['name' => $row['site']]);
+                $user->setPseudo($row['pseudo'])
+                    ->setFirstName($row['firstname'])
+                    ->setLastName($row['lastname'])
+                    ->setPhoneNumber($row['phone'])
+                    ->setEmail($row['email'])
+                    ->setAdmin(false)
+                    ->setActive(true)
+                    ->setPassword($this->userPasswordHasher->hashPassword($user, $row['password']))
+                    ->setSite($site);
+
+                $this->entityManager->persist($user);
+            }
+
+            $this->entityManager->flush();
+        } else {
+
+        }
     }
 }

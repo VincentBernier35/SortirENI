@@ -3,8 +3,10 @@
 namespace App\Controller;
 
 use App\Entity\User;
+use App\Form\ImportCSVFormType;
 use App\Form\RegistrationFormType;
 use App\Repository\UserRepository;
+use App\Service\CsvImportCommand;
 use App\Service\FileUploader;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -51,14 +53,31 @@ class RegistrationController extends AbstractController
         ]);
     }
 
-    #[Route('profil/{id}', name: 'profiler', requirements:['id'=>'\d+'],methods:['GET'])]
-    public function show(int $id, UserRepository $userRepository):Response{
+    #[Route('profil/{id}', name: 'profiler', requirements:['id'=>'\d+'],methods:['GET', 'POST'])]
+    public function show(int $id, Request $request, UserRepository $userRepository, CsvImportCommand $csvImportCommand):Response{
         $user = $userRepository->find($id);
+
+        if ($this->isGranted("ROLE_ADMIN")){
+            $form = $this->createForm(ImportCSVFormType::class);
+            $form->handleRequest($request);
+
+            if ($form->isSubmitted() && $form->isValid() && $this->isGranted("ROLE_ADMIN")) {
+                $imageFile = $form->get('upload_file')->getData();
+                $csvImportCommand->uploadCSV($imageFile);
+                $csvImportCommand->createUsersFromCSV();
+                $this->addFlash('success','Tous les utilisateurs on été correctement ajoutés en base de donnée !');
+
+                return $this->redirectToRoute('app_accueil');
+            }
+        } else {
+            $form = null;
+        }
+
         if(!$user){
             throw $this->createNotFoundException('Utilisateur inconnu');
         }
 
-        return $this->render('registration/profiler.html.twig', ['user' => $user]);
+        return $this->render('registration/profiler.html.twig', ['user' => $user,'CSVForm' => $form]);
     }
 
     #[Route(path:'admin/profil/edit/{id}', name: 'editProfil',requirements:['id'=>'\d+'], methods: ['GET', 'POST'])]
@@ -81,7 +100,7 @@ class RegistrationController extends AbstractController
                     $fileUploader->delete($user->getImage(), $this->getParameter('app.images_user_directory'));
 
                     if ($imageFile) {
-                        $user->setImage($fileUploader->upload($imageFile));
+                        $user->setImage($fileUploader->upload($imageFile,'image'));
                     } else {
                         $user->setImage(null);
                     }

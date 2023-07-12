@@ -22,7 +22,6 @@
 
     {% block message %}{{ parent() }}{% endblock %}
     {{ form_start(accueilForm)}}
-
     <div class="rowTop">
         <div class="card">
             <div class="col">
@@ -59,17 +58,12 @@
 
             <button class="btn btn-primary">Rechercher</button>
         </div>
-
         <div class="card text-white bg-info" style="max-width: 18rem;">
             <h4>Date du jour: {{ "now"|date('d/m/Y')}}</h4>
             <h4>Participant: {{ user.firstname }} {{ user.lastname }}</h4>
-
         </div>
-
-
     </div>
-
-{#    <script src="{{ asset('javascript/accueil.js') }}"></script>#}
+    <script src="{{ asset('javascript/accueil.js') }}"></script>
     {{ form_end(accueilForm)}}
 
 

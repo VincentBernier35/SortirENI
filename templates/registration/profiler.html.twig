@@ -6,15 +6,16 @@
 
 {% block body %}
     <style>
-        .wrap{
+        .wrap {
             width: 100%;
             height: 80vh;
-            background-image: linear-gradient(to right top, white,white);
+            background-image: linear-gradient(to right top, white, white);
             display: flex;
             justify-content: center;
             align-items: center;
         }
-        .form{
+
+        .form {
             width: 800px;
             height: 460px;
             background: white;
@@ -27,7 +28,8 @@
             font-size: 16px;
             box-shadow: -5px -5px 20px #fff, 5px 5px 20px #babecc;
         }
-        .left{
+
+        .left {
             padding-left: 20px;
             width: 750px;
             height: 460px;
@@ -39,10 +41,10 @@
             <div class="right">
                 <h1 class="title">{{ user.pseudo }}</h1>
                 <p>Prénom : {{ user.lastName }}</p>
-                <p>Nom : {{  user.firstName }}</p>
+                <p>Nom : {{ user.firstName }}</p>
                 <p>Téléphone : {{ user.phoneNumber }}</p>
                 <p>Email : {{ user.email }}</p>
-                <p>Ville de rattachement : {{ user.site ? user.site.name : '?'}}</p>
+                <p>Ville de rattachement : {{ user.site ? user.site.name : '?' }}</p>
 
                 {% if app.user.id == user.id %}
                     <a href="{{ path('editProfil', {'id': user.id}) }}">
@@ -54,12 +56,19 @@
                 </a>
             </div>
             <div class="left">
-                    {% if user.image %}
-                        <img src="{{ asset('./'~app_images_user_directory ~ '/' ~ user.image) }}"
-                             class="card-img-top img-fluid" alt="image" />
-                    {% endif %}
+                {% if user.image %}
+                    <img src="{{ asset('./'~app_images_user_directory ~ '/' ~ user.image) }}"
+                         class="card-img-top img-fluid" alt="image"/>
+                {% endif %}
             </div>
-
         </div>
     </div>
+    {% if (is_granted("ROLE_ADMIN")) %}
+    <div class="csv">
+        {{ form_start(CSVForm) }}
+        {{ form_widget(CSVForm) }}
+        <button type="submit" class="submitBtn">Insérer</button>
+        {{ form_end(CSVForm) }}
+    </div>
+    {% endif %}
 {% endblock %}
