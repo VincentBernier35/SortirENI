@@ -8,29 +8,92 @@
         .date{
             display: flex;
         }
-        .card{
-            margin-top: 50px;
-            margin-bottom: 50px;
+        .form{
+            width: 1000px;
+            height: 240px;
+            background: white;
+            border-radius: 20px;
+            display: flex;
+            overflow: hidden;
+            font-weight: bold;
+            transition: all 0.2s ease-in-out;;
+            cursor: pointer;
+            font-size: 15px;
             box-shadow: -5px -5px 20px #fff, 5px 5px 20px #babecc;
+            padding-top: 20px;
+        }
+        .card{
             padding: 10px;
+            background: lightskyblue;
+            color:white;
+            border: none;
+            border-radius: 20px;
+            display: flex;
+            overflow: hidden;
+            font-weight: bold;
+            transition: all 0.2s ease-in-out;;
+            cursor: pointer;
+            font-size: 15px;
+            box-shadow: -5px -5px 20px #fff, 5px 5px 20px #babecc;
+            padding-top: 20px;
         }
-        .card:hover{
-            transform: scale(1.05);
+        .left{
+            padding: 10px;
+            width: 500px;
+            height: 260px;
         }
-
+        .right{
+            width: 500px;
+            height: 260px;
+        }
+        .my-form input {
+            margin-left: 8px;
+            box-shadow: inset 2px 2px 5px #babecc, inset -5px -5px 10px #fff;
+            box-sizing: border-box;
+            transition: all 0.2s ease-in-out;
+            appearance: none;
+            -webkit-appearance: none;
+            position: absolute;
+            outline: none;
+            background: none;
+            z-index: 1;
+        }
+        .my-form ::placeholder {
+            color: transparent;
+        }
+        .submitBtn:hover {
+            box-shadow: -2px -2px 5px #fff, 2px 2px 5px #babecc;
+            transform: translateY(-2px);
+        }
+        .inputContainer {
+            position: relative;
+            height: 45px;
+            width: 100%;
+            margin-bottom: 10px;
+        }
+        .submitBtn, .my-form input {
+            background-color: #ebecf0;
+            text-shadow: 1px 1px 0 #fff;
+            border-radius: 7px;
+            font-size: 15px;
+            padding: 12px;
+            border: 0;
+            outline: 0;
+        }
     </style>
 
     {% block message %}{{ parent() }}{% endblock %}
-    {{ form_start(accueilForm)}}
+    {{ form_start(accueilForm, {'attr': {'class': 'my-form'}})}}
+
     <div class="rowTop">
-        <div class="card">
+        <div class="form">
+        <div class="left">
             <div class="col">
                 {{ form_row(accueilForm.site) }}
             </div>
             <div class="col" id="some-custom-id">
                 {{ form_row(accueilForm.key) }}
             </div>
-
             <div class="date">
                 <div class="col">
                     {{ form_row(accueilForm.startDateTime) }}
@@ -39,10 +102,8 @@
                     {{ form_row(accueilForm.endDateTime) }}
                 </div>
             </div>
-
         </div>
-
-        <div class="card">
+        <div class="right">
             <div class="col" id="some-custom-id">
                 {{ form_row(accueilForm.promoter) }}
             </div>
@@ -54,19 +115,19 @@
             </div>
             <div class="col">
                 {{ form_row(accueilForm.oldEvent) }}
-            </div>
-
-            <button class="btn btn-primary">Rechercher</button>
+            </div><br>
+            <button class="submitBtn">Rechercher</button>
         </div>
-        <div class="card text-white bg-info" style="max-width: 18rem;">
-            <h4>Date du jour: {{ "now"|date('d/m/Y')}}</h4>
+
+        </div>
+        <div class="card" style="max-width: 18rem;">
+            <h4>Date du jour: {{ "now"|date('d/m/Y')}}</h4><br><br>
+
             <h4>Participant: {{ user.firstname }} {{ user.lastname }}</h4>
         </div>
     </div>
     <script src="{{ asset('javascript/accueil.js') }}"></script>
     {{ form_end(accueilForm)}}
-
-
     <table class="table table-striped">
         <thead>
         <tr>
@@ -157,5 +218,5 @@
         {% endfor %}
         </tbody>
     </table>
-    <a href="{{ path('event_createEvent') }}"><button class="btn btn-primary ">Créer une sortie</button></a>
+    <a href="{{ path('event_createEvent') }}"><button class=submitBtn">Créer une sortie</button></a>
 {% endblock %}
