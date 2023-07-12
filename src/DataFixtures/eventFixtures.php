@@ -29,7 +29,7 @@ class eventFixtures extends Fixture implements DependentFixtureInterface
                 ->setState($this->getReference('state0'))
                 ->setSite($this->getReference('site'.mt_rand(1,6)))
                 ->setPlace($this->getReference('place'.mt_rand(1,6)))
-                ->setImage('event'.mt_rand(1,6).'jpg');
+                ->setImage('event'.mt_rand(1,6).'.jpg');
             for ($j=1;$j<=$event->getPlaceMax()-1;$j++) {
                 $event->addUsersEvent($this->getReference('participant'.mt_rand(1,30)));
             }
@@ -51,7 +51,7 @@ class eventFixtures extends Fixture implements DependentFixtureInterface
                 ->setState($this->getReference('state1'))
                 ->setSite($this->getReference('site'.mt_rand(1,6)))
                 ->setPlace($this->getReference('place'.mt_rand(1,6)))
-                ->setImage('event'.mt_rand(1,6).'jpg');
+                ->setImage('event'.mt_rand(1,6).'.jpg');
             for ($j=1;$j<=$event->getPlaceMax()-1;$j++) {
                 $event->addUsersEvent($this->getReference('participant'.mt_rand(1,30)));
             }
@@ -73,7 +73,7 @@ class eventFixtures extends Fixture implements DependentFixtureInterface
                 ->setState($this->getReference('state2'))
                 ->setSite($this->getReference('site'.mt_rand(1,6)))
                 ->setPlace($this->getReference('place'.mt_rand(1,6)))
-                ->setImage('event'.mt_rand(1,6).'jpg');
+                ->setImage('event'.mt_rand(1,6).'.jpg');
             for ($j=1;$j<=$event->getPlaceMax()-1;$j++) {
                 $event->addUsersEvent($this->getReference('participant'.mt_rand(1,30)));
             }
@@ -95,7 +95,7 @@ class eventFixtures extends Fixture implements DependentFixtureInterface
                 ->setState($this->getReference('state3'))
                 ->setSite($this->getReference('site'.mt_rand(1,6)))
                 ->setPlace($this->getReference('place'.mt_rand(1,6)))
-                ->setImage('event'.mt_rand(1,6).'jpg');
+                ->setImage('event'.mt_rand(1,6).'.jpg');
             for ($j=1;$j<=$event->getPlaceMax()-1;$j++) {
                 $event->addUsersEvent($this->getReference('participant'.mt_rand(1,30)));
             }
@@ -117,7 +117,7 @@ class eventFixtures extends Fixture implements DependentFixtureInterface
                 ->setState($this->getReference('state4'))
                 ->setSite($this->getReference('site'.mt_rand(1,6)))
                 ->setPlace($this->getReference('place'.mt_rand(1,6)))
-                ->setImage('event'.mt_rand(1,6).'jpg');
+                ->setImage('event'.mt_rand(1,6).'.jpg');
             for ($j=1;$j<=$event->getPlaceMax()-1;$j++) {
                 $event->addUsersEvent($this->getReference('participant'.mt_rand(1,30)));
             }
@@ -139,7 +139,7 @@ class eventFixtures extends Fixture implements DependentFixtureInterface
                 ->setState($this->getReference('state5'))
                 ->setSite($this->getReference('site'.mt_rand(1,6)))
                 ->setPlace($this->getReference('place'.mt_rand(1,6)))
-                ->setImage('event'.mt_rand(1,6).'jpg');
+                ->setImage('event'.mt_rand(1,6).'.jpg');
             for ($j=1;$j<=$event->getPlaceMax()-1;$j++) {
                 $event->addUsersEvent($this->getReference('participant'.mt_rand(1,30)));
             }

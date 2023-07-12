@@ -33,6 +33,20 @@
             box-shadow: -5px -5px 20px #fff, 5px 5px 20px #babecc;
             padding-top: 20px;
         }
+        .card{
+            width: 362px;
+            height: 450px;
+            margin-bottom: 20px;
+            box-shadow: -5px -5px 20px #fff, 5px 5px 20px #babecc;
+        }
+        .card-img-top{
+            width: 362px;
+            height: 200px;
+        }
+        .card:hover{
+            transform: scale(1.05);
+        }
+
         .nomSortie {
             word-wrap: break-word;
             width: 120px;
@@ -69,6 +83,13 @@
             border: 0;
             outline: 0;
         }
+        .containerAllEventsCards{
+            display: flex;
+            flex-wrap: wrap;
+            margin-top: 50px;
+            justify-content: space-evenly;
+        }
+
         @media only screen and (max-width: 600px) {
             . * {
                 font-size: small;
@@ -100,6 +121,7 @@
                 font-size: 10px;
                 box-shadow: -5px -5px 20px #fff, 5px 5px 20px #babecc;
             }
+
         }
     </style>
 
@@ -132,21 +154,7 @@
     <script src="{{ asset('javascript/accueil.js') }}"></script>
     {{ form_end(accueilForm)}}
 
-        {#    <table class="table table-striped">#}
-    {#        <thead>#}
-    {#        <tr>#}
-    {#            <th>Nom de la sortie</th>#}
-    {#            <th>Date de la sortie</th>#}
-    {#            <th>Clôture</th>#}
-    {#            <th>inscrits/places</th>#}
-    {#            <th>Etat</th>#}
-    {#            <th>Inscrit</th>#}
-    {#            <th>Organisateur</th>#}
-    {#            <th>Actions</th>#}
-    {#            <th></th>#}
-    {#        </tr>#}
-    {#        </thead>#}
-    {#        <tbody>#}
+
 <div class="containerAllEventsCards">
     {% for event in events %}
         {% set isPresent = '' %}
@@ -187,14 +195,14 @@
         {% endif %}
 
         {% if (isPresent == 'present' and isRegisteredChoice) or (isPresent == '' and isNotRegisteredChoice) or (isRegisteredChoice is empty and isNotRegisteredChoice is empty) %}
-            <div class="containerCard">
+
                 <div class="card">
-                    <img class="card-img-top" src="{{ asset('images/welcomePage/activities.jpg') }}" alt="Card image cap">
+                    <img class="card-img-top" src="{{ asset('./'~app_images_event_directory ~ '/' ~ event.image) }}" alt="Card image cap">
                     <div class="card-body">
                         <h5 class="card-title">{{ event.name }}</h5>
                         <p class="card-text">Date: {{ event.startTime|date('d/m/Y') }}</p>
                         <p class="card-text">inscrit/nb places: {{ event.getUsersEvents.count }}/{{ event.placeMax }}</p>
-                        <div>
+                        <div class="card-text">
                             {% if canDisplay == 'yes' %}
                                 <a href="{{ path('event_event', {'id': event.id}) }}" title="Détail de cet évènement"><button class="btn btn-info btn-sm">Afficher</button></a>
                             {% endif %}
@@ -217,47 +225,13 @@
                         </div>
                     </div>
                 </div>
-            </div>
 
 
-            {#                <tr class="tr">#}
-            {#                    <td>{{ event.name }}</td>#}
-            {#                    <td>{{ event.startTime|date('d/m/Y') }}</td>#}
-            {#                    <td>{{ event.deadLine|date('d/m/Y') }}</td>#}
-            {#                    <td>{{ event.getUsersEvents.count }}/{{ event.placeMax }}</td>#}
-            {#                    {% set st = event.state.reference %}#}
-            {#                    <td>{{ stateX[st] }}</td>#}
-            {#                    <td>{{ isPresent ? 'X' : '' }}</td>#}
-            {#                    <td>{{ event.promoter.firstname }} {{ event.promoter.lastName }}</td>#}
-            {#                    <td>#}
-            {#                        {% if canDisplay == 'yes' %}#}
-            {#                            <a href="{{ path('event_event', {'id': event.id}) }}" title="Détail de cet évènement"><button class="btn btn-info btn-sm">Afficher</button></a>#}
-            {#                        {% endif %}#}
-            {#                        {% if canWithDraw == 'yes' %}#}
-            {#                            <a href="{{ path('event_user_unregistered', {'id': event.id}) }}" title="Se désister de cet évènement"><button class="btn btn-warning btn-sm">Se désister</button></a>#}
-            {#                        {% endif %}#}
-            {#                        {% if (canRegister == 'yes' and event.getUsersEvents.count < event.placeMax) %}#}
-            {#                            <a href="{{ path('event_user_registered', {'id': event.id}) }}" title="S'incrire à cet évènement"><button class="btn btn-primary btn-sm">S'inscrire</button></a>#}
-            {#                        {% endif %}#}
-            {#                        {% if canModifie == 'yes' %}#}
-            {#                            <a href="{{ path('event_editEvent', {'id': event.id}) }}" title="Modifier cet évènement"><button class="btn btn-success btn-sm">Modifier</button></a>#}
-            {#                        {% endif %}#}
-            {#                        {% if canCancel == 'yes' %}#}
-            {#                            <a href="{{ path('event_cancelEvent', {'id': event.id}) }}" title="Annuler cet évènement"><button class="btn btn-danger btn-sm">Annuler</button></a>#}
-            {#                        {% endif %}#}
-            {#                        {% if canPublished == 'yes' %}#}
-            {#                            <a href="{{ path('event_publishEvent', {'id': event.id}) }}" title="Publier cet évènement"><button class="btn btn-success btn-sm">Publier</button></a>#}
-            {#                        {% endif %}#}
-            {#                    </td>#}
-            {#                </tr>#}
         {% endif %}
     {% else %}
         {#            <tr><td colspan="5">Aucune donnée dans la BDD.</td></tr>#}
     {% endfor %}
-    </divclass>
-
-    {#        </tbody>#}
-    {#    </table>#}
+    </div>
 
 
     <a href="{{ path('event_createEvent') }}"><button class="submitBtn">Créer une sortie</button></a>
