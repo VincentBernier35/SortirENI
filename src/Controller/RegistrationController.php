@@ -28,9 +28,9 @@ class RegistrationController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
 
-            $imageFile = $form->get('image')->getData();
+            $imageFile = $form->get('Image')->getData();
             if ($imageFile){
-                $user->setImage($fileUploader->upload($imageFile));
+                $user->setImage($fileUploader->upload($imageFile, $this->getParameter('app.images_user_directory')));
             }
 
             // encode the plain password
@@ -100,7 +100,7 @@ class RegistrationController extends AbstractController
                     $fileUploader->delete($user->getImage(), $this->getParameter('app.images_user_directory'));
 
                     if ($imageFile) {
-                        $user->setImage($fileUploader->upload($imageFile,'image'));
+                        $user->setImage($fileUploader->upload($imageFile,$this->getParameter('app.images_user_directory')));
                     } else {
                         $user->setImage(null);
                     }
