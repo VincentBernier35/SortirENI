@@ -14,9 +14,9 @@
             align-items: center;
         }
         .form{
-            padding-left: 250px;
-            padding-top: 40px;
-            width: 800px;
+            padding-left: 150px;
+            padding-top: 30px;
+            width: 700px;
             height: 760px;
             background: white;
             border-radius: 20px;
@@ -91,6 +91,15 @@
         .my-form ::placeholder {
             color: transparent;
         }
+        .lieu{
+            display: flex;
+        }
+        .btn{
+            padding-left: 150px;
+        }
+        .btns{
+            padding-top: 20px;
+        }
         .submitBtn {
             color: #ff6f61;
             font-weight: bold;
@@ -130,18 +139,24 @@
             <div class="inputContainer">
                 <p>Ville organisatrice : {{ user.site.name }}</p>
             </div>
-            <div class="inputContainer">
+            <div class="lieu">
                 {{ form_row(eventForm.place) }}
+                <div class="btn">
+                <a href="{{ path('event_add_place') }}" class="submitBtn">
+                    Ajouter un lieu
+                </a>
+                </div>
+            </div><br><br>
+            <div class="inputContainer">
+                {{ form_row(eventForm.Image) }}
             </div>
-
-            <a href="{{ path('event_add_place') }}" class="submitBtn">
-                Ajouter un lieu
-            </a><br><br><br>
+            <div class="btns">
                 <button type="submit" class="submitBtn">Enregistrer</button>
-            <a href="{{ path('app_accueil') }}" class="submitBtn">
-                Annuler
-            </a>
-            {{ form_end(eventForm) }}
+                <a href="{{ path('app_accueil') }}" class="submitBtn">
+                    Annuler
+                </a>
+            </div>
+                {{ form_end(eventForm) }}
             </div>
         </div>
     </div>
