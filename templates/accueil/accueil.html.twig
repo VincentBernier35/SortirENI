@@ -80,11 +80,11 @@
             border: 0;
             outline: 0;
         }
-
     </style>
 
     {% block message %}{{ parent() }}{% endblock %}
     {{ form_start(accueilForm, {'attr': {'class': 'my-form'}})}}
+
     <div class="rowTop">
         <div class="form">
         <div class="left">
@@ -118,14 +118,15 @@
             </div><br>
             <button class="submitBtn">Rechercher</button>
         </div>
+
         </div>
         <div class="card" style="max-width: 18rem;">
             <h4>Date du jour: {{ "now"|date('d/m/Y')}}</h4><br><br>
+
             <h4>Participant: {{ user.firstname }} {{ user.lastname }}</h4>
         </div>
     </div>
-
-{#    <script src="{{ asset('javascript/accueil.js') }}"></script>#}
+    <script src="{{ asset('javascript/accueil.js') }}"></script>
     {{ form_end(accueilForm)}}
     <table class="table table-striped">
         <thead>

@@ -3,5 +3,10 @@ document.getElementById("accueil_form_registered").addEventListener("click", che
 document.getElementById("accueil_form_notRegistered").addEventListener("click", checkClickFunc);
 document.getElementById("accueil_form_oldEvent").addEventListener("click", checkClickFunc);
 function checkClickFunc() {
-    document.forms['accueil_form'].submit();
+    let liste = document.getElementById("accueil_form_site");
+    let value = liste.options[liste.selectedIndex].text;
+    console.log(value);
+    if (value !== "--Choisir un lieu--"){
+        document.forms['accueil_form'].submit();
+    }
 }
