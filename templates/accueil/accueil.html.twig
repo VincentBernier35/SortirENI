@@ -201,6 +201,9 @@
                     <div class="card-body">
                         <h5 class="card-title">{{ event.name }}</h5>
                         <p class="card-text">Date: {{ event.startTime|date('d/m/Y') }}</p>
+
+                        {% set st = event.state.reference %}
+                        <p class="card-text">Etat: {{ stateX[st] }}</p>
                         <p class="card-text">inscrit/nb places: {{ event.getUsersEvents.count }}/{{ event.placeMax }}</p>
                         <div class="card-text">
                             {% if canDisplay == 'yes' %}
