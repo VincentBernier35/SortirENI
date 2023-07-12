@@ -10,6 +10,7 @@ use App\Form\PlaceFormType;
 use App\Repository\EventRepository;
 use App\Repository\PlaceRepository;
 use App\Repository\StateRepository;
+use App\Service\FileUploader;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -21,7 +22,7 @@ use Symfony\Bundle\SecurityBundle\Security;
 class EventController extends AbstractController
 {
     #[Route(path:'/create', name: 'createEvent',requirements:['id'=>'\d+'], methods: ['GET', 'POST'])]
-    public function createEvent(StateRepository $stateRepository, Request $request, EntityManagerInterface $em,Security $security):Response
+    public function createEvent(StateRepository $stateRepository, Request $request, EntityManagerInterface $em,Security $security, FileUploader $fileUploader):Response
     {
         if ( $security->getUser() ){
             $user = $this->getUser();
@@ -33,6 +34,10 @@ class EventController extends AbstractController
             $eventForm = $this->createForm(EventFormType::class, $event);
             $eventForm -> handleRequest($request);
             if ( $eventForm->isSubmitted() && $eventForm->isValid() ){
+                $imageFile = $eventForm->get('Image')->getData();
+                if ($imageFile){
+                    $event->setImage($fileUploader->upload($imageFile, $this->getParameter('app.images_event_directory')));
+                }
                 $em->persist($event);
                 $em->flush();
                 return $this->redirectToRoute('event_event', ['id'=>$event->getId()]);
@@ -84,7 +89,7 @@ class EventController extends AbstractController
         return $this->render('event/showOneEvent.html.twig', ['event' => $event,'user'=>$user]);
     }
     #[Route(path:'/edit/{id}', name: 'editEvent',requirements:['id'=>'\d+'], methods: ['GET', 'POST'])]
-    public function editEvent(int $id, Request $request, EventRepository $eventRepository, EntityManagerInterface $em):Response
+    public function editEvent(int $id, Request $request, EventRepository $eventRepository, EntityManagerInterface $em, FileUploader $fileUploader):Response
     {
         $user = $this->getUser();
         $event=$eventRepository->find($id);
@@ -98,7 +103,19 @@ class EventController extends AbstractController
         $eventForm->handleRequest($request);
 
         if ($eventForm->isSubmitted()&&$eventForm->isValid()){
+            $imageFile = $eventForm->get('Image')->getData();
+
             if ($request->request->has('save')){
+                    if (($eventForm->has('deleteImage') && $eventForm['deleteImage']->getData()) || $imageFile) {
+
+                        $fileUploader->delete($event->getImage(), $this->getParameter('app.images_event_directory'));
+
+                        if ($imageFile) {
+                            $event->setImage($fileUploader->upload($imageFile, $this->getParameter('app.images_event_directory')));
+                        } else {
+                            $event->setImage(null);
+                        }
+                    }
                     $em->flush();
                     $this->addFlash('success', 'La sortie mise à jour a été faites avec succès ! ');
                     return $this->redirectToRoute('event_event', ['id' => $event->getId()]);

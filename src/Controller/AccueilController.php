@@ -23,7 +23,7 @@ class AccueilController extends AbstractController
             $eventForm = $this->createForm(AccueilFormType::class, $event);
             $eventForm->handleRequest($request);
 
-            if ( $eventForm->isSubmitted() && $eventForm->isValid() ) {
+            if ( $eventForm->isSubmitted() && $eventForm->isValid() && $eventForm->get('site')->getData()) {
                 $siteID = $eventForm->get('site')->getData()->getId();
                 $isPromoterChoice = $eventForm->get('promoter')->getData();
                 $isRegisteredChoice = $eventForm->get('registered')->getData();
@@ -42,7 +42,6 @@ class AccueilController extends AbstractController
                 $events = $eventRepository->findFilteredEvents($siteID, $startDateTime, $endDateTime, $promoterID, $keyWord, $maximumStateValue);
             } else {
                 $events = $eventRepository->findBasicEvents($user->getId());
-                //$events = $eventRepository->findAll();
                 $isRegisteredChoice = null;
                 $isNotRegisteredChoice = null;
             }
