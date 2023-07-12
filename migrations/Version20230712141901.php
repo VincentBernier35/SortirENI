@@ -10,7 +10,7 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20230712093239 extends AbstractMigration
+final class Version20230712141901 extends AbstractMigration
 {
     public function getDescription(): string
     {
@@ -20,9 +20,8 @@ final class Version20230712093239 extends AbstractMigration
     public function up(Schema $schema): void
     {
         // this up() migration is auto-generated, please modify it to your needs
-        $this->addSql('ALTER TABLE event DROP FOREIGN KEY FK_3BAE0AA74B84B276');
-        $this->addSql('ALTER TABLE event ADD image VARCHAR(50) DEFAULT NULL, CHANGE start_time start_time DATETIME NOT NULL');
-        $this->addSql('ALTER TABLE event ADD CONSTRAINT FK_3BAE0AA74B84B2764B84B276 FOREIGN KEY (promoter_id) REFERENCES user (id) ON DELETE CASCADE');
+        $this->addSql('CREATE TABLE comment (id INT AUTO_INCREMENT NOT NULL, event_id INT DEFAULT NULL, content LONGTEXT DEFAULT NULL, INDEX IDX_9474526C71F7E88B (event_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
+        $this->addSql('ALTER TABLE comment ADD CONSTRAINT FK_9474526C71F7E88B FOREIGN KEY (event_id) REFERENCES event (id)');
         $this->addSql('CREATE UNIQUE INDEX UNIQ_8D93D649E7927C74 ON user (email)');
         $this->addSql('CREATE UNIQUE INDEX UNIQ_8D93D64986CC499D ON user (pseudo)');
     }
@@ -30,9 +29,8 @@ final class Version20230712093239 extends AbstractMigration
     public function down(Schema $schema): void
     {
         // this down() migration is auto-generated, please modify it to your needs
-        $this->addSql('ALTER TABLE event DROP FOREIGN KEY FK_3BAE0AA74B84B2764B84B276');
-        $this->addSql('ALTER TABLE event DROP image, CHANGE start_time start_time DATETIME NOT NULL COMMENT \'(DC2Type:datetime_immutable)\'');
-        $this->addSql('ALTER TABLE event ADD CONSTRAINT FK_3BAE0AA74B84B276 FOREIGN KEY (promoter_id) REFERENCES user (id) ON UPDATE NO ACTION ON DELETE NO ACTION');
+        $this->addSql('ALTER TABLE comment DROP FOREIGN KEY FK_9474526C71F7E88B');
+        $this->addSql('DROP TABLE comment');
         $this->addSql('DROP INDEX UNIQ_8D93D649E7927C74 ON user');
         $this->addSql('DROP INDEX UNIQ_8D93D64986CC499D ON user');
     }
