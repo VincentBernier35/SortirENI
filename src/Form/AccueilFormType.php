@@ -17,7 +17,7 @@ class AccueilFormType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('site', EntityType::class, ['label' => 'Site: ',
+            ->add('site', EntityType::class, ['label' => 'Site : ',
                                                         'class' => Site::class,
                                                         'required' => true,
                                                         'choice_label' => 'name',
@@ -40,7 +40,7 @@ class AccueilFormType extends AbstractType
                 'required' => false])
             ->add('key',TextType::class,[
                 'mapped' => false,
-                'label'=>'Le nom de la sortie contient: ',
+                'label'=>'Le nom de la sortie contient : ',
                 'required' => false])
             ->add('startDateTime', DateType::class, [
                 'mapped' => false,
