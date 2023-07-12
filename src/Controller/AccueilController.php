@@ -19,12 +19,17 @@ class AccueilController extends AbstractController
         if ($security->getUser()) {
 
             $event = new Event();
-            $user = $this->getUser();
+            $userID = $this->getUser()->getId();
             $eventForm = $this->createForm(AccueilFormType::class, $event);
             $eventForm->handleRequest($request);
 
-            if ( $eventForm->isSubmitted() && $eventForm->isValid() && $eventForm->get('site')->getData()) {
-                $siteID = $eventForm->get('site')->getData()->getId();
+            if ( $eventForm->isSubmitted() && $eventForm->isValid()) {
+                if ( $eventForm->get('site')->getData() ){
+                    $siteID = $eventForm->get('site')->getData()->getId();
+                } else {
+                    $siteID = 0;
+                }
+
                 $isPromoterChoice = $eventForm->get('promoter')->getData();
                 $isRegisteredChoice = $eventForm->get('registered')->getData();
                 $isNotRegisteredChoice = $eventForm->get('notRegistered')->getData();
@@ -33,15 +38,15 @@ class AccueilController extends AbstractController
                 $startDateTime = $eventForm->get('startDateTime')->getData();
                 $endDateTime = $eventForm->get('endDateTime')->getData();
 
-                ($isPromoterChoice) ? ($promoterID = $user->getId()) : ($promoterID = 0);
+                ($isPromoterChoice) ? ($promoterID = $userID) : ($promoterID = 0);
                 ($isOldEventChoice) ? ($maximumStateValue = 6) : ($maximumStateValue = 5);
                 if (is_null($keyWord)) {
-                    $keyWord = '&';
+                    $keyWord = '-no search-';
                 }
 
-                $events = $eventRepository->findFilteredEvents($siteID, $startDateTime, $endDateTime, $promoterID, $keyWord, $maximumStateValue);
+                $events = $eventRepository->findFilteredEvents($siteID, $userID, $startDateTime, $endDateTime, $promoterID, $keyWord, $maximumStateValue);
             } else {
-                $events = $eventRepository->findBasicEvents($user->getId());
+                $events = $eventRepository->findBasicEvents($userID);
                 $isRegisteredChoice = null;
                 $isNotRegisteredChoice = null;
             }
