@@ -6,7 +6,7 @@ function checkClickFunc() {
     let liste = document.getElementById("accueil_form_site");
     let value = liste.options[liste.selectedIndex].text;
     console.log(value);
-    if (value !== "--Choisir un lieu--"){
+    if (value !== "--Tous les sites--"){
         document.forms['accueil_form'].submit();
     }
 }
