@@ -61,6 +61,9 @@ class Event
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $cancelReason = null;
 
+    #[ORM\Column(length: 50, nullable: true)]
+    private ?string $Image = null;
+
     /**
      * @param Collection $users_events
      */
@@ -240,6 +243,18 @@ class Event
     public function setCancelReason(?string $cancelReason): static
     {
         $this->cancelReason = $cancelReason;
+
+        return $this;
+    }
+
+    public function getImage(): ?string
+    {
+        return $this->Image;
+    }
+
+    public function setImage(?string $Image): static
+    {
+        $this->Image = $Image;
 
         return $this;
     }

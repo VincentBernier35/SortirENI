@@ -157,21 +157,21 @@
 
 
 
-{#    <table class="table table-striped">#}
-{#        <thead>#}
-{#        <tr>#}
-{#            <th>Nom de la sortie</th>#}
-{#            <th>Date de la sortie</th>#}
-{#            <th>Clôture</th>#}
-{#            <th>inscrits/places</th>#}
-{#            <th>Etat</th>#}
-{#            <th>Inscrit</th>#}
-{#            <th>Organisateur</th>#}
-{#            <th>Actions</th>#}
-{#            <th></th>#}
-{#        </tr>#}
-{#        </thead>#}
-{#        <tbody>#}
+    {#    <table class="table table-striped">#}
+    {#        <thead>#}
+    {#        <tr>#}
+    {#            <th>Nom de la sortie</th>#}
+    {#            <th>Date de la sortie</th>#}
+    {#            <th>Clôture</th>#}
+    {#            <th>inscrits/places</th>#}
+    {#            <th>Etat</th>#}
+    {#            <th>Inscrit</th>#}
+    {#            <th>Organisateur</th>#}
+    {#            <th>Actions</th>#}
+    {#            <th></th>#}
+    {#        </tr>#}
+    {#        </thead>#}
+    {#        <tbody>#}
     <div class="containerAllEventsCards">
         {% for event in events %}
             {% set isPresent = '' %}
@@ -245,43 +245,43 @@
                 </div>
 
 
-{#                <tr class="tr">#}
-{#                    <td>{{ event.name }}</td>#}
-{#                    <td>{{ event.startTime|date('d/m/Y') }}</td>#}
-{#                    <td>{{ event.deadLine|date('d/m/Y') }}</td>#}
-{#                    <td>{{ event.getUsersEvents.count }}/{{ event.placeMax }}</td>#}
-{#                    {% set st = event.state.reference %}#}
-{#                    <td>{{ stateX[st] }}</td>#}
-{#                    <td>{{ isPresent ? 'X' : '' }}</td>#}
-{#                    <td>{{ event.promoter.firstname }} {{ event.promoter.lastName }}</td>#}
-{#                    <td>#}
-{#                        {% if canDisplay == 'yes' %}#}
-{#                            <a href="{{ path('event_event', {'id': event.id}) }}" title="Détail de cet évènement"><button class="btn btn-info btn-sm">Afficher</button></a>#}
-{#                        {% endif %}#}
-{#                        {% if canWithDraw == 'yes' %}#}
-{#                            <a href="{{ path('event_user_unregistered', {'id': event.id}) }}" title="Se désister de cet évènement"><button class="btn btn-warning btn-sm">Se désister</button></a>#}
-{#                        {% endif %}#}
-{#                        {% if (canRegister == 'yes' and event.getUsersEvents.count < event.placeMax) %}#}
-{#                            <a href="{{ path('event_user_registered', {'id': event.id}) }}" title="S'incrire à cet évènement"><button class="btn btn-primary btn-sm">S'inscrire</button></a>#}
-{#                        {% endif %}#}
-{#                        {% if canModifie == 'yes' %}#}
-{#                            <a href="{{ path('event_editEvent', {'id': event.id}) }}" title="Modifier cet évènement"><button class="btn btn-success btn-sm">Modifier</button></a>#}
-{#                        {% endif %}#}
-{#                        {% if canCancel == 'yes' %}#}
-{#                            <a href="{{ path('event_cancelEvent', {'id': event.id}) }}" title="Annuler cet évènement"><button class="btn btn-danger btn-sm">Annuler</button></a>#}
-{#                        {% endif %}#}
-{#                        {% if canPublished == 'yes' %}#}
-{#                            <a href="{{ path('event_publishEvent', {'id': event.id}) }}" title="Publier cet évènement"><button class="btn btn-success btn-sm">Publier</button></a>#}
-{#                        {% endif %}#}
-{#                    </td>#}
-{#                </tr>#}
+                {#                <tr class="tr">#}
+                {#                    <td>{{ event.name }}</td>#}
+                {#                    <td>{{ event.startTime|date('d/m/Y') }}</td>#}
+                {#                    <td>{{ event.deadLine|date('d/m/Y') }}</td>#}
+                {#                    <td>{{ event.getUsersEvents.count }}/{{ event.placeMax }}</td>#}
+                {#                    {% set st = event.state.reference %}#}
+                {#                    <td>{{ stateX[st] }}</td>#}
+                {#                    <td>{{ isPresent ? 'X' : '' }}</td>#}
+                {#                    <td>{{ event.promoter.firstname }} {{ event.promoter.lastName }}</td>#}
+                {#                    <td>#}
+                {#                        {% if canDisplay == 'yes' %}#}
+                {#                            <a href="{{ path('event_event', {'id': event.id}) }}" title="Détail de cet évènement"><button class="btn btn-info btn-sm">Afficher</button></a>#}
+                {#                        {% endif %}#}
+                {#                        {% if canWithDraw == 'yes' %}#}
+                {#                            <a href="{{ path('event_user_unregistered', {'id': event.id}) }}" title="Se désister de cet évènement"><button class="btn btn-warning btn-sm">Se désister</button></a>#}
+                {#                        {% endif %}#}
+                {#                        {% if (canRegister == 'yes' and event.getUsersEvents.count < event.placeMax) %}#}
+                {#                            <a href="{{ path('event_user_registered', {'id': event.id}) }}" title="S'incrire à cet évènement"><button class="btn btn-primary btn-sm">S'inscrire</button></a>#}
+                {#                        {% endif %}#}
+                {#                        {% if canModifie == 'yes' %}#}
+                {#                            <a href="{{ path('event_editEvent', {'id': event.id}) }}" title="Modifier cet évènement"><button class="btn btn-success btn-sm">Modifier</button></a>#}
+                {#                        {% endif %}#}
+                {#                        {% if canCancel == 'yes' %}#}
+                {#                            <a href="{{ path('event_cancelEvent', {'id': event.id}) }}" title="Annuler cet évènement"><button class="btn btn-danger btn-sm">Annuler</button></a>#}
+                {#                        {% endif %}#}
+                {#                        {% if canPublished == 'yes' %}#}
+                {#                            <a href="{{ path('event_publishEvent', {'id': event.id}) }}" title="Publier cet évènement"><button class="btn btn-success btn-sm">Publier</button></a>#}
+                {#                        {% endif %}#}
+                {#                    </td>#}
+                {#                </tr>#}
             {% endif %}
         {% else %}
-{#            <tr><td colspan="5">Aucune donnée dans la BDD.</td></tr>#}
+            {#            <tr><td colspan="5">Aucune donnée dans la BDD.</td></tr>#}
         {% endfor %}
         </divclass>
 
-{#        </tbody>#}
-{#    </table>#}
-    <a href="{{ path('event_createEvent') }}"><button class=submitBtn">Créer une sortie</button></a>
+        {#        </tbody>#}
+        {#    </table>#}
+        <a href="{{ path('event_createEvent') }}"><button class=submitBtn">Créer une sortie</button></a>
 {% endblock %}

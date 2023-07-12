@@ -64,10 +64,10 @@ class RegistrationController extends AbstractController
             if ($form->isSubmitted() && $form->isValid() && $this->isGranted("ROLE_ADMIN")) {
                 $imageFile = $form->get('upload_file')->getData();
                 $csvImportCommand->uploadCSV($imageFile);
-                $csvImportCommand->createUsersFromCSV();
-                $this->addFlash('success','Tous les utilisateurs on été correctement ajoutés en base de donnée !');
+                $message = $csvImportCommand->createUsersFromCSV();
+                $this->addFlash($message[0],$message[1]);
 
-                return $this->redirectToRoute('app_accueil');
+                return $this->render('registration/profiler.html.twig', ['user' => $user,'CSVForm' => $form]);
             }
         } else {
             $form = null;

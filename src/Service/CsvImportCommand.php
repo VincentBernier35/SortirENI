@@ -57,7 +57,7 @@ final class CsvImportCommand
         return $serializer->decode($fileString, $fileExtension);
     }
 
-    public function createUsersFromCSV(): void
+    public function createUsersFromCSV(): array
     {
         $check = $this->parseCSV()[0];
         if (array_key_exists('pseudo', $check)
@@ -85,9 +85,15 @@ final class CsvImportCommand
                 $this->entityManager->persist($user);
             }
 
-            $this->entityManager->flush();
-        } else {
+            try {
+                $this->entityManager->flush();
+            } catch (\Exception $e){
+                return ['danger',"Des éléments sont identiques dans votre fichier ou sont déjà présents dans la base de donnée (email, pseudo, ...)"];
+            }
 
+            return ['success',"Tous les utilisateurs on été correctement ajoutés en base de donnée !"];
+        } else {
+            return ['danger',"Le format du fichier n'est compatible. Aucun utilisateur n'a été ajouté en base de donnée !"];
         }
     }
 }
