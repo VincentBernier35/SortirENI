@@ -13,10 +13,10 @@
 `php bin/console make:migration`
 `php bin/console doctrine:migrations:migrate`
 6. chargé les fixtures (faker)
-`php bin/console app:fixtures:load`
+`php bin/console doctrine:fixtures:load`
 7. lancer le serveur
 `symfony server:start`
-8. utiliser un serveur SMTP pour tester la feature "mot de passe oublié
+8. utiliser d'un serveur SMTP pour tester la feature "mot de passe oublié
 `https://www.papercut.com/help/manuals/ng-mf/common/sys-notifications-configure-email/`
 9. si utilisation de papercut
 `symfony console messenger:consume async`
