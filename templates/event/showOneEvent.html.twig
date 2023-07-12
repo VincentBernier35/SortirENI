@@ -55,7 +55,7 @@
     </div>
     </div>
     <div class="form">
-    <h1 class="title">Participants inscrits:</h1>
+    <h1 class="title">Participants inscrits :</h1>
         <table class="table table-striped">
             <thead>
                 <tr>
@@ -75,6 +75,32 @@
                 </tbody>
         </table>
     </div>
+{% set cancomment = '' %}
+    {% if event.state.reference == 3 or event.state.reference == 4 or event.state.reference == 5 %}
+        {% set cancomment = 'yes' %}
+    {% endif %}
+    <div class="form">
+    <h1 class="title">Commentaires :</h1>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th scope="col">Pseudo</th>
+                    <th scope="col">Content</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for comment in event.getComments %}
+                <tr>
+                    <td><a href="{{ path('profiler', {'id': use.id}) }}">{{ user.pseudo }}</a></td>
+                    <td>{{ comment.content }}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% if cancomment == 'yes' %}
+        <a href="{{ path('event_comment', {'id': event.id}) }}" title="Ajouter votre commentaire" class="submitBtn">Commentaire</a>
+    {% endif %}
 </div>
 {% endblock %}
 
