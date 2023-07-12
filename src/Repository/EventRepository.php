@@ -42,30 +42,36 @@ class EventRepository extends ServiceEntityRepository
     /**
      * @return Event[]
      */
-    public function findFilteredEvents(int $idSite, \DateTime $startTime, \DateTime $endTime, int $promoterID = 0, string $key = '&', int $state = 6) {
+    public function findFilteredEvents(int $idSite, int $idUser, \DateTime $startTime, \DateTime $endTime, int $promoterID = 0, string $key = '-no search-', int $state = 6): array {
         // en DQL
         $entityManager = $this->getEntityManager();
 
         $dql = "SELECT c FROM App\Entity\Event c JOIN c.state s JOIN c.users_events u".
                 " WHERE c.startTime BETWEEN :dateMin AND :dateMax".
-                " AND c.site = :idSite".
-                " AND s.reference < (:state )";
+                " AND s.reference < (:state )".
+                " AND NOT (s.reference = 0 AND c.promoter != :idUser)";
+        if ($idSite != 0) {
+            $dql = $dql . " AND c.site = :idSite";
+        }
         if ($promoterID != 0) {
             $dql = $dql . " AND c.promoter = :idPromoter";
         }
-        if ($key != '&') {
+        if ($key != '-no search-') {
             $dql = $dql . " AND c.name LIKE :keyword";
         }
 
         $query = $entityManager->createQuery($dql);
-        $query->setParameter('idSite',$idSite);
+        $query->setParameter('idUser',$idUser);
         $query->setParameter('state',$state);
         $query->setParameter('dateMin', $startTime->format('Y-m-d 00:00:00'));
         $query->setParameter('dateMax', $endTime->format('Y-m-d 23:59:59'));
+        if ($idSite != 0) {
+            $query->setParameter('idSite', $idSite);
+        }
         if ($promoterID != 0) {
             $query->setParameter('idPromoter', $promoterID);
         }
-        if ($key != '&') {
+        if ($key != '-no search-') {
             $query->setParameter('keyword', '%'.$key.'%');
         }
 
@@ -75,7 +81,7 @@ class EventRepository extends ServiceEntityRepository
     /**
      * @return Event[]
      */
-    public function findBasicEvents(int $idUser) {
+    public function findBasicEvents(int $idUser): array {
         // en DQL
         $entityManager = $this->getEntityManager();
 

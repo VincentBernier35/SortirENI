@@ -21,7 +21,7 @@ class AccueilFormType extends AbstractType
                                                         'class' => Site::class,
                                                         'required' => false,
                                                         'choice_label' => 'name',
-                                                        'placeholder' => '--Choisir un lieu--'])
+                                                        'placeholder' => '--Tous les sites--'])
             ->add('promoter', CheckboxType::class, [
                 'mapped' => false,
                 'label' => "Sortie dont je suis l'organisateur/trice",
