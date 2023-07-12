@@ -19,7 +19,7 @@ class AccueilFormType extends AbstractType
         $builder
             ->add('site', EntityType::class, ['label' => 'Site : ',
                                                         'class' => Site::class,
-                                                        'required' => true,
+                                                        'required' => false,
                                                         'choice_label' => 'name',
                                                         'placeholder' => '--Choisir un lieu--'])
             ->add('promoter', CheckboxType::class, [

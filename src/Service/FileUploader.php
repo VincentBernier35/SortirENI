@@ -7,25 +7,16 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 final class FileUploader
 {
-    public function __construct(private readonly string $targetDirectory)
-    {
-    }
-
-    public function upload(UploadedFile $file): string
+    public function upload(UploadedFile $file, string $rep): string
     {
         $fileName = uniqid() . '.' . $file->guessExtension();
         try {
-            $file->move($this->getTargetDirectory(), $fileName);
+            $file->move($rep, $fileName);
         } catch (FileException $e) {
             // ... handle exception if something happens during file upload
         }
 
         return $fileName;
-    }
-
-    public function getTargetDirectory(): string
-    {
-        return $this->targetDirectory;
     }
 
     public
