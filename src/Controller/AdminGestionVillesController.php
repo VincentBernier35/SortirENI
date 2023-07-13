@@ -79,7 +79,7 @@ class AdminGestionVillesController extends AbstractController
         if($addCitiesForm->isSubmitted()){
             $cityRepository->save($newCity, true);
             // message flash
-            $this->addFlash('success', 'la ville à bien été ajouté !');
+            $this->addFlash('success', 'la ville a bien été ajouté !');
         }
 
         return $this->render('city/addCity.html.twig', [
