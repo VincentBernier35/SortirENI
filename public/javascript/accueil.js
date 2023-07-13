@@ -4,9 +4,5 @@ document.getElementById("accueil_form_notRegistered").addEventListener("click", 
 document.getElementById("accueil_form_oldEvent").addEventListener("click", checkClickFunc);
 function checkClickFunc() {
     let liste = document.getElementById("accueil_form_site");
-    let value = liste.options[liste.selectedIndex].text;
-    console.log(value);
-    if (value !== "--Tous les sites--"){
-        document.forms['accueil_form'].submit();
-    }
+    document.forms['accueil_form'].submit();
 }

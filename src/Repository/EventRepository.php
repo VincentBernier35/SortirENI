@@ -42,11 +42,11 @@ class EventRepository extends ServiceEntityRepository
     /**
      * @return Event[]
      */
-    public function findFilteredEvents(int $idSite, int $idUser, \DateTime $startTime, \DateTime $endTime, int $promoterID = 0, string $key = '-no search-', int $state = 6): array {
+    public function findFilteredEvents(int $idSite, int $idUser, \DateTime $startTime, \DateTime $endTime, int $promoterID, string $key = '-no search-', int $state = 6): array {
         // en DQL
         $entityManager = $this->getEntityManager();
 
-        $dql = "SELECT c FROM App\Entity\Event c JOIN c.state s JOIN c.users_events u".
+        $dql = "SELECT c FROM App\Entity\Event c JOIN c.state s".
                 " WHERE c.startTime BETWEEN :dateMin AND :dateMax".
                 " AND s.reference < (:state )".
                 " AND NOT (s.reference = 0 AND c.promoter != :idUser)";

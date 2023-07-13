@@ -45,6 +45,7 @@ class AccueilController extends AbstractController
                 }
 
                 $events = $eventRepository->findFilteredEvents($siteID, $userID, $startDateTime, $endDateTime, $promoterID, $keyWord, $maximumStateValue);
+
             } else {
                 $events = $eventRepository->findBasicEvents($userID);
                 $isRegisteredChoice = null;
