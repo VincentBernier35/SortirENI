@@ -14,7 +14,7 @@ class MainController extends AbstractController
         if ($security->getUser()) {
             return $this->redirectToRoute('app_accueil');
         } else {
-            return $this->redirectToRoute('app_login');
+            return $this->render('accueil/welcome.html.twig');
         }
     }
 
