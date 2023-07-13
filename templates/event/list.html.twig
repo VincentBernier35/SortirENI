@@ -56,6 +56,10 @@
                 {% if event.state.reference == 0 and event.promoter.id == user.id %}
                     {% set canModifie = 'yes'%}
                 {% endif %}
+                {% set comment = '' %}
+                {% if event.state.reference == 3 or event.state.reference == 4 or event.state.reference == 5 %}
+                    {% set comment = 'yes' %}
+                {% endif %}
                 <div class="formL">
                     <p class="titleP">Thème :</p>{{ event.name }}<br><br><br>
                     <p class="titleP">Quand :</p>{{ event.startTime |date("d/m/y H:i", "Europe/Paris") }}<br><br><br>
@@ -67,6 +71,9 @@
                     </a>
                     {% if canModifie == 'yes' and event.startTime|date("d/m/y") > "now" | date("d/m/y") %}
                          <a href="{{ path('event_editEvent', {'id': event.id}) }}" title="Modifier cet évènement" class="submitBtn"> Modifier</a>
+                    {% endif %}
+                    {% if comment == 'yes' %}
+                        <a href="{{ path('event_comment', {'id': event.id}) }}" title="Ajouter votre commentaire" class="submitBtn">Commentaire</a>
                     {% endif %}
                 </div>
             {% else %}

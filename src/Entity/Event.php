@@ -64,12 +64,16 @@ class Event
     #[ORM\Column(length: 50, nullable: true)]
     private ?string $Image = null;
 
+    #[ORM\OneToMany(mappedBy: 'event', targetEntity: Comment::class)]
+    private Collection $comments;
+
     /**
      * @param Collection $users_events
      */
     public function __construct()
     {
         $this->users_events = new ArrayCollection();
+        $this->comments = new ArrayCollection();
     }
 
 
@@ -254,6 +258,36 @@ class Event
     public function setImage(?string $Image): static
     {
         $this->Image = $Image;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Comment>
+     */
+    public function getComments(): Collection
+    {
+        return $this->comments;
+    }
+
+    public function addComment(Comment $comment): static
+    {
+        if (!$this->comments->contains($comment)) {
+            $this->comments->add($comment);
+            $comment->setEvent($this);
+        }
+
+        return $this;
+    }
+
+    public function removeComment(Comment $comment): static
+    {
+        if ($this->comments->removeElement($comment)) {
+            // set the owning side to null (unless already changed)
+            if ($comment->getEvent() === $this) {
+                $comment->setEvent(null);
+            }
+        }
 
         return $this;
     }
