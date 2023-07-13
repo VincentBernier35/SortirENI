@@ -10,6 +10,7 @@
             display: flex;
             justify-content: center;
             align-items: center;
+            flex-direction: column;
         }
         .form{
             width: 1200px;
@@ -30,6 +31,7 @@
              font-size: 35px;
              margin-bottom: 20px;
          }
+
     </style>
 <div class="wrap">
     <div class="form">
@@ -75,23 +77,21 @@
                 </tbody>
         </table>
     </div>
-{% set cancomment = '' %}
+    {% set cancomment = '' %}
     {% if event.state.reference == 3 or event.state.reference == 4 or event.state.reference == 5 %}
         {% set cancomment = 'yes' %}
     {% endif %}
-    <div class="form">
+    <div class="form1">
     <h1 class="title">Commentaires :</h1>
         <table class="table table-striped">
             <thead>
                 <tr>
-                    <th scope="col">Pseudo</th>
                     <th scope="col">Content</th>
                 </tr>
             </thead>
             <tbody>
             {% for comment in event.getComments %}
                 <tr>
-                    <td><a href="{{ path('profiler', {'id': use.id}) }}">{{ user.pseudo }}</a></td>
                     <td>{{ comment.content }}</td>
                 </tr>
             {% endfor %}

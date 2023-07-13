@@ -2,6 +2,7 @@
 
 namespace App\DataFixtures;
 
+use App\Entity\Comment;
 use App\Entity\Event;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
@@ -30,10 +31,12 @@ class eventFixtures extends Fixture implements DependentFixtureInterface
                 ->setSite($this->getReference('site'.mt_rand(1,6)))
                 ->setPlace($this->getReference('place'.mt_rand(1,6)))
                 ->setImage('event'.mt_rand(1,6).'.jpg');
+
             for ($j=1;$j<=$event->getPlaceMax()-1;$j++) {
                 $event->addUsersEvent($this->getReference('participant'.mt_rand(1,30)));
             }
             $manager->persist($event);
+            $this->addReference('event'.$i, $event);
         }
 
         // dates en cours d'inscription
@@ -144,6 +147,7 @@ class eventFixtures extends Fixture implements DependentFixtureInterface
                 $event->addUsersEvent($this->getReference('participant'.mt_rand(1,30)));
             }
             $manager->persist($event);
+
         }
 
         $manager->flush();
