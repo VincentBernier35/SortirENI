@@ -1,4 +1,4 @@
-# SortieENI
+# SortirENI
 
 ## Installation
 1. cloner le projet

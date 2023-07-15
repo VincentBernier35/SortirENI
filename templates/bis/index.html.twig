@@ -1,0 +1,45 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello AccueilBisController!{% endblock %}
+
+{% block body %}
+
+
+
+    <h2>nous sommes le : {{ "now"|date("d/m/Y") }}</h2>
+
+    {{ form(form) }}
+
+        <h1>Liste des évènements</h1>
+
+    {{ dump() }}
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th scope="col">nom de la sortie</th>
+            <th scope="col">Date de la sortie</th>
+            <th scope="col">Clôture</th>
+            <th scope="col">Inscrits/place</th>
+            <th scope="col">Etat</th>
+            <th scope="col">Inscrit</th>
+            <th scope="col">Organisateur</th>
+            <th scope="col">Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for event in events %}
+            <tr>
+                <td>{{ event.name }}</td>
+                <td>{{ event.startTime|date("d/m/Y") }}</td>
+                <td>{{ event.deadLine|date("d/m/Y") }}</td>
+                <td>/{{ event.placeMax }}</td>
+                <td>??</td>
+                <td>boolean ??</td>
+                <td>??</td>
+                <td>@mdo</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    </main>
+{% endblock %}
