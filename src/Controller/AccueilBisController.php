@@ -29,10 +29,12 @@ class AccueilBisController extends AbstractController
     public function allEvents(EventRepository $eventRepository): Response{
 
 
-        return $this->render('bis/index.html.twig', [
 
-            'events' => $eventRepository->findAll()
+        $eventBis = new Event();
+        $accueilBisForm = $this->createForm(AccueilBisFormType::class, $eventBis);
 
+        return $this->renderForm('bis/index.html.twig', [
+            'accueilBisForm' => $accueilBisForm
         ]);
     }
 
