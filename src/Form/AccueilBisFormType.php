@@ -60,8 +60,6 @@ class AccueilBisFormType extends AbstractType
                 'mapped' => false,
                 'label' => "Sorties passées",
                 'required' => false])
-
-
         ;
     }
 
