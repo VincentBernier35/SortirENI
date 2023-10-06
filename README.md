@@ -1,5 +1,10 @@
 # SortirENI
 
+1. allumer le server Wamp ou easyPHP
+2. commande de lancement :  symfony server:start
+
+
+
 ## Installation
 1. cloner le projet
 `git clone https://github.com/YangLENI/SortieENI.git`
